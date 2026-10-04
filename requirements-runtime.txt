@@ -1,0 +1,25 @@
+# Minimal runtime requirements for Railway API deployment
+# Only the packages needed to RUN the API server (no scraping/pipeline tools)
+
+# Core
+python-dotenv>=1.1.0
+pyyaml>=6.0.0
+
+# API Server
+fastapi>=0.110.0
+uvicorn>=0.29.0
+python-multipart==0.0.12
+slowapi>=0.1.9
+
+# Vector Store
+chromadb>=0.5.0
+
+# Embeddings (for RAG query endpoint)
+sentence-transformers>=3.0.0
+torch>=2.0.0
+
+# LLM (for RAG synthesis)
+google-genai>=0.5.0
+
+# Utilities
+requests>=2.31.0
