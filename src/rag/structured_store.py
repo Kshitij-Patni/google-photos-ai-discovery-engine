@@ -7,7 +7,9 @@ from pathlib import Path
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-DB_PATH = "data/discovery_engine.db"
+import os
+
+DB_PATH = os.environ.get("SQLITE_PATH", "data/discovery_engine.db")
 
 def init_db(db_path=DB_PATH):
     """Initializes the SQLite database with the required schema."""
