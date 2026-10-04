@@ -1,0 +1,601 @@
+{
+  "archetype_cooccurrence": [
+    {
+      "pair": [
+        "ALBUM_FRAGMENTATION",
+        "VOLUME_OVERWHELM"
+      ],
+      "count": 100
+    },
+    {
+      "pair": [
+        "TEMPORAL_DECAY",
+        "VOLUME_OVERWHELM"
+      ],
+      "count": 52
+    },
+    {
+      "pair": [
+        "KEYWORD_MISMATCH",
+        "VOLUME_OVERWHELM"
+      ],
+      "count": 24
+    },
+    {
+      "pair": [
+        "ALBUM_FRAGMENTATION",
+        "TEMPORAL_DECAY"
+      ],
+      "count": 19
+    },
+    {
+      "pair": [
+        "ALBUM_FRAGMENTATION",
+        "KEYWORD_MISMATCH"
+      ],
+      "count": 18
+    },
+    {
+      "pair": [
+        "KEYWORD_MISMATCH",
+        "PEOPLE_WITHOUT_NAMES"
+      ],
+      "count": 11
+    },
+    {
+      "pair": [
+        "PEOPLE_WITHOUT_NAMES",
+        "VOLUME_OVERWHELM"
+      ],
+      "count": 7
+    },
+    {
+      "pair": [
+        "SPATIAL_AMBIGUITY",
+        "TEMPORAL_DECAY"
+      ],
+      "count": 7
+    },
+    {
+      "pair": [
+        "KEYWORD_MISMATCH",
+        "VISUAL_MEMORY_ONLY"
+      ],
+      "count": 7
+    },
+    {
+      "pair": [
+        "KEYWORD_MISMATCH",
+        "TEMPORAL_DECAY"
+      ],
+      "count": 6
+    },
+    {
+      "pair": [
+        "ALBUM_FRAGMENTATION",
+        "PEOPLE_WITHOUT_NAMES"
+      ],
+      "count": 6
+    },
+    {
+      "pair": [
+        "PEOPLE_WITHOUT_NAMES",
+        "SPATIAL_AMBIGUITY"
+      ],
+      "count": 4
+    },
+    {
+      "pair": [
+        "PEOPLE_WITHOUT_NAMES",
+        "TEMPORAL_DECAY"
+      ],
+      "count": 3
+    },
+    {
+      "pair": [
+        "VISUAL_MEMORY_ONLY",
+        "VOLUME_OVERWHELM"
+      ],
+      "count": 3
+    },
+    {
+      "pair": [
+        "KEYWORD_MISMATCH",
+        "SPATIAL_AMBIGUITY"
+      ],
+      "count": 3
+    },
+    {
+      "pair": [
+        "TEMPORAL_DECAY",
+        "VISUAL_MEMORY_ONLY"
+      ],
+      "count": 3
+    },
+    {
+      "pair": [
+        "SPATIAL_AMBIGUITY",
+        "VOLUME_OVERWHELM"
+      ],
+      "count": 2
+    },
+    {
+      "pair": [
+        "ALBUM_FRAGMENTATION",
+        "CONTEXT_WITHOUT_CONTENT"
+      ],
+      "count": 2
+    },
+    {
+      "pair": [
+        "ALBUM_FRAGMENTATION",
+        "SPATIAL_AMBIGUITY"
+      ],
+      "count": 1
+    }
+  ],
+  "success_rates": {
+    "by_photo_category": {
+      "success_rate": {
+        "event": 0.6495,
+        "pet": 0.4412,
+        "travel": 0.4316,
+        "people": 0.3972,
+        "food": 0.3333,
+        "screenshot": 0.2586,
+        "other": 0.2506,
+        "document": 0.2167,
+        "receipt": 0.0,
+        "medical": 0.0
+      },
+      "failure_rate": {
+        "receipt": 1.0,
+        "medical": 1.0,
+        "document": 0.7333,
+        "other": 0.6731,
+        "food": 0.6667,
+        "screenshot": 0.6552,
+        "people": 0.5749,
+        "pet": 0.5588,
+        "travel": 0.4526,
+        "event": 0.3196
+      },
+      "sample_sizes": {
+        "other": 1808,
+        "travel": 95,
+        "people": 287,
+        "event": 97,
+        "pet": 34,
+        "food": 6,
+        "document": 60,
+        "screenshot": 58,
+        "receipt": 3,
+        "medical": 2
+      }
+    },
+    "by_search_strategy": {
+      "success_rate": {
+        "location_search": 0.3125,
+        "keyword_search": 0.3074,
+        "timeline_scroll": 0.3006,
+        "people_search": 0.2889,
+        "album_browse": 0.2185,
+        "social_delegation": 0.2,
+        "workaround": 0.0968,
+        "gave_up": 0.0
+      },
+      "failure_rate": {
+        "album_browse": 0.7285,
+        "people_search": 0.6889,
+        "keyword_search": 0.6699,
+        "timeline_scroll": 0.6069,
+        "location_search": 0.5938,
+        "social_delegation": 0.4,
+        "gave_up": 0.2,
+        "workaround": 0.0645
+      },
+      "sample_sizes": {
+        "timeline_scroll": 346,
+        "album_browse": 302,
+        "location_search": 32,
+        "keyword_search": 309,
+        "people_search": 180,
+        "workaround": 31,
+        "gave_up": 15,
+        "social_delegation": 10
+      }
+    },
+    "by_archetype": {
+      "success_rate": {
+        "VISUAL_MEMORY_ONLY": 0.5556,
+        "CONTEXT_WITHOUT_CONTENT": 0.3333,
+        "SPATIAL_AMBIGUITY": 0.1818,
+        "TEMPORAL_DECAY": 0.1719,
+        "VOLUME_OVERWHELM": 0.0979,
+        "PEOPLE_WITHOUT_NAMES": 0.0979,
+        "KEYWORD_MISMATCH": 0.0736,
+        "ALBUM_FRAGMENTATION": 0.0524
+      },
+      "failure_rate": {
+        "KEYWORD_MISMATCH": 0.8957,
+        "ALBUM_FRAGMENTATION": 0.8903,
+        "PEOPLE_WITHOUT_NAMES": 0.8671,
+        "TEMPORAL_DECAY": 0.7812,
+        "VOLUME_OVERWHELM": 0.7702,
+        "SPATIAL_AMBIGUITY": 0.6818,
+        "VISUAL_MEMORY_ONLY": 0.3333,
+        "CONTEXT_WITHOUT_CONTENT": 0.3333
+      },
+      "sample_sizes": {
+        "ALBUM_FRAGMENTATION": 401,
+        "SPATIAL_AMBIGUITY": 22,
+        "VOLUME_OVERWHELM": 235,
+        "KEYWORD_MISMATCH": 163,
+        "PEOPLE_WITHOUT_NAMES": 143,
+        "TEMPORAL_DECAY": 128,
+        "VISUAL_MEMORY_ONLY": 9,
+        "CONTEXT_WITHOUT_CONTENT": 3
+      }
+    },
+    "by_source": {
+      "success_rate": {
+        "apple_app_store": 0.4676,
+        "google_play_store": 0.2655,
+        "youtube": 0.2185
+      },
+      "failure_rate": {
+        "youtube": 0.7415,
+        "google_play_store": 0.6649,
+        "apple_app_store": 0.4382
+      },
+      "sample_sizes": {
+        "apple_app_store": 340,
+        "google_play_store": 1838,
+        "youtube": 325
+      }
+    },
+    "by_journey_stage": {
+      "success_rate": {
+        "SEARCH": 0.3624,
+        "UNKNOWN": 0.3603,
+        "TRIGGER": 0.2114,
+        "FORMULATE": 0.2,
+        "REFINE": 0.1711,
+        "EVALUATE": 0.0851,
+        "ABANDON": 0.0537
+      },
+      "failure_rate": {
+        "EVALUATE": 0.8815,
+        "TRIGGER": 0.7805,
+        "REFINE": 0.7434,
+        "FORMULATE": 0.7333,
+        "UNKNOWN": 0.6338,
+        "SEARCH": 0.5685,
+        "ABANDON": 0.4027
+      },
+      "sample_sizes": {
+        "REFINE": 152,
+        "SEARCH": 883,
+        "EVALUATE": 329,
+        "UNKNOWN": 852,
+        "ABANDON": 149,
+        "TRIGGER": 123,
+        "FORMULATE": 15
+      }
+    }
+  },
+  "frustration_correlations": {
+    "archetype": {
+      "cramers_v": 0.1277,
+      "extreme_frustration_rate": {
+        "CONTEXT_WITHOUT_CONTENT": 0.1667,
+        "KEYWORD_MISMATCH": 0.1546,
+        "VOLUME_OVERWHELM": 0.1263,
+        "SPATIAL_AMBIGUITY": 0.1071,
+        "VISUAL_MEMORY_ONLY": 0.0909,
+        "ALBUM_FRAGMENTATION": 0.0756,
+        "TEMPORAL_DECAY": 0.0675,
+        "PEOPLE_WITHOUT_NAMES": 0.0273
+      },
+      "high_or_extreme_rate": {
+        "KEYWORD_MISMATCH": 0.701,
+        "VOLUME_OVERWHELM": 0.6844,
+        "CONTEXT_WITHOUT_CONTENT": 0.6667,
+        "PEOPLE_WITHOUT_NAMES": 0.6393,
+        "TEMPORAL_DECAY": 0.6319,
+        "ALBUM_FRAGMENTATION": 0.6117,
+        "SPATIAL_AMBIGUITY": 0.5714,
+        "VISUAL_MEMORY_ONLY": 0.2727
+      }
+    },
+    "photo_category": {
+      "cramers_v": 0.07,
+      "extreme_frustration_rate": {
+        "medical": 0.5,
+        "receipt": 0.125,
+        "travel": 0.1172,
+        "pet": 0.08,
+        "document": 0.0777,
+        "other": 0.0631,
+        "people": 0.0622,
+        "event": 0.035,
+        "screenshot": 0.0098,
+        "food": 0.0
+      },
+      "high_or_extreme_rate": {
+        "receipt": 0.625,
+        "medical": 0.5,
+        "pet": 0.48,
+        "screenshot": 0.4706,
+        "other": 0.4671,
+        "people": 0.4612,
+        "document": 0.4466,
+        "food": 0.4286,
+        "travel": 0.4141,
+        "event": 0.2798
+      }
+    },
+    "search_strategy": {
+      "cramers_v": 0.124,
+      "extreme_frustration_rate": {
+        "gave_up": 0.3333,
+        "workaround": 0.2188,
+        "social_delegation": 0.2,
+        "keyword_search": 0.1143,
+        "location_search": 0.0714,
+        "timeline_scroll": 0.064,
+        "album_browse": 0.0439,
+        "people_search": 0.0279
+      },
+      "high_or_extreme_rate": {
+        "gave_up": 0.9333,
+        "workaround": 0.7188,
+        "timeline_scroll": 0.5814,
+        "keyword_search": 0.5429,
+        "people_search": 0.5209,
+        "social_delegation": 0.5,
+        "album_browse": 0.4781,
+        "location_search": 0.4285
+      }
+    },
+    "journey_stage": {
+      "cramers_v": 0.1446,
+      "extreme_frustration_rate": {
+        "FORMULATE": 0.1379,
+        "ABANDON": 0.1301,
+        "EVALUATE": 0.1286,
+        "TRIGGER": 0.0798,
+        "REFINE": 0.0585,
+        "UNKNOWN": 0.0527,
+        "SEARCH": 0.0499
+      },
+      "high_or_extreme_rate": {
+        "ABANDON": 0.7602,
+        "EVALUATE": 0.6674,
+        "TRIGGER": 0.589,
+        "REFINE": 0.5643,
+        "FORMULATE": 0.5517,
+        "SEARCH": 0.4511,
+        "UNKNOWN": 0.3859
+      }
+    },
+    "source": {
+      "cramers_v": 0.1469,
+      "extreme_frustration_rate": {
+        "google_play_store": 0.071,
+        "apple_app_store": 0.0646,
+        "youtube": 0.0196
+      },
+      "high_or_extreme_rate": {
+        "google_play_store": 0.5079,
+        "apple_app_store": 0.4003,
+        "youtube": 0.2788
+      }
+    }
+  },
+  "memory_cue_analysis": [
+    {
+      "cue": "time",
+      "total_mentions": 323,
+      "success_rate": 0.483,
+      "failure_rate": 0.4768,
+      "outcomes": {
+        "not_found": 154,
+        "found": 156,
+        "used_workaround": 3,
+        "gave_up": 10
+      }
+    },
+    {
+      "cue": "person",
+      "total_mentions": 286,
+      "success_rate": 0.4266,
+      "failure_rate": 0.5455,
+      "outcomes": {
+        "not_found": 156,
+        "found": 122,
+        "gave_up": 4,
+        "used_workaround": 4
+      }
+    },
+    {
+      "cue": "visual detail",
+      "total_mentions": 101,
+      "success_rate": 0.4158,
+      "failure_rate": 0.5545,
+      "outcomes": {
+        "found": 42,
+        "not_found": 56,
+        "gave_up": 1,
+        "used_workaround": 2
+      }
+    },
+    {
+      "cue": "place",
+      "total_mentions": 89,
+      "success_rate": 0.5843,
+      "failure_rate": 0.3708,
+      "outcomes": {
+        "not_found": 33,
+        "found": 52,
+        "gave_up": 4
+      }
+    },
+    {
+      "cue": "emotion",
+      "total_mentions": 84,
+      "success_rate": 0.8214,
+      "failure_rate": 0.1667,
+      "outcomes": {
+        "found": 69,
+        "not_found": 14,
+        "gave_up": 1
+      }
+    },
+    {
+      "cue": "activity",
+      "total_mentions": 56,
+      "success_rate": 0.625,
+      "failure_rate": 0.3214,
+      "outcomes": {
+        "not_found": 18,
+        "found": 35,
+        "gave_up": 3
+      }
+    },
+    {
+      "cue": "pet",
+      "total_mentions": 13,
+      "success_rate": 0.5385,
+      "failure_rate": 0.4615,
+      "outcomes": {
+        "found": 7,
+        "not_found": 6
+      }
+    },
+    {
+      "cue": "person name",
+      "total_mentions": 12,
+      "success_rate": 0.1667,
+      "failure_rate": 0.8333,
+      "outcomes": {
+        "not_found": 10,
+        "found": 2
+      }
+    },
+    {
+      "cue": "keyword",
+      "total_mentions": 9,
+      "success_rate": 0.3333,
+      "failure_rate": 0.6667,
+      "outcomes": {
+        "found": 3,
+        "not_found": 6
+      }
+    },
+    {
+      "cue": "unknown",
+      "total_mentions": 8,
+      "success_rate": 0.25,
+      "failure_rate": 0.25,
+      "outcomes": {
+        "used_workaround": 2,
+        "gave_up": 2,
+        "found": 2,
+        "not_found": 2
+      }
+    }
+  ],
+  "source_comparison": {
+    "apple_app_store": {
+      "count": 712,
+      "top_archetypes": {
+        "ALBUM_FRAGMENTATION": 49,
+        "VOLUME_OVERWHELM": 45,
+        "KEYWORD_MISMATCH": 20,
+        "TEMPORAL_DECAY": 12,
+        "PEOPLE_WITHOUT_NAMES": 7
+      },
+      "frustration_profile": {
+        "low": 0.423,
+        "high": 0.336,
+        "medium": 0.177,
+        "extreme": 0.065
+      },
+      "outcome_profile": {
+        "found": 0.468,
+        "not_found": 0.438,
+        "gave_up": 0.085,
+        "used_workaround": 0.009
+      },
+      "journey_stage_profile": {
+        "SEARCH": 0.591,
+        "ABANDON": 0.135,
+        "REFINE": 0.101,
+        "EVALUATE": 0.101,
+        "TRIGGER": 0.053,
+        "FORMULATE": 0.019
+      }
+    },
+    "google_play_store": {
+      "count": 4143,
+      "top_archetypes": {
+        "ALBUM_FRAGMENTATION": 445,
+        "VOLUME_OVERWHELM": 329,
+        "PEOPLE_WITHOUT_NAMES": 163,
+        "KEYWORD_MISMATCH": 151,
+        "TEMPORAL_DECAY": 128
+      },
+      "frustration_profile": {
+        "high": 0.437,
+        "medium": 0.263,
+        "low": 0.229,
+        "extreme": 0.071
+      },
+      "outcome_profile": {
+        "not_found": 0.665,
+        "found": 0.266,
+        "gave_up": 0.054,
+        "used_workaround": 0.015
+      },
+      "journey_stage_profile": {
+        "SEARCH": 0.579,
+        "EVALUATE": 0.15,
+        "REFINE": 0.124,
+        "ABANDON": 0.08,
+        "TRIGGER": 0.058,
+        "FORMULATE": 0.009
+      }
+    },
+    "youtube": {
+      "count": 827,
+      "top_archetypes": {
+        "ALBUM_FRAGMENTATION": 88,
+        "KEYWORD_MISMATCH": 23,
+        "TEMPORAL_DECAY": 23,
+        "VOLUME_OVERWHELM": 22,
+        "PEOPLE_WITHOUT_NAMES": 13
+      },
+      "frustration_profile": {
+        "medium": 0.362,
+        "low": 0.359,
+        "high": 0.259,
+        "extreme": 0.02
+      },
+      "outcome_profile": {
+        "not_found": 0.742,
+        "found": 0.218,
+        "used_workaround": 0.022,
+        "gave_up": 0.018
+      },
+      "journey_stage_profile": {
+        "SEARCH": 0.551,
+        "EVALUATE": 0.272,
+        "REFINE": 0.074,
+        "ABANDON": 0.058,
+        "TRIGGER": 0.041,
+        "FORMULATE": 0.004
+      }
+    }
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "total_records": 5682,
+  "num_segments": 3,
+  "silhouette_scores": {
+    "3": 0.1536,
+    "4": 0.1423,
+    "5": 0.132,
+    "6": 0.1496,
+    "7": 0.1311,
+    "8": 0.1253,
+    "9": 0.1246
+  },
+  "optimal_k": 3,
+  "segments": {
+    "0": {
+      "persona_label": "The Frustrated Searching General-User",
+      "persona_description": "Primarily searches for other photos with high frustration. Main challenge: scattered albums/libraries. Typically breaks down at the search stage. Average urgency: 0.10, average journey depth: 1.6.",
+      "size": 2397,
+      "percentage": 42.2,
+      "dominant_photo_category": {
+        "other": 1860,
+        "people": 217,
+        "travel": 74
+      },
+      "dominant_search_strategy": {
+        "unknown": 1312,
+        "album_browse": 343,
+        "timeline_scroll": 332
+      },
+      "dominant_frustration": {
+        "high": 1290,
+        "medium": 633,
+        "low": 244
+      },
+      "dominant_outcome": {
+        "unknown": 1171,
+        "not_found": 933,
+        "found": 185
+      },
+      "dominant_archetype": {
+        "ALBUM_FRAGMENTATION": 401,
+        "VOLUME_OVERWHELM": 266,
+        "PEOPLE_WITHOUT_NAMES": 130
+      },
+      "dominant_journey_stage": {
+        "SEARCH": 1210,
+        "UNKNOWN": 543,
+        "EVALUATE": 335
+      },
+      "dominant_sentiment": {
+        "neutral": 1230,
+        "negative": 642,
+        "positive": 365
+      },
+      "dominant_emotions": {
+        "anger": 521,
+        "sadness": 253,
+        "joy": 247
+      },
+      "sources": {
+        "google_play_store": 2034,
+        "apple_app_store": 232,
+        "youtube": 131
+      },
+      "averages": {
+        "sentiment_polarity": -0.0643,
+        "urgency": 0.1013,
+        "effort": 0.5118,
+        "journey_depth": 1.61,
+        "retries": 0.0
+      }
+    },
+    "1": {
+      "persona_label": "The Mild Searching General-User",
+      "persona_description": "Primarily searches for other photos with low frustration. Main challenge: scattered albums/libraries. Typically breaks down at the unknown stage. Average urgency: 0.04, average journey depth: 0.2.",
+      "size": 2797,
+      "percentage": 49.2,
+      "dominant_photo_category": {
+        "other": 2328,
+        "people": 128,
+        "unknown": 121
+      },
+      "dominant_search_strategy": {
+        "unknown": 2439,
+        "timeline_scroll": 132,
+        "keyword_search": 107
+      },
+      "dominant_frustration": {
+        "low": 1229,
+        "medium": 735,
+        "high": 720
+      },
+      "dominant_outcome": {
+        "unknown": 1761,
+        "not_found": 499,
+        "found": 492
+      },
+      "dominant_archetype": {
+        "ALBUM_FRAGMENTATION": 117,
+        "VOLUME_OVERWHELM": 84,
+        "KEYWORD_MISMATCH": 45
+      },
+      "dominant_journey_stage": {
+        "UNKNOWN": 2206,
+        "SEARCH": 383,
+        "EVALUATE": 105
+      },
+      "dominant_sentiment": {
+        "neutral": 1487,
+        "positive": 500,
+        "very_positive": 453
+      },
+      "dominant_emotions": {
+        "joy": 413,
+        "anger": 281,
+        "sadness": 205
+      },
+      "sources": {
+        "google_play_store": 1687,
+        "youtube": 672,
+        "apple_app_store": 438
+      },
+      "averages": {
+        "sentiment_polarity": 0.1208,
+        "urgency": 0.0365,
+        "effort": 0.254,
+        "journey_depth": 0.22,
+        "retries": 0.0
+      }
+    },
+    "2": {
+      "persona_label": "The Frustrated Searching General-User",
+      "persona_description": "Primarily searches for other photos with high frustration. Main challenge: scattered albums/libraries. Typically breaks down at the refine stage. Average urgency: 0.07, average journey depth: 3.9.",
+      "size": 488,
+      "percentage": 8.6,
+      "dominant_photo_category": {
+        "other": 392,
+        "people": 41,
+        "travel": 11
+      },
+      "dominant_search_strategy": {
+        "unknown": 295,
+        "album_browse": 58,
+        "timeline_scroll": 52
+      },
+      "dominant_frustration": {
+        "high": 249,
+        "medium": 141,
+        "low": 71
+      },
+      "dominant_outcome": {
+        "unknown": 247,
+        "not_found": 180,
+        "found": 41
+      },
+      "dominant_archetype": {
+        "ALBUM_FRAGMENTATION": 64,
+        "VOLUME_OVERWHELM": 46,
+        "PEOPLE_WITHOUT_NAMES": 28
+      },
+      "dominant_journey_stage": {
+        "REFINE": 342,
+        "SEARCH": 93,
+        "ABANDON": 17
+      },
+      "dominant_sentiment": {
+        "neutral": 265,
+        "negative": 93,
+        "positive": 90
+      },
+      "dominant_emotions": {
+        "anger": 103,
+        "joy": 61,
+        "sadness": 48
+      },
+      "sources": {
+        "google_play_store": 422,
+        "apple_app_store": 42,
+        "youtube": 24
+      },
+      "averages": {
+        "sentiment_polarity": -0.0155,
+        "urgency": 0.0708,
+        "effort": 0.4827,
+        "journey_depth": 3.85,
+        "retries": 1.07
+      }
+    }
+  }
+}

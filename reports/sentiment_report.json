@@ -1,0 +1,32 @@
+{
+  "total_records": 5682,
+  "average_polarity": 0.031,
+  "average_urgency": 0.0668,
+  "average_effort": 0.3824,
+  "sentiment_label_distribution": {
+    "neutral": 2982,
+    "negative": 989,
+    "positive": 955,
+    "very_positive": 497,
+    "very_negative": 259
+  },
+  "urgency_distribution": {
+    "low": 5355,
+    "medium": 318,
+    "high": 9
+  },
+  "effort_distribution": {
+    "low": 2241,
+    "medium": 2535,
+    "high": 906
+  },
+  "emotion_frequency": {
+    "anger": 905,
+    "joy": 721,
+    "sadness": 506,
+    "resignation": 187,
+    "surprise": 88,
+    "fear": 50,
+    "disgust": 38
+  }
+}

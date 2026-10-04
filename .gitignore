@@ -1,0 +1,10 @@
+.env
+data/raw/
+__pycache__/
+*.pyc
+venv/
+.DS_Store
+user_segments.md
+problem_statement_opportunity_sizing.md
+solution_hypothesis.md
+interview_questionnaire.md

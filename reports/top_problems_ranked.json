@@ -1,0 +1,457 @@
+[
+  {
+    "problem_id": "KEYWORD_MISMATCH",
+    "problem_type": "predefined_archetype",
+    "count": 217,
+    "frequency_pct": 3.82,
+    "severity_score": 0.8491,
+    "evidence_score": 1.0,
+    "combined_score": 0.636,
+    "avg_sentiment_polarity": -0.0658,
+    "avg_urgency": 0.0728,
+    "failure_rate": 0.8134,
+    "high_frustration_pct": 71.4,
+    "top_journey_stages": {
+      "SEARCH": 105,
+      "EVALUATE": 49,
+      "TRIGGER": 31
+    },
+    "top_segments": {
+      "The Frustrated Searching General-User": 171,
+      "The Mild Searching General-User": 46
+    },
+    "sources": {
+      "apple_app_store": 20,
+      "youtube": 23,
+      "google_play_store": 174
+    },
+    "representative_quotes": [
+      {
+        "text": "Before a week ago I could type in a search for a photo and the relevant photos would be shown. Now I can type in exactly the same search and thousands appear, the vast majority of no relevance. For me this s one of the main features I pay a subscription for but if it isn't fixed soon I shall be goin",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.9
+      },
+      {
+        "text": "What have they done to search and the organisation of photos? Half of my date searches now return zero results unless I use very specific (unintuitive) date formats. Photos repeat when scrolling search results, and the results aren't as relevant as they were in the past. If I make a copy of an old p",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.9
+      },
+      {
+        "text": "I google photos application just updated and the user interface looks like a 9 year old designed it. It was so cool before, I could search the image and copy text from images. But now all that's left is share, edit, add to and delete. And an annoying \"live\" placement on the top centre of the screen.",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.5
+      }
+    ],
+    "rank": 1
+  },
+  {
+    "problem_id": "VOLUME_OVERWHELM",
+    "problem_type": "predefined_archetype",
+    "count": 487,
+    "frequency_pct": 8.57,
+    "severity_score": 0.7423,
+    "evidence_score": 1.0,
+    "combined_score": 0.5969,
+    "avg_sentiment_polarity": -0.0579,
+    "avg_urgency": 0.0773,
+    "failure_rate": 0.6468,
+    "high_frustration_pct": 70.4,
+    "top_journey_stages": {
+      "SEARCH": 190,
+      "EVALUATE": 94,
+      "UNKNOWN": 87
+    },
+    "top_segments": {
+      "The Frustrated Searching General-User": 405,
+      "The Mild Searching General-User": 82
+    },
+    "sources": {
+      "apple_app_store": 45,
+      "google_play_store": 417,
+      "youtube": 25
+    },
+    "representative_quotes": [
+      {
+        "text": "They don't let you deleted photos. It rarely works and they said they know about the problem but haven't fixed it. I HATE this application and very much regret ever using it!!! Im so frustrated and feel very misled and now I have no idea how to get my photos. I used it to backup photos and now need ",
+        "source": "apple_app_store",
+        "frustration": "extreme",
+        "confidence": 0.7
+      },
+      {
+        "text": "Before a week ago I could type in a search for a photo and the relevant photos would be shown. Now I can type in exactly the same search and thousands appear, the vast majority of no relevance. For me this s one of the main features I pay a subscription for but if it isn't fixed soon I shall be goin",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.8
+      },
+      {
+        "text": "Could still do with work. Truly awful idea that you are not pre-warned about only being able to add 500 photos to an album at a time. Just spent (wasted) my time going through selecting a load of photos to add to an album and when I press add it tells me that there is a limit and DESLECTS all the ph",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.7
+      }
+    ],
+    "rank": 2
+  },
+  {
+    "problem_id": "TEMPORAL_DECAY",
+    "problem_type": "predefined_archetype",
+    "count": 204,
+    "frequency_pct": 3.59,
+    "severity_score": 0.7463,
+    "evidence_score": 1.0,
+    "combined_score": 0.5839,
+    "avg_sentiment_polarity": -0.0384,
+    "avg_urgency": 0.0765,
+    "failure_rate": 0.7279,
+    "high_frustration_pct": 67.2,
+    "top_journey_stages": {
+      "EVALUATE": 71,
+      "SEARCH": 68,
+      "UNKNOWN": 23
+    },
+    "top_segments": {
+      "The Frustrated Searching General-User": 166,
+      "The Mild Searching General-User": 38
+    },
+    "sources": {
+      "apple_app_store": 18,
+      "youtube": 24,
+      "google_play_store": 162
+    },
+    "representative_quotes": [
+      {
+        "text": "What have they done to search and the organisation of photos? Half of my date searches now return zero results unless I use very specific (unintuitive) date formats. Photos repeat when scrolling search results, and the results aren't as relevant as they were in the past. If I make a copy of an old p",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.8
+      },
+      {
+        "text": "I just replaced my 8 yr old android phone with a new android phone. My old phone just had an application named gallery. I would take a picture and it would store it by the date I took it. I am now forced to use Google pictures How do I sort by date? It says today and that works but then it says yest",
+        "source": "youtube",
+        "frustration": "high",
+        "confidence": 0.8
+      },
+      {
+        "text": "This application just stopped working normally. This application is stuck (was actually) on 'getting ready to backup'. So I reinstalled it, wiped data etc. Then I had to find a way to fix the 'getting your photos' paradox which took 2 days. Now I can see my photos till 2017 and nothing before that. ",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.5
+      }
+    ],
+    "rank": 3
+  },
+  {
+    "problem_id": "SPATIAL_AMBIGUITY",
+    "problem_type": "predefined_archetype",
+    "count": 35,
+    "frequency_pct": 0.62,
+    "severity_score": 0.7571,
+    "evidence_score": 1.0,
+    "combined_score": 0.5804,
+    "avg_sentiment_polarity": -0.0511,
+    "avg_urgency": 0.0625,
+    "failure_rate": 0.7143,
+    "high_frustration_pct": 65.7,
+    "top_journey_stages": {
+      "SEARCH": 22,
+      "EVALUATE": 6,
+      "ABANDON": 4
+    },
+    "top_segments": {
+      "The Frustrated Searching General-User": 30,
+      "The Mild Searching General-User": 5
+    },
+    "sources": {
+      "apple_app_store": 4,
+      "google_play_store": 26,
+      "youtube": 5
+    },
+    "representative_quotes": [
+      {
+        "text": "Long story short: think twice before you use this application you'll loose lots of cool functionalities like map search (iPhone) and reverting is actually complicated iPhone user: In fact google photo at first makes it look like a great idea, it's seamless to synchronize your photos from iPhone to t",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.8
+      },
+      {
+        "text": "Last Thursday I drove 500 miles from my home to East Tennessee for my brothers celebration of life. I brought my 2 Pommies with me for company as this was my first trip to TN without my spouse who had passed away in the past year. I set up an account with rover.com and selected a place to board them",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.9
+      },
+      {
+        "text": "This application has become so bad. It is so buggy. So buggy. And I don't mean the \"not working\" kind of buggy. It messes with your photos. It's that kind of buggy. It automatically tampers with the dates, location metadata, edits made to the photos, and so much more. It occasionally refuses to back",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.6
+      }
+    ],
+    "rank": 4
+  },
+  {
+    "problem_id": "ALBUM_FRAGMENTATION",
+    "problem_type": "predefined_archetype",
+    "count": 628,
+    "frequency_pct": 11.05,
+    "severity_score": 0.6795,
+    "evidence_score": 1.0,
+    "combined_score": 0.5729,
+    "avg_sentiment_polarity": -0.0432,
+    "avg_urgency": 0.0747,
+    "failure_rate": 0.6632,
+    "high_frustration_pct": 61.3,
+    "top_journey_stages": {
+      "SEARCH": 366,
+      "UNKNOWN": 99,
+      "EVALUATE": 64
+    },
+    "top_segments": {
+      "The Frustrated Searching General-User": 512,
+      "The Mild Searching General-User": 116
+    },
+    "sources": {
+      "google_play_store": 492,
+      "youtube": 87,
+      "apple_app_store": 49
+    },
+    "representative_quotes": [
+      {
+        "text": "My favorite photo application until the last update removed the ability to share photos to album. This means that I can't do anymore the two thing below, which to me are essential. 1. I need to have a picture on my phone to add it to an album. Before I was able to add photos that other people have s",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.9
+      },
+      {
+        "text": "A very well made step by step guide from a very tech savvy person. Unfortunately for me, it did not quite reach to the issues that are currently preventing me from using the application. I like to use Google Drive to store my photos and videos because I can create folder, subfolders and share them q",
+        "source": "youtube",
+        "frustration": "medium",
+        "confidence": 0.7
+      },
+      {
+        "text": "hi I appreciate this is an old video, but I am new to google photos/google drive after having transferred from one drive. I was just wondering have you done a video around finding your photos on google drive. Basically I have 1000's of photos which I have successfully transferred over from one drive",
+        "source": "youtube",
+        "frustration": "medium",
+        "confidence": 0.8
+      }
+    ],
+    "rank": 5
+  },
+  {
+    "problem_id": "PEOPLE_WITHOUT_NAMES",
+    "problem_type": "predefined_archetype",
+    "count": 189,
+    "frequency_pct": 3.33,
+    "severity_score": 0.7077,
+    "evidence_score": 1.0,
+    "combined_score": 0.5638,
+    "avg_sentiment_polarity": -0.0148,
+    "avg_urgency": 0.0678,
+    "failure_rate": 0.7222,
+    "high_frustration_pct": 65.6,
+    "top_journey_stages": {
+      "SEARCH": 120,
+      "EVALUATE": 32,
+      "REFINE": 18
+    },
+    "top_segments": {
+      "The Frustrated Searching General-User": 165,
+      "The Mild Searching General-User": 24
+    },
+    "sources": {
+      "youtube": 12,
+      "apple_app_store": 7,
+      "google_play_store": 170
+    },
+    "representative_quotes": [
+      {
+        "text": "Good job on this video. I inherited old printed photos going back into the late 1800's (mostly family prints of ancestors), photos taken in my early years from the 40's on, slides of vacation trips in my childhood, etc. I realized that my descendants would not have any interest in any of these unles",
+        "source": "youtube",
+        "frustration": "medium",
+        "confidence": 0.9
+      },
+      {
+        "text": "- Constantly freezes for 4-5 seconds on both iPhone and iPad (latest models). Especially when navigating between different screens. - Using the editor to crop and rotate will often result with \"unable to save\" or a duplicate photo. - After assigning a face to a name group, the back button won't work",
+        "source": "apple_app_store",
+        "frustration": "high",
+        "confidence": 0.8
+      },
+      {
+        "text": "I love this application it's amazing, it categorises everything, infinite space, it's awesome, but there is something I really would appreciate if it was added, being able to select images of someone and saying it's a person and add a name manually instead of having to wait until luck get the AI to ",
+        "source": "google_play_store",
+        "frustration": "medium",
+        "confidence": 0.9
+      }
+    ],
+    "rank": 6
+  },
+  {
+    "problem_id": "PLEASE ADD / FIND LOOKING / ANY ALBUM",
+    "problem_type": "emergent_theme",
+    "description": "Cluster of 23 records centered around: album, albums, add, folders, find, folder, select, time",
+    "count": 23,
+    "frequency_pct": 0.4,
+    "severity_score": 0.587,
+    "evidence_score": 1.0,
+    "combined_score": 0.4947,
+    "high_frustration_pct": 56.5,
+    "failure_rate": 0.6087,
+    "representative_quotes": [
+      "The apps good and everything.. but it doesn't retain the photos in the original album names from which its backing them up. As a result one has to manually create an album and select the photos one by one and add them. Also, when the application back",
+      "Personally downloaded it for the back up feature which I think should be brought to Gallery Go. My issue is that folders in the application should be given the option to arrange them via: 1. Alphabetically 2. Date modified.....just like Gallery Go. I",
+      "It has interesting features, I just wish it was easier to navigate through folders, 'cause it's a mess really! Collections are shown in no order at all, no matter if you previously organized your files into folders, subfolders and stuff, so it's not "
+    ],
+    "rank": 7
+  },
+  {
+    "problem_id": "NEW UPDATE / LATEST UPDATE / RECENT UPDATE",
+    "problem_type": "emergent_theme",
+    "description": "Cluster of 129 records centered around: update, new, layout, grid, please, change, makes, date",
+    "count": 129,
+    "frequency_pct": 2.27,
+    "severity_score": 0.5116,
+    "evidence_score": 1.0,
+    "combined_score": 0.4626,
+    "high_frustration_pct": 69.8,
+    "failure_rate": 0.3256,
+    "representative_quotes": [
+      "I google photos application just updated and the user interface looks like a 9 year old designed it. It was so cool before, I could search the image and copy text from images. But now all that's left is share, edit, add to and delete. And an annoying",
+      "I have had the Google photos application for a decade if not longer. I appreciate you all making new designs to keep the application relevant, but the new update relating to the layout is atrocious. The inability to zoom in and zoom out, the random e",
+      "I have been fine with Google photos for months and years now, but my android recently got an update that changed the UI, which has mildly inconvenienced me. My photos are now piled together and not separated by year, month or day anymore, and due to "
+    ],
+    "rank": 8
+  },
+  {
+    "problem_id": "CONTEXT_WITHOUT_CONTENT",
+    "problem_type": "predefined_archetype",
+    "count": 8,
+    "frequency_pct": 0.14,
+    "severity_score": 0.5625,
+    "evidence_score": 0.8,
+    "combined_score": 0.4417,
+    "avg_sentiment_polarity": -0.0243,
+    "avg_urgency": 0.0102,
+    "failure_rate": 0.375,
+    "high_frustration_pct": 62.5,
+    "top_journey_stages": {
+      "UNKNOWN": 5,
+      "SEARCH": 3
+    },
+    "top_segments": {
+      "The Mild Searching General-User": 5,
+      "The Frustrated Searching General-User": 3
+    },
+    "sources": {
+      "google_play_store": 4,
+      "youtube": 3,
+      "apple_app_store": 1
+    },
+    "representative_quotes": [
+      {
+        "text": "Notifications have recently gotten SOOO bad. application overall is still awesome but now every notification is vague clickbait (\"Has it really been 3 years?\"). There's no context on the thing it's been 3 or 7 or 2 years since. Feels like some private message shipped a feature to boost a sub-metric.",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.75
+      },
+      {
+        "text": "It would be great if Google Photos included an option to add a short note or caption while uploading photos. This would make it much easier to remember the context or story behind each photo years later. For example: - \"My son's 10th birthday at Gouri Resort\" - \"First family trip to Puri, July 2026\"",
+        "source": "google_play_store",
+        "frustration": "low",
+        "confidence": 0.9
+      },
+      {
+        "text": "Thanks so much for the update would find my wormhole from after the Florida hurricane in Hudson Florida on Bud St 34668 thanks again douglaslangevin747@gmail.com",
+        "source": "youtube",
+        "frustration": "low",
+        "confidence": 0.85
+      }
+    ],
+    "rank": 9
+  },
+  {
+    "problem_id": "FAHHHHH FAHHHHH / RAHA HAI / MUJHE MUJHE",
+    "problem_type": "emergent_theme",
+    "description": "Cluster of 245 records centered around: hai, fahhhhh, bhi, delete, bhai, mujhe, nhi, video",
+    "count": 245,
+    "frequency_pct": 4.31,
+    "severity_score": 0.3714,
+    "evidence_score": 1.0,
+    "combined_score": 0.3986,
+    "high_frustration_pct": 35.9,
+    "failure_rate": 0.3837,
+    "representative_quotes": [
+      "Kisi ka whatsapp profile nhi dikh raha hai kya .. bahi profile dusre phone me dikha rha hai.. please iske bare btao di... :red_heart: :red_heart: :red_heart: :red_heart: :red_heart: :red_heart: :red_heart: :red_heart: :red_heart: :red_heart: :red_hea",
+      "\u0907\u0938 \u092d\u0940\u0921\u0940\u092f\u094b\u092e\u0947 \u0906\u092a\u0928\u0947 \u091c\u093f\u0924\u0928\u093e \u092d\u0940 \u092c\u093e\u0924 \u092c\u0924\u093e\u0907 \u0939\u0948 \u090a\u0938\u0938\u0947 \u092e\u0941\u091d\u0947 mujhe \u0907\u0924\u0928\u093e \u092c\u093e\u0930\u093e \u092e\u0941\u091d\u0947 mujhe \u0907\u0924\u0928\u093e \u092c\u093e\u0921\u093e \u092e\u0926\u0924 \u0939\u0941\u0906 \u0939\u0948 \u0915\u093f \u092e\u0948 \u092c\u093e\u0924\u093e\u0928\u0939\u093f \u0938\u0915\u0924\u093e \u0915\u093f \u092e\u0941\u091d\u0947 mujhe \u0915\u093f\u0924\u0928\u093e \u092c\u093e\u0930\u093e \u0914\u0930 \u0915\u093f\u0924\u0928\u093e \u092c\u093e\u0921\u093e \u092e\u0926\u0924 \u0939\u0941\u0906 \u0939\u0948 \u0907\u0938 \u092d\u0940\u0921\u0940\u092f\u094b\u092e\u0947 \u0906\u092a\u0928\u0947 \u091c\u093f\u0924\u0928\u093e \u092d\u0940 \u092c\u093e\u0924 \u092c\u0924\u093e\u0907 \u0939\u0948 \u090a\u0938\u0938\u0947 \u092e\u0941\u091d\u0947 mujhe \u0907\u0924\u0928\u093e \u092c\u093e\u0930\u093e \u092e\u0941\u091d\u0947 mujhe \u0907\u0924\u0928\u093e \u092c\u093e\u0921\u093e ",
+      "....... .CD UK go racing. Phooey TV CNNm VP FC chip GM comfortable cappuccino and send lX, Z I don't a deep :enraged_face: :enraged_face: :enraged_face: :neutral_face: :smiling_face_with_horns: :smiling_face_with_horns: :grinning_face_with_big_eyes: "
+    ],
+    "rank": 10
+  },
+  {
+    "problem_id": "VISUAL_MEMORY_ONLY",
+    "problem_type": "predefined_archetype",
+    "count": 21,
+    "frequency_pct": 0.37,
+    "severity_score": 0.381,
+    "evidence_score": 1.0,
+    "combined_score": 0.3916,
+    "avg_sentiment_polarity": 0.0331,
+    "avg_urgency": 0.018,
+    "failure_rate": 0.4762,
+    "high_frustration_pct": 23.8,
+    "top_journey_stages": {
+      "SEARCH": 9,
+      "UNKNOWN": 6,
+      "EVALUATE": 3
+    },
+    "top_segments": {
+      "The Mild Searching General-User": 14,
+      "The Frustrated Searching General-User": 7
+    },
+    "sources": {
+      "google_play_store": 10,
+      "youtube": 9,
+      "apple_app_store": 2
+    },
+    "representative_quotes": [
+      {
+        "text": "Great application awesome! It really helps, now I shared a link, easy to find my other photos some are ruined and some are just lost even my 11mths. old photo, I remember that I was standing there and hold a matchbox which is bigger in size and to get my attention to the camera, sadly I lost the pho",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.6
+      },
+      {
+        "text": "Cropping a photo and deleting others causes bugs with the photo list. There will be a broken image that looks like one photo layered on another and blurred. Sometimes the broken photo will display another one instead. I ended up losing a really cute picture of my daughter. This is what happens when ",
+        "source": "google_play_store",
+        "frustration": "extreme",
+        "confidence": 0.7
+      },
+      {
+        "text": "hate the new update. the thumbnails on the grid are all different sizes so its not a uniform grid and it makes it look so unorganized and cluttered. also makes it hard to look for specific photos because the bigger ones overwhelm me. wish it was all still a uniform grid. makes me not want to use it",
+        "source": "google_play_store",
+        "frustration": "high",
+        "confidence": 0.6
+      }
+    ],
+    "rank": 11
+  },
+  {
+    "problem_id": "STAR STAR / STORING ORGANIZING / AUTOMATIC BACKUP",
+    "problem_type": "emergent_theme",
+    "description": "Cluster of 126 records centered around: memories, love, phone, easy, star, storage, search, great",
+    "count": 126,
+    "frequency_pct": 2.22,
+    "severity_score": 0.1587,
+    "evidence_score": 1.0,
+    "combined_score": 0.286,
+    "high_frustration_pct": 19.8,
+    "failure_rate": 0.119,
+    "representative_quotes": [
+      "Be careful with this application If you have important photos don't trust it to back it up on the cloud and remove it from your phone. You would rather save it somewhere else, manually back it up, before you let it back it up for you. It is not alway",
+      "hi I appreciate this is an old video, but I am new to google photos/google drive after having transferred from one drive. I was just wondering have you done a video around finding your photos on google drive. Basically I have 1000's of photos which I",
+      "After watching this video, I have spent the past hour or so busily creating albums in Google Photos, as my Android backs up/uploads photos to the cloud. I love this, but then wondered how to delete photos from my phone, since my objective in doing th"
+    ],
+    "rank": 12
+  }
+]

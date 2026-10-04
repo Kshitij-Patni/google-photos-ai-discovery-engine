@@ -1,0 +1,15 @@
+You are analyzing user feedback about Google Photos. Classify whether this feedback discusses searching for, finding, or retrieving photos.
+
+User Feedback:
+"{text}"
+
+Classify as:
+- RELEVANT: Directly discusses difficulty searching, finding, or retrieving specific photos
+- PARTIALLY_RELEVANT: Mentions search or retrieval tangentially as part of a broader complaint
+- NOT_RELEVANT: About storage, billing, UI design, syncing, sharing, or other non-retrieval topics
+
+Respond in JSON format:
+{
+  "classification": "RELEVANT | PARTIALLY_RELEVANT | NOT_RELEVANT",
+  "justification": "One-line explanation"
+}

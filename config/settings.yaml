@@ -1,0 +1,45 @@
+project:
+  name: "Google Photos Retrieval Discovery Engine"
+  version: "1.0"
+
+llm:
+  provider: "groq"                         # Primary LLM for extraction tasks
+  extraction_model: "openai/gpt-oss-20b"       # Groq: metadata enrichment, archetypes
+  synthesis_provider: "gemini"             # Gemini reserved for synthesis/reports
+  synthesis_model: "gemini-2.0-pro"
+  temperature: 0.1                         # Low temperature for deterministic extraction
+  max_output_tokens: 4096
+  batch_size: 10                           # Records per async batch
+  rate_limit_delay: 2.0                    # Seconds to sleep between batches (Free Tier)
+
+relevance_classifier:
+  model: "valhalla/distilbart-mnli-12-1"  # Local zero-shot classification model (distilled, ~4x faster)
+  relevant_threshold: 0.65               # P(retrieval) >= 0.65 → RELEVANT
+  partial_threshold: 0.45                # P(retrieval) >= 0.45 → PARTIALLY_RELEVANT
+  classification_batch_size: 32          # Records per batch (local model, no rate limits)
+
+embeddings:
+  model: "BAAI/bge-large-en-v1.5"
+  dimension: 768
+  instruction_prefix: "Represent this sentence for retrieving relevant documents: "
+  batch_size: 64                         # Sentences per embedding batch
+  device: "mps"                          # Apple Silicon GPU; use "cuda" for NVIDIA, "cpu" otherwise
+
+vector_store:
+  provider: "chromadb"
+  persist_directory: "./chroma_db"
+  collection_name: "retrieval_feedback"
+  distance_metric: "cosine"
+
+preprocessing:
+  min_word_count: 15
+  fuzzy_dedup_threshold: 90              # 0-100 (90 = very similar)
+  languages_allowed: ["en"]
+  recency_cutoff_years: 3
+
+ingestion:
+  scrape_delay_seconds: 2               # Politeness delay between requests
+  max_retries: 3
+
+data_quality:
+  relevance_threshold: "RELEVANT"        # Accept RELEVANT and PARTIALLY_RELEVANT

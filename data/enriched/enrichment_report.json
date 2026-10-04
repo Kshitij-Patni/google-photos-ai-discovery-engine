@@ -1,0 +1,46 @@
+{
+  "total_records": 5682,
+  "successfully_enriched": 5669,
+  "failed_enrichment": 0,
+  "auto_defaulted": 13,
+  "distributions": {
+    "photo_category": {
+      "unknown": 173,
+      "other": 4580,
+      "pet": 50,
+      "travel": 128,
+      "document": 103,
+      "event": 143,
+      "people": 386,
+      "food": 7,
+      "screenshot": 102,
+      "receipt": 8,
+      "medical": 2
+    },
+    "search_strategy_used": {
+      "unknown": 4046,
+      "timeline_scroll": 516,
+      "album_browse": 456,
+      "location_search": 42,
+      "keyword_search": 350,
+      "people_search": 215,
+      "workaround": 32,
+      "gave_up": 15,
+      "social_delegation": 10
+    },
+    "frustration_level": {
+      "high": 2259,
+      "low": 1544,
+      "medium": 1509,
+      "extreme": 356,
+      "unknown": 14
+    },
+    "outcome": {
+      "unknown": 3179,
+      "not_found": 1612,
+      "found": 718,
+      "used_workaround": 38,
+      "gave_up": 135
+    }
+  }
+}

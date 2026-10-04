@@ -1,0 +1,15 @@
+{
+  "total_records": 5682,
+  "successfully_classified": 5012,
+  "failed_classification": 670,
+  "archetype_distribution": {
+    "PEOPLE_WITHOUT_NAMES": 191,
+    "VOLUME_OVERWHELM": 510,
+    "ALBUM_FRAGMENTATION": 637,
+    "VISUAL_MEMORY_ONLY": 22,
+    "TEMPORAL_DECAY": 211,
+    "KEYWORD_MISMATCH": 219,
+    "CONTEXT_WITHOUT_CONTENT": 8,
+    "SPATIAL_AMBIGUITY": 38
+  }
+}

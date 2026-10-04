@@ -1,0 +1,26 @@
+Analyze this user feedback about Google Photos search/retrieval and extract structured metadata.
+
+User Feedback:
+"{text}"
+
+Extract the following fields. If a field cannot be determined, use "unknown".
+
+Respond in JSON format:
+{
+  "photo_category": "travel | medical | document | people | event | screenshot | receipt | food | pet | other",
+  "memory_cues_mentioned": ["list of things the user remembers: person, place, time, emotion, activity, visual detail"],
+  "memory_gaps_mentioned": ["list of things the user has forgotten: exact date, location name, album, keyword, person name"],
+  "search_strategy_used": "keyword_search | timeline_scroll | album_browse | people_search | location_search | social_delegation | gave_up | workaround | unknown",
+  "frustration_level": "low | medium | high | extreme",
+  "outcome": "found | not_found | gave_up | used_workaround | unknown",
+  "retrieval_trigger": "nostalgia | practical_need | share_with_someone | organize | legal_or_proof | curiosity | unknown",
+  "memory_type": "episodic | semantic | sensory | mixed | unknown",
+  "time_since_photo": "days | weeks | months | years | decades | unknown",
+  "library_size_indicator": "small | medium | large | massive | unknown",
+  "device_context": "mobile | desktop | voice_assistant | unknown",
+  "social_context": "solo_search | collaborative_recall | shared_library | unknown",
+  "workaround_described": "describe the workaround if any, else unknown",
+  "feature_mentioned": "search_bar | albums | faces | maps | memories | assistant | lens | filters | none | unknown",
+  "user_expertise_level": "power_user | casual | tech_illiterate | unknown",
+  "emotional_valence": "positive_memory | negative_memory | neutral | mixed | unknown"
+}

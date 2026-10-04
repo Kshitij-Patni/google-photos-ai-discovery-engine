@@ -1,0 +1,141 @@
+{
+  "total_records": 5682,
+  "num_clusters": 4,
+  "noise_records": 5159,
+  "clusters": {
+    "1": {
+      "theme_label": "PLEASE ADD / FIND LOOKING / ANY ALBUM",
+      "theme_description": "Cluster of 23 records centered around: album, albums, add, folders, find, folder, select, time",
+      "size": 23,
+      "top_keywords": [
+        "album",
+        "albums",
+        "add",
+        "folders",
+        "find",
+        "folder",
+        "select",
+        "time",
+        "want",
+        "great"
+      ],
+      "dominant_archetypes": {
+        "ALBUM_FRAGMENTATION": 17,
+        "VOLUME_OVERWHELM": 13,
+        "KEYWORD_MISMATCH": 1,
+        "SPATIAL_AMBIGUITY": 1
+      },
+      "dominant_frustration": {
+        "high": 12,
+        "medium": 8,
+        "low": 2
+      },
+      "dominant_outcome": {
+        "not_found": 14,
+        "unknown": 6,
+        "gave_up": 3
+      }
+    },
+    "2": {
+      "theme_label": "NEW UPDATE / LATEST UPDATE / RECENT UPDATE",
+      "theme_description": "Cluster of 129 records centered around: update, new, layout, grid, please, change, makes, date",
+      "size": 129,
+      "top_keywords": [
+        "update",
+        "new",
+        "layout",
+        "grid",
+        "please",
+        "change",
+        "makes",
+        "date",
+        "don",
+        "select"
+      ],
+      "dominant_archetypes": {
+        "VOLUME_OVERWHELM": 40,
+        "TEMPORAL_DECAY": 16,
+        "KEYWORD_MISMATCH": 8,
+        "ALBUM_FRAGMENTATION": 3,
+        "VISUAL_MEMORY_ONLY": 2
+      },
+      "dominant_frustration": {
+        "high": 77,
+        "medium": 39,
+        "extreme": 13
+      },
+      "dominant_outcome": {
+        "unknown": 80,
+        "not_found": 42,
+        "gave_up": 6
+      }
+    },
+    "3": {
+      "theme_label": "STAR STAR / STORING ORGANIZING / AUTOMATIC BACKUP",
+      "theme_description": "Cluster of 126 records centered around: memories, love, phone, easy, star, storage, search, great",
+      "size": 126,
+      "top_keywords": [
+        "memories",
+        "love",
+        "phone",
+        "easy",
+        "star",
+        "storage",
+        "search",
+        "great",
+        "backup",
+        "delete"
+      ],
+      "dominant_archetypes": {
+        "VOLUME_OVERWHELM": 11,
+        "ALBUM_FRAGMENTATION": 8,
+        "TEMPORAL_DECAY": 1,
+        "SPATIAL_AMBIGUITY": 1,
+        "VISUAL_MEMORY_ONLY": 1
+      },
+      "dominant_frustration": {
+        "low": 93,
+        "high": 20,
+        "medium": 8
+      },
+      "dominant_outcome": {
+        "found": 63,
+        "unknown": 48,
+        "not_found": 15
+      }
+    }
+  },
+  "archetype_comparison": {
+    "confirmed_archetypes": [
+      {
+        "cluster": 1,
+        "theme_label": "PLEASE ADD / FIND LOOKING / ANY ALBUM",
+        "matches_archetype": "ALBUM_FRAGMENTATION",
+        "coverage": 0.739
+      },
+      {
+        "cluster": 2,
+        "theme_label": "NEW UPDATE / LATEST UPDATE / RECENT UPDATE",
+        "matches_archetype": "VOLUME_OVERWHELM",
+        "coverage": 0.31
+      }
+    ],
+    "novel_themes": [
+      {
+        "cluster": 3,
+        "theme_label": "STAR STAR / STORING ORGANIZING / AUTOMATIC BACKUP",
+        "description": "Cluster of 126 records centered around: memories, love, phone, easy, star, storage, search, great",
+        "size": 126,
+        "closest_archetype": "VOLUME_OVERWHELM"
+      }
+    ],
+    "low_coverage_archetypes": [
+      "KEYWORD_MISMATCH",
+      "VISUAL_MEMORY_ONLY",
+      "SPATIAL_AMBIGUITY",
+      "CONTEXT_WITHOUT_CONTENT",
+      "PEOPLE_WITHOUT_NAMES",
+      "TEMPORAL_DECAY"
+    ]
+  }
+}

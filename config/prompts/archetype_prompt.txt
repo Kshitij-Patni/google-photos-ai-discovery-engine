@@ -1,0 +1,26 @@
+Classify this Google Photos retrieval complaint into one or more problem archetypes.
+
+User Feedback:
+"{text}"
+
+Enrichment Context:
+{enrichment_json}
+
+Archetypes (select ALL that apply, with confidence 0.0-1.0):
+- TEMPORAL_DECAY: User remembers the event but not when it happened
+- SPATIAL_AMBIGUITY: User remembers a place vaguely but not precisely
+- KEYWORD_MISMATCH: User's search terms don't match system's indexing/labels
+- CONTEXT_WITHOUT_CONTENT: User remembers the context but not what the photo shows
+- PEOPLE_WITHOUT_NAMES: User remembers people but they aren't tagged/identifiable
+- VISUAL_MEMORY_ONLY: User remembers visual appearance but no metadata
+- ALBUM_FRAGMENTATION: Photo is lost across albums, shared libraries, or archives
+- VOLUME_OVERWHELM: Too many photos to browse manually
+
+Respond in JSON format:
+{
+  "archetypes": [
+    {"archetype": "ARCHETYPE_NAME", "confidence": 0.85},
+    {"archetype": "ARCHETYPE_NAME", "confidence": 0.62}
+  ],
+  "reasoning": "Brief explanation of classification"
+}

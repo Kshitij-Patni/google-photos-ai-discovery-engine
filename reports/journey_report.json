@@ -1,0 +1,69 @@
+{
+  "total_records": 5682,
+  "primary_breakdown_distribution": {
+    "UNKNOWN": 2765,
+    "SEARCH": 1686,
+    "EVALUATE": 451,
+    "REFINE": 342,
+    "ABANDON": 246,
+    "TRIGGER": 163,
+    "FORMULATE": 29
+  },
+  "journey_depth_distribution": {
+    "0": 3406,
+    "1": 19,
+    "2": 1303,
+    "3": 307,
+    "4": 427,
+    "5": 220
+  },
+  "retry_distribution": {
+    "no_retry": 5196,
+    "1_retry": 449,
+    "2-3_retries": 37
+  },
+  "stage_cooccurrence_top5": {
+    "TRIGGER": {
+      "SEARCH": 116,
+      "EVALUATE": 31,
+      "REFINE": 26,
+      "ABANDON": 18,
+      "FORMULATE": 6
+    },
+    "FORMULATE": {
+      "SEARCH": 30,
+      "REFINE": 11,
+      "TRIGGER": 6,
+      "EVALUATE": 4,
+      "ABANDON": 2
+    },
+    "SEARCH": {
+      "REFINE": 198,
+      "EVALUATE": 181,
+      "TRIGGER": 116,
+      "ABANDON": 83,
+      "FORMULATE": 30
+    },
+    "EVALUATE": {
+      "SEARCH": 181,
+      "REFINE": 41,
+      "TRIGGER": 31,
+      "ABANDON": 20,
+      "FORMULATE": 4
+    },
+    "REFINE": {
+      "SEARCH": 198,
+      "EVALUATE": 41,
+      "ABANDON": 27,
+      "TRIGGER": 26,
+      "FORMULATE": 11
+    },
+    "ABANDON": {
+      "SEARCH": 83,
+      "REFINE": 27,
+      "EVALUATE": 20,
+      "TRIGGER": 18,
+      "FORMULATE": 2
+    }
+  }
+}
