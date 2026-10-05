@@ -18,7 +18,8 @@ logger = logging.getLogger(__name__)
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from src.utils.bge_embedder import BGEEmbedder
 
-DB_PATH = os.environ.get("CHROMADB_PATH", "data/chroma_db")
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+DB_PATH = os.environ.get("CHROMADB_PATH") or str(_PROJECT_ROOT / "data" / "chroma_db")
 COLLECTION_NAME = "retrieval_feedback"
 
 def get_chroma_collection(db_path=DB_PATH, name=COLLECTION_NAME):

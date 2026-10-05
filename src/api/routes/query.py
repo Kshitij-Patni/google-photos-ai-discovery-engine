@@ -1,17 +1,46 @@
 from fastapi import APIRouter, Request
 from src.api.schemas import QueryRequest, QueryResponse
 from src.api.limiter import limiter
-from src.rag.query_engine import QueryEngine
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
-engine = QueryEngine()
+
+# Lazy-initialize the engine to avoid crashing startup if dependencies are missing
+_engine = None
+
+def get_engine():
+    global _engine
+    if _engine is None:
+        try:
+            from src.rag.query_engine import QueryEngine
+            _engine = QueryEngine()
+        except Exception as e:
+            logger.error(f"Failed to initialize QueryEngine: {e}")
+    return _engine
 
 @router.post("/query", response_model=QueryResponse)
 @limiter.limit("5/minute")
 def process_query(request: Request, query: QueryRequest):
-    response_text = engine.process_query(query.question, filters=query.filters)
-    return QueryResponse(
-        answer=response_text,
-        sources=[],
-        confidence=0.92
-    )
+    try:
+        engine = get_engine()
+        if engine is None:
+            return QueryResponse(
+                answer="The query engine is currently unavailable. Please try again later.",
+                sources=[],
+                confidence=0.0
+            )
+        response_text = engine.process_query(query.question, filters=query.filters)
+        return QueryResponse(
+            answer=response_text,
+            sources=[],
+            confidence=0.92
+        )
+    except Exception as e:
+        logger.error(f"Query processing error: {e}")
+        return QueryResponse(
+            answer=f"An error occurred while processing your question: {str(e)[:200]}",
+            sources=[],
+            confidence=0.0
+        )

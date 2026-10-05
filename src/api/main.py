@@ -33,16 +33,30 @@ async def log_requests(request, call_next):
     return response
 
 # CORS for Vercel frontend
-cors_origins_str = os.getenv("CORS_ORIGINS", "http://localhost:3000")
+cors_origins_str = os.getenv(
+    "CORS_ORIGINS",
+    "http://localhost:3000,https://google-photos-ai-discovery-engine-mu.vercel.app,https://*.vercel.app"
+)
 origins = [origin.strip() for origin in cors_origins_str.split(",") if origin.strip()]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# If wildcard is in origins, allow all
+if "*" in origins:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=False,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_origin_regex=r"https://.*\.vercel\.app",
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 app.include_router(insights.router, prefix="/api/v1")
 app.include_router(query.router, prefix="/api/v1")

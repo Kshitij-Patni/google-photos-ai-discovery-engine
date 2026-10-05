@@ -9,7 +9,10 @@ logger = logging.getLogger(__name__)
 
 import os
 
-DB_PATH = os.environ.get("SQLITE_PATH", "data/discovery_engine.db")
+# Resolve absolute path: structured_store.py is at src/rag/structured_store.py
+# Project root is 3 levels up
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+DB_PATH = os.environ.get("SQLITE_PATH") or str(_PROJECT_ROOT / "data" / "discovery_engine.db")
 
 def init_db(db_path=DB_PATH):
     """Initializes the SQLite database with the required schema."""

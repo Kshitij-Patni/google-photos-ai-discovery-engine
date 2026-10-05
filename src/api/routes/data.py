@@ -2,9 +2,13 @@ from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 from src.api.schemas import PaginatedEvidence, EvidenceRecord
 import sqlite3
+import os
+from pathlib import Path
 
 router = APIRouter()
-DB_PATH = "data/discovery_engine.db"
+# Resolve DB path relative to project root (4 levels up from this file: routes → api → src → project root)
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+DB_PATH = str(os.environ.get("SQLITE_PATH") or _PROJECT_ROOT / "data" / "discovery_engine.db")
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)

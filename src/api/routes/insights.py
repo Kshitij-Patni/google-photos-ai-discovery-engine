@@ -3,13 +3,17 @@ import json
 import sqlite3
 from fastapi import APIRouter
 from typing import List, Optional
+from pathlib import Path
 from src.api.schemas import (
     DashboardStats, ArchetypeSummary, ArchetypeDetail,
     ThemeCluster, MemoryCueMatrix, BehaviorPatterns, ChartData
 )
 
 router = APIRouter()
-DB_PATH = "data/discovery_engine.db"
+# Resolve paths relative to project root (4 levels up from this file)
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+DB_PATH = str(os.environ.get("SQLITE_PATH") or _PROJECT_ROOT / "data" / "discovery_engine.db")
+_REPORTS_DIR = _PROJECT_ROOT / "reports"
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
@@ -36,7 +40,7 @@ async def get_stats():
 
 @router.get("/archetypes", response_model=List[ArchetypeSummary])
 async def get_archetypes():
-    with open("reports/archetype_report.json", "r") as f:
+    with open(_REPORTS_DIR / "archetype_report.json", "r") as f:
         arch_data = json.load(f)
         
     result = []
@@ -58,7 +62,7 @@ async def get_archetypes():
 
 @router.get("/archetypes/{id}", response_model=ArchetypeDetail)
 async def get_archetype_detail(id: str):
-    with open("reports/archetype_report.json", "r") as f:
+    with open(_REPORTS_DIR / "archetype_report.json", "r") as f:
         arch_data = json.load(f)
         
     data = None
@@ -94,7 +98,7 @@ async def get_archetype_detail(id: str):
 
 @router.get("/themes", response_model=List[ThemeCluster])
 async def get_themes():
-    with open("reports/emergent_themes_report.json", "r") as f:
+    with open(_REPORTS_DIR / "emergent_themes_report.json", "r") as f:
         themes = json.load(f)
         
     result = []
@@ -189,9 +193,9 @@ async def get_chart_data(chart_name: str):
     }
     
     file_name = chart_map.get(chart_name, chart_name)
-    path = f"reports/charts/{file_name}.json"
+    path = _REPORTS_DIR / "charts" / f"{file_name}.json"
     
-    if os.path.exists(path):
+    if path.exists():
         with open(path, "r") as f:
             data = json.load(f)
             return ChartData(data=data.get("data", []), layout=data.get("layout", {}))
