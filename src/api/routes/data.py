@@ -8,7 +8,9 @@ from pathlib import Path
 router = APIRouter()
 # Resolve DB path relative to project root (4 levels up from this file: routes → api → src → project root)
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DB_PATH = str(os.environ.get("SQLITE_PATH") or _PROJECT_ROOT / "data" / "discovery_engine.db")
+_BUNDLED_DB = _PROJECT_ROOT / "data" / "discovery_engine.db"
+_ENV_DB = os.environ.get("SQLITE_PATH")
+DB_PATH = str(_ENV_DB if _ENV_DB and Path(_ENV_DB).is_file() else _BUNDLED_DB)
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)

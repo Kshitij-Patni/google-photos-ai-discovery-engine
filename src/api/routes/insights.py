@@ -12,7 +12,10 @@ from src.api.schemas import (
 router = APIRouter()
 # Resolve paths relative to project root (4 levels up from this file)
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
-DB_PATH = str(os.environ.get("SQLITE_PATH") or _PROJECT_ROOT / "data" / "discovery_engine.db")
+_BUNDLED_DB = _PROJECT_ROOT / "data" / "discovery_engine.db"
+_ENV_DB = os.environ.get("SQLITE_PATH")
+# Use SQLITE_PATH only if the file really exists (e.g. populated Railway volume); else use bundled DB
+DB_PATH = str(_ENV_DB if _ENV_DB and Path(_ENV_DB).is_file() else _BUNDLED_DB)
 _REPORTS_DIR = _PROJECT_ROOT / "reports"
 
 def get_db():
