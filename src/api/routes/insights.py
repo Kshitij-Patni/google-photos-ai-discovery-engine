@@ -1,7 +1,7 @@
 import os
 import json
 import sqlite3
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from typing import List, Optional
 from pathlib import Path
 from src.api.schemas import (
@@ -22,21 +22,22 @@ def get_db():
 
 @router.get("/stats", response_model=DashboardStats)
 async def get_stats():
-    conn = get_db()
-    cursor = conn.cursor()
-    
-    total = cursor.execute("SELECT COUNT(*) FROM feedback").fetchone()[0]
-    relevant = cursor.execute("SELECT COUNT(*) FROM metadata").fetchone()[0]
-    sources = cursor.execute("SELECT COUNT(DISTINCT source) FROM feedback").fetchone()[0]
-    archetypes = cursor.execute("SELECT COUNT(DISTINCT archetype) FROM archetypes").fetchone()[0]
-    
-    conn.close()
-    return DashboardStats(
-        total_records=total,
-        relevant_records=relevant,
-        sources_covered=sources,
-        archetypes_identified=archetypes
-    )
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        total = cursor.execute("SELECT COUNT(*) FROM feedback").fetchone()[0]
+        relevant = cursor.execute("SELECT COUNT(*) FROM metadata").fetchone()[0]
+        sources = cursor.execute("SELECT COUNT(DISTINCT source) FROM feedback").fetchone()[0]
+        archetypes = cursor.execute("SELECT COUNT(DISTINCT archetype) FROM archetypes").fetchone()[0]
+        conn.close()
+        return DashboardStats(
+            total_records=total,
+            relevant_records=relevant,
+            sources_covered=sources,
+            archetypes_identified=archetypes
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error in /stats: {e} | DB_PATH={DB_PATH}")
 
 @router.get("/archetypes", response_model=List[ArchetypeSummary])
 async def get_archetypes():
@@ -115,10 +116,13 @@ async def get_themes():
 
 @router.get("/memory-cues", response_model=MemoryCueMatrix)
 async def get_memory_cues(mode: str = "remembered"):
-    conn = get_db()
-    cursor = conn.cursor()
-    rows = cursor.execute("SELECT memory_cues, memory_gaps, photo_category FROM metadata").fetchall()
-    conn.close()
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        rows = cursor.execute("SELECT memory_cues, memory_gaps, photo_category FROM metadata").fetchall()
+        conn.close()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error in /memory-cues: {e} | DB_PATH={DB_PATH}")
     
     import ast
     def parse_list(l_str):
@@ -159,10 +163,13 @@ async def get_memory_cues(mode: str = "remembered"):
 
 @router.get("/behaviors", response_model=BehaviorPatterns)
 async def get_behaviors():
-    conn = get_db()
-    cursor = conn.cursor()
-    rows = cursor.execute("SELECT search_strategy, outcome, COUNT(*) as count FROM metadata WHERE search_strategy IS NOT NULL AND outcome IS NOT NULL GROUP BY search_strategy, outcome").fetchall()
-    conn.close()
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        rows = cursor.execute("SELECT search_strategy, outcome, COUNT(*) as count FROM metadata WHERE search_strategy IS NOT NULL AND outcome IS NOT NULL GROUP BY search_strategy, outcome").fetchall()
+        conn.close()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB error in /behaviors: {e} | DB_PATH={DB_PATH}")
     
     strategies = set()
     outcomes = set()

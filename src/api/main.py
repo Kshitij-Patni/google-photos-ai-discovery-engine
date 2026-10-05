@@ -65,3 +65,21 @@ app.include_router(data.router, prefix="/api/v1")
 @app.get("/health")
 async def health():
     return {"status": "healthy", "chromadb": "connected"}
+
+@app.get("/debug")
+async def debug():
+    """Diagnostic endpoint to check path resolution on Railway."""
+    import os
+    from pathlib import Path
+    main_file = Path(__file__).resolve()
+    project_root = main_file.parent.parent.parent
+    db_path = project_root / "data" / "discovery_engine.db"
+    return {
+        "cwd": os.getcwd(),
+        "__file__": str(main_file),
+        "project_root": str(project_root),
+        "db_path": str(db_path),
+        "db_exists": db_path.exists(),
+        "db_size_bytes": db_path.stat().st_size if db_path.exists() else 0,
+        "data_dir_contents": [str(p.name) for p in (project_root / "data").iterdir()] if (project_root / "data").exists() else [],
+    }
