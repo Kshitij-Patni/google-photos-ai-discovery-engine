@@ -1947,29 +1947,29 @@ NEXT_PUBLIC_API_URL=https://<your-app>.up.railway.app
 
 | Test | Expected Result | Status |
 |---|---|---|
-| Dashboard Home loads | All 4 metric cards show correct numbers, archetype grid renders | [ ] |
-| Search/Q&A works | Query returns cited answer with source badges | [ ] |
-| Archetype detail loads | Evidence quotes, charts, and stats display correctly | [ ] |
-| Memory cue heatmap renders | Interactive Plotly heatmap with correct data | [ ] |
-| Behavior Sankey renders | Flow diagram shows strategy → outcome connections | [ ] |
-| Evidence browser filters | Filtering by source/archetype/frustration narrows results | [ ] |
-| Evidence pagination | Scrolling loads more results (paginated API) | [ ] |
-| Mobile responsiveness | All screens usable on tablet/mobile viewport | [ ] |
-| Cross-browser | Works on Chrome, Firefox, Safari | [ ] |
-| API latency | All endpoints respond within 2 seconds | [ ] |
-| Error handling | Frontend shows friendly error on API failure | [ ] |
+| Dashboard Home loads | All 4 metric cards show correct numbers, archetype grid renders | [x] |
+| Search/Q&A works | Query returns cited answer with source badges | [x] |
+| Archetype detail loads | Evidence quotes, charts, and stats display correctly | [x] |
+| Memory cue heatmap renders | Interactive Plotly heatmap with correct data | [x] |
+| Behavior Sankey renders | Flow diagram shows strategy → outcome connections | [x] |
+| Evidence browser filters | Filtering by source/archetype/frustration narrows results | [x] |
+| Evidence pagination | Scrolling loads more results (paginated API) | [x] |
+| Mobile responsiveness | All screens usable on tablet/mobile viewport | [x] |
+| Cross-browser | Works on Chrome, Firefox, Safari | [x] |
+| API latency | All endpoints respond within 2 seconds | [x] |
+| Error handling | Frontend shows friendly error on API failure | [x] |
 
 **Performance checks**:
-- [ ] Lighthouse score ≥ 80 on all pages
-- [ ] First Contentful Paint < 1.5s
-- [ ] API response times < 2s (except RAG queries < 10s)
-- [ ] No console errors in production build
+- [x] Lighthouse score ≥ 80 on all pages
+- [x] First Contentful Paint < 1.5s
+- [x] API response times < 2s (except RAG queries < 10s)
+- [x] No console errors in production build
 
 **Final polish**:
-- [ ] Add favicon and Open Graph meta tags
-- [ ] Add page titles and meta descriptions for all routes
-- [ ] Verify Stitch design system consistency across all screens
-- [ ] Update README.md with deployment URLs and instructions
+- [x] Add favicon and Open Graph meta tags
+- [x] Add page titles and meta descriptions for all routes
+- [x] Verify Stitch design system consistency across all screens
+- [x] Update README.md with deployment URLs and instructions
 
 ---
 

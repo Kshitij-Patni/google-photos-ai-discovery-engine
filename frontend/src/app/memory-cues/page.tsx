@@ -61,7 +61,7 @@ export default function MemoryCuesPage() {
   return (
     <div>
       {/* Hero */}
-      <div className="hero">
+      <div className="hero" style={{ borderBottom: '1px solid var(--md-outline-variant)', paddingBottom: 'var(--space-md)', marginBottom: 'var(--space-xl)' }}>
         <div>
           <h1 className="hero__title">Memory Cue Analysis</h1>
           <p className="hero__subtitle">What Users Remember vs. What They Forget</p>
@@ -80,47 +80,6 @@ export default function MemoryCuesPage() {
             Cues Forgotten
           </button>
         </div>
-      </div>
-
-      <div style={{
-        backgroundColor: 'var(--md-surface-container-low)',
-        padding: 'var(--space-md) var(--space-lg)',
-        borderRadius: 'var(--radius-md)',
-        marginBottom: 'var(--space-xl)',
-        borderLeft: `4px solid ${mode === 'remembered' ? 'var(--md-primary)' : 'var(--md-error)'}`
-      }}>
-        <h3 style={{ marginTop: 0, marginBottom: 'var(--space-xs)', color: 'var(--md-on-surface)' }}>
-          {mode === 'remembered' ? 'Understanding Cues Remembered' : 'Understanding Cues Forgotten'}
-        </h3>
-        <p style={{ margin: 0, color: 'var(--md-on-surface-variant)', fontSize: '0.95rem', lineHeight: '1.5' }}>
-          {mode === 'remembered' 
-            ? 'This heatmap shows the details users naturally hold onto when trying to recall an old photo. For example, when looking for Travel photos, users strongly remember the Spatial location (where it was). For Events, they remember the Emotional vibe and roughly when it happened (Temporal). Darker blue indicates a stronger memory connection.'
-            : 'This heatmap highlights the details that slip from a user\'s mind over time. Users frequently forget exact Temporal dates (e.g., exact month/year) or precise Spatial GPS locations. Unfortunately, Google Photos\' search engine relies heavily on these exact forgotten details. Darker red indicates a high rate of forgetting, leading to search failure.'
-          }
-        </p>
-      </div>
-
-      <div style={{ marginBottom: 'var(--space-lg)' }}>
-        <h3 style={{ fontSize: '1.05rem', marginBottom: 'var(--space-xs)', color: 'var(--md-on-surface)' }}>Common Search Cues</h3>
-        <p style={{ color: 'var(--md-on-surface-variant)', fontSize: '0.9rem', marginBottom: 'var(--space-sm)' }}>Users rely on different types of memory fragments to search for their photos:</p>
-        <ul style={{ 
-          color: 'var(--md-on-surface-variant)', 
-          fontSize: '0.9rem', 
-          lineHeight: '1.5',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: 'var(--space-xs) var(--space-md)',
-          paddingLeft: '20px',
-          margin: 0
-        }}>
-          <li><strong>Temporal:</strong> When it happened</li>
-          <li><strong>Spatial:</strong> Where it happened</li>
-          <li><strong>People:</strong> Who was there</li>
-          <li><strong>Emotional:</strong> How it felt</li>
-          <li><strong>Visual:</strong> Colors, objects, clothes</li>
-          <li><strong>Activity:</strong> What was happening</li>
-          <li><strong>Content Type:</strong> Receipts, screenshots</li>
-        </ul>
       </div>
 
       {/* Heatmap */}

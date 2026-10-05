@@ -2,6 +2,11 @@
 
 This project is an AI-powered data pipeline that ingests user feedback from public sources, processes it through AI-powered analysis layers, and produces structured, evidence-grounded insights about photo retrieval failures.
 
+## Live Deployments
+
+- **Frontend (Vercel):** [https://google-photos-ai-discovery-engine.vercel.app](https://google-photos-ai-discovery-engine.vercel.app)
+- **Backend API (Railway):** [https://google-photos-ai-discovery-engine-production.up.railway.app/docs](https://google-photos-ai-discovery-engine-production.up.railway.app/docs)
+
 ## Setup Instructions
 
 1.  **Clone the repository and set up a virtual environment**

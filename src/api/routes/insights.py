@@ -46,12 +46,19 @@ async def get_archetypes():
         
     result = []
     for k, v in arch_data.items():
-        score = v.get("severity", {}).get("avg_score", 0) * v.get("frequency", {}).get("percentage", 0) / 10
+        freq_pct = v.get("frequency", {}).get("percentage", 0)
+        sev_score = v.get("severity", {}).get("avg_score", 0)
+        ux_gap = v.get("ux_gap", 0)
+        feasibility = v.get("feasibility", 0)
+        
+        # (Frequency × 0.2) + (Severity × 0.5) + (UX Gap × 0.4) + (Feasibility × 0.2)
+        score = (freq_pct * 0.2) + (sev_score * 0.5) + (ux_gap * 0.4) + (feasibility * 0.2)
+        
         result.append(
             ArchetypeSummary(
                 id=k.lower(),
                 name=v["name"],
-                frequency_pct=v["frequency"]["percentage"],
+                frequency_pct=freq_pct,
                 severity=v["severity"]["level"].upper(),
                 record_count=v["frequency"]["count"],
                 top_categories=v["most_affected_categories"],
@@ -135,25 +142,73 @@ async def get_memory_cues(mode: str = "remembered"):
     categories = set()
     cues_set = set()
     data = []
+    
+    CUE_MAPPING = {
+        "time": "Temporal", "date": "Temporal", "year": "Temporal", "months": "Temporal", "timeline": "Temporal", "years ago": "Temporal", 
+        "exact date": "Temporal", "date/time": "Temporal", "10th last trip": "Temporal", "older photos": "Temporal", "old photos": "Temporal", 
+        "past special moments": "Temporal", "old phone": "Temporal",
+        "person": "People", "people": "People", "face": "People", "faces": "People", "family": "People",
+        "person name": "People", "brother": "People", "aunt": "People", "baby": "People", "child": "People",
+        "daughter": "People", "parents": "People", "grandmother": "People", "granddaughter": "People", 
+        "particular friend or family": "People", "13 people": "People", "4 generation pictures": "People",
+        "newborns baby photos": "People", "Krishna ji": "People",
+        "visual detail": "Visual", "object": "Visual", "thing": "Visual", 
+        "keyword": "Visual", "sweet treats": "Visual", "food": "Visual", 
+        "artwork": "Visual", "dog": "Visual", "dog's face": "Visual", "pet": "Visual",
+        "video screenshot": "Visual", "dental photo": "Visual", "hairstyles": "Visual",
+        "place": "Spatial", "places": "Spatial", "location": "Spatial", "beach": "Spatial", "pool": "Spatial", 
+        "Zakopane snow shots": "Spatial",
+        "activity": "Activity", "event": "Activity", "events": "Activity", "travel": "Activity", "trips": "Activity",
+        "wedding pictures": "Activity", "daughter's graduation": "Activity",
+        "emotion": "Emotional",
+        "album": "Content Type", "album name": "Content Type", "locked folder": "Content Type", 
+        "selected images": "Content Type", "Spotlight videos": "Content Type", "best of highlights": "Content Type",
+        "language": "Content Type", "unknown": "Content Type"
+    }
+
+    CUE_MAPPING_LOWER = {k.lower(): v for k, v in CUE_MAPPING.items()}
+
+    def standardize_cue(c):
+        c_lower = c.lower()
+        if c_lower in CUE_MAPPING_LOWER:
+            return CUE_MAPPING_LOWER[c_lower]
+        if any(x in c_lower for x in ["time", "date", "year", "month", "ago", "old"]): return "Temporal"
+        if any(x in c_lower for x in ["person", "people", "face", "family", "friend", "girl", "boy"]): return "People"
+        if any(x in c_lower for x in ["place", "location", "city", "country", "beach", "pool"]): return "Spatial"
+        if any(x in c_lower for x in ["event", "trip", "travel", "wedding", "graduation"]): return "Activity"
+        if any(x in c_lower for x in ["album", "folder", "video"]): return "Content Type"
+        return "Visual"
+
     for r in rows:
         cues = parse_list(r['memory_cues']) if mode == "remembered" else parse_list(r['memory_gaps'])
         cat = r['photo_category'] or 'unknown'
         categories.add(cat)
         for c in cues:
-            cues_set.add(c)
-            data.append({"cue": c, "category": cat})
+            std_c = standardize_cue(c)
+            cues_set.add(std_c)
+            data.append({"cue": std_c, "category": cat})
             
     cat_list = sorted(list(categories))
-    cue_list = sorted(list(cues_set))
+    
+    # Custom order to match original design
+    desired_order = ["Temporal", "Spatial", "People", "Emotional", "Visual", "Activity", "Content Type"]
+    cue_list = []
+    for c in desired_order:
+        if c in cues_set:
+            cue_list.append(c)
+    # Add any remaining ones just in case
+    for c in sorted(list(cues_set)):
+        if c not in cue_list:
+            cue_list.append(c)
     
     if not cue_list:
         return MemoryCueMatrix(categories=[], cue_types=[], matrix=[])
         
-    matrix = [[0 for _ in cat_list] for _ in cue_list]
+    matrix = [[0 for _ in cue_list] for _ in cat_list]
     for d in data:
         c_idx = cue_list.index(d['cue'])
         cat_idx = cat_list.index(d['category'])
-        matrix[c_idx][cat_idx] += 1
+        matrix[cat_idx][c_idx] += 1
         
     return MemoryCueMatrix(
         categories=cat_list,
@@ -166,7 +221,15 @@ async def get_behaviors():
     try:
         conn = get_db()
         cursor = conn.cursor()
-        rows = cursor.execute("SELECT search_strategy, outcome, COUNT(*) as count FROM metadata WHERE search_strategy IS NOT NULL AND outcome IS NOT NULL GROUP BY search_strategy, outcome").fetchall()
+        query = """
+            SELECT search_strategy, outcome, COUNT(*) as count 
+            FROM metadata 
+            WHERE search_strategy IN ('timeline_scroll', 'album_browse', 'keyword_search', 'people_search', 'location_search') 
+              AND outcome IN ('found', 'not_found', 'used_workaround', 'gave_up')
+            GROUP BY search_strategy, outcome
+            ORDER BY count DESC
+        """
+        rows = cursor.execute(query).fetchall()
         conn.close()
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"DB error in /behaviors: {e} | DB_PATH={DB_PATH}")
@@ -174,6 +237,10 @@ async def get_behaviors():
     strategies = set()
     outcomes = set()
     flow_data = []
+    
+    # Optional: Map internal keys to clean labels if desired
+    # But the frontend does `.replace(/_/g, ' ')`, so we can keep the raw keys.
+    
     for r in rows:
         strategies.add(r['search_strategy'])
         outcomes.add(r['outcome'])
@@ -184,8 +251,8 @@ async def get_behaviors():
         })
         
     return BehaviorPatterns(
-        strategies=list(strategies),
-        outcomes=list(outcomes),
+        strategies=sorted(list(strategies)),
+        outcomes=sorted(list(outcomes)),
         flow_data=flow_data
     )
 

@@ -44,7 +44,9 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 8.5,
+    "feasibility": 6.0
   },
   "CONTEXT_WITHOUT_CONTENT": {
     "name": "CONTEXT_WITHOUT_CONTENT",
@@ -91,7 +93,9 @@
         "source": "google_play_store",
         "rating": 1
       }
-    ]
+    ],
+    "ux_gap": 8.0,
+    "feasibility": 7.0
   },
   "KEYWORD_MISMATCH": {
     "name": "KEYWORD_MISMATCH",
@@ -138,7 +142,9 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 9.0,
+    "feasibility": 8.0
   },
   "PEOPLE_WITHOUT_NAMES": {
     "name": "PEOPLE_WITHOUT_NAMES",
@@ -185,7 +191,9 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 8.0,
+    "feasibility": 9.0
   },
   "SPATIAL_AMBIGUITY": {
     "name": "SPATIAL_AMBIGUITY",
@@ -232,7 +240,9 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 7.5,
+    "feasibility": 8.5
   },
   "TEMPORAL_DECAY": {
     "name": "TEMPORAL_DECAY",
@@ -279,7 +289,9 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 6.5,
+    "feasibility": 7.5
   },
   "VISUAL_MEMORY_ONLY": {
     "name": "VISUAL_MEMORY_ONLY",
@@ -326,7 +338,9 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 9.5,
+    "feasibility": 4.0
   },
   "VOLUME_OVERWHELM": {
     "name": "VOLUME_OVERWHELM",
@@ -373,6 +387,8 @@
         "source": "youtube",
         "rating": null
       }
-    ]
+    ],
+    "ux_gap": 7.0,
+    "feasibility": 5.0
   }
 }
