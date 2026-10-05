@@ -20,12 +20,17 @@ def generate_priority_matrix():
     schema = {
         "type": "OBJECT",
         "properties": {
-            "ux_gap": {"type": "INTEGER", "description": "1 to 5 scale"},
-            "feasibility": {"type": "INTEGER", "description": "1 to 5 scale"},
             "rationale": {"type": "STRING"}
         },
-        "required": ["ux_gap", "feasibility", "rationale"]
+        "required": ["rationale"]
     }
+
+    # Highest archetype frequency %, used to build the Frequency Index (0-10)
+    max_freq = max(
+        (a["frequency"]["percentage"] for a in archetype_data.values()
+         if isinstance(a, dict) and "frequency" in a),
+        default=0,
+    )
 
     results = []
     print("Evaluating archetypes...")
@@ -38,36 +43,30 @@ def generate_priority_matrix():
         severity_score = arch_info["severity"]["avg_score"]
         pattern = arch_info.get("pattern", "Unknown problem")
         
+        # Feasibility (0-10) is assessed once per archetype and stored in the archetype report
+        feasibility = arch_info.get("feasibility", 0)
+
         prompt = f"""
         Evaluate the following user problem in Google Photos:
         Archetype: {arch_name}
         Pattern: {pattern}
-        
-        Assess two factors on a 1-5 scale:
-        1. UX Gap (1 = Current app handles it perfectly, 5 = Current app fails completely at this)
-        2. Feasibility (1 = Near impossible to fix technically, 5 = Easy quick win to implement)
+        Feasibility of fixing it (0-10, 10 = easy quick win): {feasibility}
+
+        In 2-3 sentences, explain why this problem matters and how feasible it is to fix.
         """
-        
+
         gemini_res = client.generate_json(prompt, schema=schema)
-        if gemini_res:
-            ux_gap = gemini_res.get("ux_gap", 3)
-            feasibility = gemini_res.get("feasibility", 3)
-            rationale = gemini_res.get("rationale", "")
-        else:
-            ux_gap = 3
-            feasibility = 3
-            rationale = "Assessment failed."
-            
-        # To make frequency comparable to a 1-5 scale (assuming max ~25%), let's map it.
-        # Actually, formula doesn't specify. Let's just use raw percentage. If pct is 10%, 10 * 0.35 = 3.5
-        # This aligns well with 1-5 scale.
-        priority_score = (pct * 0.35) + (severity_score * 0.30) + (ux_gap * 0.20) + (feasibility * 0.15)
+        rationale = gemini_res.get("rationale", "") if gemini_res else "Assessment failed."
+
+        # Opportunity Score (0-10) = (Frequency Index x 0.4) + (Severity Index x 0.4) + (Feasibility x 0.2)
+        freq_index = (pct / max_freq * 10) if max_freq else 0
+        severity_index = severity_score / 4 * 10
+        priority_score = (freq_index * 0.4) + (severity_index * 0.4) + (feasibility * 0.2)
         
         results.append({
             "archetype": arch_name,
             "frequency": pct,
             "severity": severity_score,
-            "ux_gap": ux_gap,
             "feasibility": feasibility,
             "score": priority_score,
             "rationale": rationale
@@ -144,12 +143,14 @@ def generate_priority_matrix():
     md += "```\n\n"
 
     md += "## Prioritized Archetypes\n\n"
-    md += "| Priority | Archetype | Score | Frequency (%) | Severity (1-4) | UX Gap (1-5) | Feasibility (1-5) | Rationale |\n"
-    md += "|---|---|---|---|---|---|---|---|\n"
+    md += "**Opportunity Score (0-10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)**\n\n"
+    md += "Frequency Index = frequency % ÷ highest archetype frequency % × 10; Severity Index = avg severity (1-4) ÷ 4 × 10; Feasibility = 0-10 (10 = easy fix).\n\n"
+    md += "| Priority | Archetype | Score | Frequency (%) | Severity (1-4) | Feasibility (0-10) | Rationale |\n"
+    md += "|---|---|---|---|---|---|---|\n"
     
     for r in results:
         clean_rationale = r['rationale'].replace('\n', ' ')
-        md += f"| **{r['priority']}** | {r['archetype']} | **{r['score']:.2f}** | {r['frequency']} | {r['severity']:.1f} | {r['ux_gap']} | {r['feasibility']} | {clean_rationale} |\n"
+        md += f"| **{r['priority']}** | {r['archetype']} | **{r['score']:.2f}** | {r['frequency']} | {r['severity']:.1f} | {r['feasibility']} | {clean_rationale} |\n"
 
     with open("reports/opportunity_matrix.md", "w") as f:
         f.write(md)

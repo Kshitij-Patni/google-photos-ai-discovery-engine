@@ -411,6 +411,9 @@ a:hover {
   border-radius: var(--radius-full);
   background: var(--md-primary-container);
   color: var(--md-on-primary-container);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: var(--space-sm);
 }
 
 .archetype-card__description {

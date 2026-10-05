@@ -84,7 +84,7 @@ export default function ArchetypeDetailPage() {
       {archetype.scorecard && (
         <div style={{ marginBottom: 'var(--space-xl)' }}>
           <h3 style={{ marginBottom: 'var(--space-md)' }}>Opportunity Scorecard</h3>
-          <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(5, 1fr)' }}>
+          <div className="metrics-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
             <div className="metric-card" style={{ backgroundColor: 'var(--md-primary-container)', color: 'var(--md-on-primary-container)' }}>
               <div className="metric-card__label">Total Score</div>
               <div className="metric-card__value">{archetype.scorecard.score.toFixed(2)}</div>
@@ -98,16 +98,12 @@ export default function ArchetypeDetailPage() {
               <div className="metric-card__value">{archetype.scorecard.severity}</div>
             </div>
             <div className="metric-card">
-              <div className="metric-card__label">UX Gap (1-5)</div>
-              <div className="metric-card__value">{archetype.scorecard.ux_gap}</div>
-            </div>
-            <div className="metric-card">
-              <div className="metric-card__label">Feasibility (1-5)</div>
+              <div className="metric-card__label">Feasibility (0-10)</div>
               <div className="metric-card__value">{archetype.scorecard.feasibility}</div>
             </div>
           </div>
           <p style={{ marginTop: 'var(--space-sm)', fontSize: '0.875rem', color: 'var(--md-on-surface-variant)' }}>
-            <em>Score = (Frequency × 0.2) + (Severity × 0.5) + (UX Gap × 0.4) + (Feasibility × 0.2)</em>
+            <em>Score (0-10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)</em>
           </p>
         </div>
       )}

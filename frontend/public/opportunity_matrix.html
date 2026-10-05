@@ -76,14 +76,13 @@ pre {
 </script>
 </head><body><h1>Opportunity Prioritization Matrix</h1>
 <h2>How We Calculate the Opportunity Score</h2>
-<p>The <strong>Opportunity Score</strong> helps us decide what we should build or fix first. It ranks each problem based on four ingredients:</p>
-<p><strong>Opportunity Score = (Frequency × 0.2) + (Severity × 0.5) + (UX Gap × 0.4) + (Feasibility × 0.2)</strong></p>
+<p>The <strong>Opportunity Score</strong> helps us decide what we should build or fix first. It ranks each problem on a 0-10 scale based on three ingredients:</p>
+<p><strong>Opportunity Score (0-10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)</strong></p>
 <p>Here is what each component means in simple terms:</p>
 <ul>
-<li><strong>Frequency (How common is it?):</strong> Out of all the users, how many are experiencing this problem? A larger percentage means more users are affected. <em>(Weight: 20%)</em></li>
-<li><strong>Severity (How painful is it?):</strong> When a user hits this problem, how frustrated do they get? A mild annoyance scores low, but an issue that causes users to abandon the app scores high. <em>(Weight: 50% - the most important factor)</em></li>
-<li><strong>UX Gap (How badly are we failing expectations?):</strong> How far away is Google Photos from what the user actually expects? A massive disconnect between user expectations and reality gets a high score. <em>(Weight: 40%)</em></li>
-<li><strong>Feasibility (How easy is it for us to fix?):</strong> If we ask the engineering team to fix this, how hard will it be? A quick UI fix gets a high score, while inventing brand-new complex AI gets a lower score. <em>(Weight: 20%)</em></li>
+<li><strong>Frequency Index (How common is it?):</strong> The archetype's share of all relevant feedback, divided by the share of the most common archetype and scaled to 10. <em>(Weight: 40%)</em></li>
+<li><strong>Severity Index (How painful is it?):</strong> Average user frustration (1-4) scaled to 10. A mild annoyance scores low, while an issue that makes users abandon the app scores high. <em>(Weight: 40%)</em></li>
+<li><strong>Feasibility (How easy is it for us to fix?):</strong> Rated 0-10 for every archetype. A quick UI fix scores high, while inventing brand-new complex AI scores lower. <em>(Weight: 20%)</em></li>
 </ul>
 <h2>Frequency vs. Severity Quadrant Map (Dynamic Problem Clusters)</h2>
 <pre><code class="language-mermaid">quadrantChart
@@ -107,90 +106,89 @@ pre {
 <th>Opportunity Score</th>
 <th>How Common? (%)</th>
 <th>How Painful? (1-4)</th>
-<th>Expectation Gap (1-5)</th>
-<th>Ease of Fixing (1-5)</th>
+<th>Ease of Fixing (0-10)</th>
 <th>Why this matters</th>
 </tr>
 </thead>
 <tbody><tr>
 <td><strong>P0</strong></td>
 <td>ALBUM_FRAGMENTATION</td>
-<td><strong>6.18</strong></td>
+<td><strong>7.90</strong></td>
 <td>11.21</td>
 <td>2.7</td>
-<td>5</td>
+<td>6.0</td>
 <td>3</td>
 <td>Google Photos completely lacks native support for hierarchical folder syncing or preserving directory structures upon upload, leaving users with a massive organizational gap. While technically feasible to implement folder-to-album mapping, it requires significant changes to the core metadata architecture and cross-platform sync logic.</td>
 </tr>
 <tr>
 <td><strong>P1</strong></td>
 <td>VOLUME_OVERWHELM</td>
-<td><strong>5.23</strong></td>
+<td><strong>7.00</strong></td>
 <td>8.98</td>
 <td>2.8</td>
-<td>4</td>
+<td>5.0</td>
 <td>3</td>
 <td>Google Photos has advanced AI search, but it severely lacks hierarchical folder management, efficient bulk organization tools, and advanced filtering within selection flows, leaving users overwhelmed by massive unorganized media libraries. Implementing better filtering and folder separation is moderately feasible using existing metadata tags.</td>
 </tr>
 <tr>
 <td><strong>P1</strong></td>
 <td>KEYWORD_MISMATCH</td>
-<td><strong>3.44</strong></td>
+<td><strong>5.77</strong></td>
 <td>3.85</td>
 <td>2.8</td>
-<td>4</td>
+<td>8.0</td>
 <td>3</td>
 <td>Keyword and semantic search mismatches cause high user frustration because Google Photos has advanced AI capabilities that raise expectations, yet queries still frequently fail. While improving large-scale multi-modal embedding retrieval and natural language processing is technically complex, incremental improvements to indexing and query expansion are entirely feasible.</td>
 </tr>
 <tr>
 <td><strong>P2</strong></td>
-<td>TEMPORAL_DECAY</td>
-<td><strong>3.36</strong></td>
-<td>3.71</td>
-<td>2.7</td>
-<td>4</td>
-<td>3</td>
-<td>Users frequently struggle with finding deeply buried historical memories due to sorting quirks and timezone errors, representing a significant friction point in the user experience. While improving chronological sorting, timezone normalization, and stable album positioning is entirely feasible, it requires complex backend metadata unification and subtle UI adjustments to avoid disrupting existing user habits.</td>
-</tr>
-<tr>
-<td><strong>P2</strong></td>
 <td>PEOPLE_WITHOUT_NAMES</td>
-<td><strong>3.21</strong></td>
+<td><strong>5.60</strong></td>
 <td>3.36</td>
 <td>2.6</td>
-<td>4</td>
+<td>9.0</td>
 <td>3</td>
 <td>Google Photos often groups lookalikes or unknown faces incorrectly, and merging or correcting them requires cumbersome manual steps without robust backup protection for user labor. While core facial clustering uses advanced machine learning, adding intuitive batch-labeling tools and safeguards against data loss is moderately complex but highly achievable.</td>
 </tr>
 <tr>
 <td><strong>P2</strong></td>
+<td>TEMPORAL_DECAY</td>
+<td><strong>5.52</strong></td>
+<td>3.71</td>
+<td>2.7</td>
+<td>7.5</td>
+<td>3</td>
+<td>Users frequently struggle with finding deeply buried historical memories due to sorting quirks and timezone errors, representing a significant friction point in the user experience. While improving chronological sorting, timezone normalization, and stable album positioning is entirely feasible, it requires complex backend metadata unification and subtle UI adjustments to avoid disrupting existing user habits.</td>
+</tr>
+<tr>
+<td><strong>P2</strong></td>
 <td>SPATIAL_AMBIGUITY</td>
-<td><strong>2.26</strong></td>
+<td><strong>4.54</strong></td>
 <td>0.67</td>
 <td>2.6</td>
-<td>4</td>
+<td>8.5</td>
 <td>3</td>
 <td>Google Photos excels at timeline and map views, but completely struggles with historical or migrated photos missing crucial EXIF data, forcing users into tedious manual scrolls without robust content-based inference or custom estimation tools for dates and locations.</td>
 </tr>
 <tr>
 <td><strong>P3</strong></td>
 <td>CONTEXT_WITHOUT_CONTENT</td>
-<td><strong>2.05</strong></td>
+<td><strong>3.95</strong></td>
 <td>0.14</td>
 <td>2.5</td>
-<td>4</td>
+<td>7.0</td>
 <td>3</td>
 <td>Google Photos currently lacks robust bulk export renaming and contextual captioning tools upon upload, causing friction for users trying to organize their archives. While implementing these features is moderately feasible, it requires significant UI updates and metadata handling across multiple platforms.</td>
 </tr>
 <tr>
 <td><strong>P3</strong></td>
 <td>VISUAL_MEMORY_ONLY</td>
-<td><strong>1.99</strong></td>
+<td><strong>2.94</strong></td>
 <td>0.39</td>
 <td>2.0</td>
-<td>4</td>
+<td>4.0</td>
 <td>3</td>
-<td>Scanned physical photos lack native EXIF metadata, making automated chronological and location-based organization fail completely. While Google Photos has strong visual recognition, handling legacy photos without embedded data still requires heavy user effort or advanced contextual AI reasoning, presenting a notable UX gap with moderate technical feasibility.</td>
+<td>Scanned physical photos lack native EXIF metadata, making automated chronological and location-based organization fail completely. While Google Photos has strong visual recognition, handling legacy photos without embedded data still requires heavy user effort or advanced contextual AI reasoning, presenting a notable experience gap with moderate technical feasibility.</td>
 </tr>
 </tbody></table>
 

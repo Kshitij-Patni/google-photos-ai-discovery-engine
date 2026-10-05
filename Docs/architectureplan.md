@@ -466,16 +466,18 @@ A structured report profiling each retrieval failure archetype:
 
 #### 6.1.2 Opportunity Prioritization Matrix
 
-| Archetype | Frequency | Severity | Current UX Gap | Feasibility | **Priority Score** |
-|---|---|---|---|---|---|
-| Album Fragmentation | 11.21% (637) | High (2.7) | Very Large | Medium | **🔴 P0 (6.18)** |
-| Volume Overwhelm | 8.98% (510) | High (2.8) | Large | Medium | **🟡 P1 (5.23)** |
-| Keyword Mismatch | 3.85% (219) | High (2.8) | Large | Medium | **🟡 P1 (3.44)** |
-| Temporal Decay | 3.71% (211) | High (2.7) | Large | Medium | **🟢 P2 (3.36)** |
-| People Without Names | 3.36% (191) | Medium (2.6) | Large | Medium | **🟢 P2 (3.21)** |
-| Spatial Ambiguity | 0.67% (38) | Medium (2.6) | Large | Medium | **🟢 P2 (2.26)** |
-| Context Without Content | 0.14% (8) | High (2.5) | Large | Medium | **🟢 P3 (2.05)** |
-| Visual Memory Only | 0.39% (22) | Medium (2.0) | Large | Medium | **🟢 P3 (1.99)** |
+**Opportunity Score (0–10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)**, where Frequency Index = frequency % ÷ highest archetype frequency % × 10 and Severity Index = avg severity (1–4) ÷ 4 × 10.
+
+| Archetype | Frequency | Severity | Feasibility (0–10) | **Priority Score** |
+|---|---|---|---|---|
+| Album Fragmentation | 11.21% (637) | High (2.7) | 6.0 | **🔴 P0 (7.90)** |
+| Volume Overwhelm | 8.98% (510) | High (2.8) | 5.0 | **🟡 P1 (7.00)** |
+| Keyword Mismatch | 3.85% (219) | High (2.8) | 8.0 | **🟡 P1 (5.77)** |
+| People Without Names | 3.36% (191) | High (2.6) | 9.0 | **🟢 P2 (5.60)** |
+| Temporal Decay | 3.71% (211) | High (2.7) | 7.5 | **🟢 P2 (5.52)** |
+| Spatial Ambiguity | 0.67% (38) | High (2.6) | 8.5 | **🟢 P2 (4.54)** |
+| Context Without Content | 0.14% (8) | High (2.5) | 7.0 | **🟢 P3 (3.95)** |
+| Visual Memory Only | 0.39% (22) | Medium (2.0) | 4.0 | **🟢 P3 (2.94)** |
 
 #### 6.1.3 Memory Cue Frequency Dashboard
 

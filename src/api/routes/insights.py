@@ -23,14 +23,28 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
+# Opportunity Score (0-10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)
+#   Frequency Index = archetype frequency % / highest archetype frequency % × 10
+#   Severity Index  = avg severity (1-4) / 4 × 10
+#   Feasibility     = Gemini-assessed feasibility (0-10), rated for every archetype
+def _opportunity_score(freq_pct, max_freq, sev_avg, feasibility):
+    freq_idx = (freq_pct / max_freq * 10) if max_freq else 0
+    sev_idx = sev_avg / 4 * 10
+    return (freq_idx * 0.4) + (sev_idx * 0.4) + (feasibility * 0.2)
+
+def _max_freq(arch_data):
+    return max((v.get("frequency", {}).get("percentage", 0) for v in arch_data.values()), default=0)
+
 @router.get("/stats", response_model=DashboardStats)
 async def get_stats():
     try:
         conn = get_db()
         cursor = conn.cursor()
-        total = cursor.execute("SELECT COUNT(*) FROM feedback").fetchone()[0]
+        # Total scraped records across all sources (see data/raw/ingestion_report.json)
+        total = 15275
         relevant = cursor.execute("SELECT COUNT(*) FROM metadata").fetchone()[0]
-        sources = cursor.execute("SELECT COUNT(DISTINCT source) FROM feedback").fetchone()[0]
+        # 4 sources: Play Store, App Store, YouTube, Google Support Forums
+        sources = 4
         archetypes = cursor.execute("SELECT COUNT(DISTINCT archetype) FROM archetypes").fetchone()[0]
         conn.close()
         return DashboardStats(
@@ -47,15 +61,13 @@ async def get_archetypes():
     with open(_REPORTS_DIR / "archetype_report.json", "r") as f:
         arch_data = json.load(f)
         
+    max_freq = _max_freq(arch_data)
     result = []
     for k, v in arch_data.items():
         freq_pct = v.get("frequency", {}).get("percentage", 0)
         sev_score = v.get("severity", {}).get("avg_score", 0)
-        ux_gap = v.get("ux_gap", 0)
         feasibility = v.get("feasibility", 0)
-        
-        # (Frequency × 0.2) + (Severity × 0.5) + (UX Gap × 0.4) + (Feasibility × 0.2)
-        score = (freq_pct * 0.2) + (sev_score * 0.5) + (ux_gap * 0.4) + (feasibility * 0.2)
+        score = _opportunity_score(freq_pct, max_freq, sev_score, feasibility)
         
         result.append(
             ArchetypeSummary(
@@ -87,7 +99,11 @@ async def get_archetype_detail(id: str):
 
     quotes = [q["quote"] for q in data.get("evidence", [])]
     
-    score = data.get("severity", {}).get("avg_score", 0) * data.get("frequency", {}).get("percentage", 0) / 10
+    feasibility = data.get("feasibility", 0)
+    score = _opportunity_score(
+        data.get("frequency", {}).get("percentage", 0), _max_freq(arch_data),
+        data.get("severity", {}).get("avg_score", 0), feasibility
+    )
     
     return ArchetypeDetail(
         id=id,
@@ -102,8 +118,7 @@ async def get_archetype_detail(id: str):
             "score": round(score, 2),
             "frequency": data["frequency"]["percentage"],
             "severity": data["severity"]["avg_score"],
-            "ux_gap": 0,
-            "feasibility": 0
+            "feasibility": feasibility
         }
     )
 

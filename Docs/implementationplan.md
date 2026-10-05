@@ -1161,17 +1161,16 @@ Type your question (or 'quit' to exit):
 
 **Scoring formula**:
 ```
-Priority Score = (Frequency × 0.35) + (Severity × 0.30) + (UX Gap × 0.20) + (Feasibility × 0.15)
+Opportunity Score (0–10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)
 ```
 
 | Factor | How It's Computed |
 |---|---|
-| **Frequency** | % of corpus classified under this archetype |
-| **Severity** | Average frustration_level (mapped: low=1, medium=2, high=3, extreme=4) |
-| **UX Gap** | Gemini assessment: how well does current Google Photos address this? |
-| **Feasibility** | Gemini assessment: how technically tractable is improvement? |
+| **Frequency Index** | Archetype frequency % ÷ highest archetype frequency % × 10 |
+| **Severity Index** | Average frustration_level (low=1, medium=2, high=3, extreme=4) ÷ 4 × 10 |
+| **Feasibility** | Gemini assessment (0–10) of how technically tractable improvement is; rated for every archetype |
 
-**UX Gap and Feasibility**: Use `gemini-3.5-flash-lite` with product knowledge to rate each archetype on a 1–5 scale.
+**Feasibility**: Use `gemini-3.5-flash-lite` with product knowledge to rate each archetype on a 0–10 scale (10 = easy quick win).
 
 **Output**: `reports/opportunity_matrix.md` — sorted table with P0/P1/P2/P3 labels
 
@@ -1179,7 +1178,7 @@ Priority Score = (Frequency × 0.35) + (Severity × 0.30) + (UX Gap × 0.20) + (
 - [x] Implement `priority_matrix.py`
 - [x] Calculate frequency and severity from data
 - [x] Plot dynamically discovered problem clusters (from Phase 4.6) on a Frequency vs. Severity Quadrant Map
-- [x] Use Gemini to assess UX gap and feasibility per archetype
+- [x] Use Gemini to assess feasibility per archetype
 - [x] Apply scoring formula, rank, assign priority levels
 - [x] Generate formatted Markdown table
 - [x] Output: `reports/opportunity_matrix.md`

@@ -119,7 +119,7 @@ export default function DashboardPage() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 'var(--space-md)' }}>
         <h2>Retrieval Problem Archetypes</h2>
         <div style={{ fontSize: '0.875rem', color: 'var(--md-on-surface-variant)' }}>
-          <strong>Opportunity Score</strong> = (Frequency × 0.2) + (Severity × 0.5) + (UX Gap × 0.4) + (Feasibility × 0.2)
+          <strong>Opportunity Score</strong> (0-10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)
         </div>
       </div>
       <div className="archetypes-grid">

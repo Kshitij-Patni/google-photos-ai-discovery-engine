@@ -14,8 +14,7 @@ class Scorecard(BaseModel):
     score: float
     frequency: float
     severity: float
-    ux_gap: int
-    feasibility: int
+    feasibility: float
 
 class ArchetypeDetail(BaseModel):
     id: str

@@ -14,7 +14,6 @@ export interface Scorecard {
   score: number;
   frequency: number;
   severity: number;
-  ux_gap: number;
   feasibility: number;
 }
 
