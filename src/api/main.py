@@ -85,6 +85,19 @@ async def debug():
     main_file = Path(__file__).resolve()
     project_root = main_file.parent.parent.parent
     db_path = project_root / "data" / "discovery_engine.db"
+    chroma_path = project_root / "data" / "chroma_db"
+    embeddings_path = project_root / "data" / "enriched" / "embeddings_cache.npy"
+
+    chroma_count = 0
+    chroma_error = None
+    try:
+        import chromadb
+        client = chromadb.PersistentClient(path=str(chroma_path))
+        col = client.get_or_create_collection("retrieval_feedback")
+        chroma_count = col.count()
+    except Exception as e:
+        chroma_error = str(e)
+
     return {
         "cwd": os.getcwd(),
         "__file__": str(main_file),
@@ -93,4 +106,10 @@ async def debug():
         "db_exists": db_path.exists(),
         "db_size_bytes": db_path.stat().st_size if db_path.exists() else 0,
         "data_dir_contents": [str(p.name) for p in (project_root / "data").iterdir()] if (project_root / "data").exists() else [],
+        "chroma_path": str(chroma_path),
+        "chroma_exists": chroma_path.exists(),
+        "chroma_doc_count": chroma_count,
+        "chroma_error": chroma_error,
+        "embeddings_cache_exists": embeddings_path.exists(),
+        "embeddings_cache_size_bytes": embeddings_path.stat().st_size if embeddings_path.exists() else 0,
     }
