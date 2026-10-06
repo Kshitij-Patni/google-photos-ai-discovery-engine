@@ -62,6 +62,17 @@ app.include_router(insights.router, prefix="/api/v1")
 app.include_router(query.router, prefix="/api/v1")
 app.include_router(data.router, prefix="/api/v1")
 
+@app.on_event("startup")
+async def startup_event():
+    logger.info("Pre-loading BGEEmbedder and ChromaDB on startup...")
+    try:
+        from src.rag.vector_store import get_embedder, get_chroma_collection
+        get_chroma_collection()
+        get_embedder()
+        logger.info("Successfully pre-loaded models.")
+    except Exception as e:
+        logger.error(f"Failed to preload models: {e}")
+
 @app.get("/health")
 async def health():
     return {"status": "healthy", "chromadb": "connected"}

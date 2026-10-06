@@ -22,25 +22,31 @@ _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 DB_PATH = os.environ.get("CHROMADB_PATH") or str(_PROJECT_ROOT / "data" / "chroma_db")
 COLLECTION_NAME = "retrieval_feedback"
 
+_chroma_client = None
 def get_chroma_collection(db_path=DB_PATH, name=COLLECTION_NAME):
-    client = chromadb.PersistentClient(path=db_path)
-    return client.get_or_create_collection(
+    global _chroma_client
+    if _chroma_client is None:
+        _chroma_client = chromadb.PersistentClient(path=db_path)
+    return _chroma_client.get_or_create_collection(
         name=name,
         metadata={"hnsw:space": "cosine"}
     )
+
+_embedder_instance = None
+def get_embedder():
+    global _embedder_instance
+    if _embedder_instance is None:
+        logger.info("Initializing BGE Embedder...")
+        _embedder_instance = BGEEmbedder()
+    return _embedder_instance
 
 def chunk_and_prepare(records: list, original_embeddings: np.ndarray):
     """Tiered chunking: short -> composite, standard -> 1:1, long -> split."""
     chunks = []
     short_groups = defaultdict(list)
     
-    embedder = None 
-    def get_embedder():
-        nonlocal embedder
-        if embedder is None:
-            logger.info("Initializing BGE Embedder for Tier 1 and Tier 3 chunks...")
-            embedder = BGEEmbedder()
-        return embedder
+    def get_local_embedder():
+        return get_embedder()
 
     for i, r in enumerate(records):
         cleaned_text = r.get("cleaned_text", "")
@@ -136,7 +142,7 @@ def chunk_and_prepare(records: list, original_embeddings: np.ndarray):
     # Find chunks needing embeddings
     needs_embedding = [c for c in chunks if c["embedding"] is None]
     if needs_embedding:
-        emb = get_embedder()
+        emb = get_local_embedder()
         texts = [c["text"] for c in needs_embedding]
         logger.info(f"Computing embeddings for {len(texts)} composite/sub-chunks...")
         # compute in batches
@@ -194,7 +200,7 @@ def build_index(enriched_json_path: str, embeddings_cache_path: str, db_path: st
 
 def search_similar(query_text: str, n: int = 10, filters: dict = None, db_path: str = DB_PATH):
     """Semantic search with optional metadata filters."""
-    embedder = BGEEmbedder()
+    embedder = get_embedder()
     query_embedding = embedder.embed_query(query_text)
     
     collection = get_chroma_collection(db_path)
