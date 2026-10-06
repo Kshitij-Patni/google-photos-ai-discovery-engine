@@ -7,11 +7,11 @@ import type { BehaviorPatterns } from '@/lib/types';
 const OUTCOME_COLORS: Record<string, string> = {
   'Found': '#34a853',
   'Not Found': '#ea4335',
-  'Gave Up': '#d93025',
+  'Gave Up': '#a142f4',
   'Used Workaround': '#fbbc04',
   'found': '#34a853',
   'not_found': '#ea4335',
-  'gave_up': '#d93025',
+  'gave_up': '#a142f4',
   'workaround': '#fbbc04',
   'used_workaround': '#fbbc04',
 };
@@ -42,11 +42,30 @@ export default function BehaviorsPage() {
   }
 
   const strategyTotals: Record<string, number> = {};
+  const strategyOutcomes: Record<string, { outcome: string, count: number, percentage: number }[]> = {};
+  
   if (data) {
     data.flow_data.forEach(flow => {
       const strategyKey = String(flow.strategy || flow.source || '');
       const count = flow.count || flow.value || 0;
       strategyTotals[strategyKey] = (strategyTotals[strategyKey] || 0) + count;
+    });
+
+    data.flow_data.forEach(flow => {
+      const strategyKey = String(flow.strategy || flow.source || '');
+      const outcomeKey = String(flow.outcome || flow.target || '');
+      const count = flow.count || flow.value || 0;
+      const percentage = strategyTotals[strategyKey] ? Math.round((count / strategyTotals[strategyKey]) * 100) : 0;
+      
+      if (!strategyOutcomes[strategyKey]) {
+        strategyOutcomes[strategyKey] = [];
+      }
+      strategyOutcomes[strategyKey].push({ outcome: outcomeKey, count, percentage });
+    });
+
+    // Sort outcomes by percentage descending for consistent bar rendering
+    Object.keys(strategyOutcomes).forEach(key => {
+      strategyOutcomes[key].sort((a, b) => b.percentage - a.percentage);
     });
   }
 
@@ -74,91 +93,64 @@ export default function BehaviorsPage() {
             }}
           >
             <h3 style={{ marginBottom: 'var(--space-lg)', textAlign: 'center' }}>Strategy → Outcome Flow</h3>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                gap: 'var(--space-xl)',
-                alignItems: 'stretch',
-                minHeight: 300,
-              }}
-            >
-              {/* Strategies Column */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', flex: 1 }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--md-on-surface-variant)', textTransform: 'uppercase', marginBottom: 'var(--space-sm)' }}>
-                  Search Strategy
+            <div style={{ display: 'flex', gap: 'var(--space-2xl)', flexWrap: 'wrap' }}>
+              
+              {/* Strategies Flow Column */}
+              <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', minWidth: '300px' }}>
+                <div style={{ display: 'flex', gap: 'var(--space-xl)', marginBottom: '4px' }}>
+                  <div style={{ flex: 1, fontSize: '0.75rem', fontWeight: 600, color: 'var(--md-on-surface-variant)', textTransform: 'uppercase' }}>Search Strategy</div>
+                  <div style={{ flex: 2, fontSize: '0.75rem', fontWeight: 600, color: 'var(--md-on-surface-variant)', textTransform: 'uppercase' }}>Outcome Flow</div>
                 </div>
-                {data.strategies.map((strategy) => (
-                  <div
-                    key={strategy}
-                    style={{
-                      padding: 'var(--space-sm) var(--space-md)',
-                      background: 'var(--md-primary-container)',
-                      borderRadius: 'var(--radius-sm)',
-                      fontSize: '0.8125rem',
-                      fontWeight: 500,
-                      color: 'var(--md-on-primary-container)',
-                      textTransform: 'capitalize',
-                    }}
-                  >
-                    {strategy.replace(/_/g, ' ')}
-                  </div>
-                ))}
-              </div>
-
-              {/* Flow Arrows */}
-              <div
-                style={{
-                  flex: 2,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  gap: 'var(--space-sm)',
-                }}
-              >
-                {data.flow_data.slice(0, 8).map((flow, idx) => {
-                  const outcomeKey = String(flow.outcome || flow.target || '');
-                  const strategyKey = String(flow.strategy || flow.source || '');
-                  const color = OUTCOME_COLORS[outcomeKey] || 'var(--md-outline)';
-                  const count = flow.count || flow.value || 0;
-                  const percentage = strategyTotals[strategyKey] ? Math.round((count / strategyTotals[strategyKey]) * 100) : 0;
+                
+                {data.strategies.map(strategyKey => {
+                  const outcomes = strategyOutcomes[strategyKey] || [];
                   return (
-                    <div
-                      key={idx}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 'var(--space-sm)',
-                        padding: '2px var(--space-sm)',
-                      }}
-                    >
-                      <span style={{ fontSize: '0.75rem', color: 'var(--md-on-surface-variant)', minWidth: 100, textTransform: 'capitalize' }}>
+                    <div key={strategyKey} style={{ display: 'flex', gap: 'var(--space-xl)', alignItems: 'center' }}>
+                      <div style={{
+                        flex: 1,
+                        padding: 'var(--space-sm) var(--space-md)',
+                        background: 'var(--md-primary-container)',
+                        borderRadius: 'var(--radius-sm)',
+                        fontSize: '0.8125rem',
+                        fontWeight: 500,
+                        color: 'var(--md-on-primary-container)',
+                        textTransform: 'capitalize',
+                      }}>
                         {strategyKey.replace(/_/g, ' ')}
-                      </span>
-                      <div
-                        style={{
-                          flex: 1,
-                          height: Math.max(4, Math.min(percentage / 2, 24)),
-                          backgroundColor: color,
-                          borderRadius: 'var(--radius-full)',
-                          opacity: 0.7,
-                        }}
-                      />
-                      <span style={{ fontSize: '0.75rem', color: 'var(--md-on-surface-variant)', minWidth: 80, textTransform: 'capitalize' }}>
-                        {outcomeKey.replace(/_/g, ' ')}
-                      </span>
-                      <span style={{ fontSize: '0.6875rem', color: 'var(--md-on-surface-variant)' }}>
-                        {percentage}% ({count})
-                      </span>
+                      </div>
+                      <div style={{ flex: 2 }}>
+                        <div style={{ display: 'flex', width: '100%', height: 28, borderRadius: 'var(--radius-full)', overflow: 'hidden', backgroundColor: 'var(--md-surface-variant)' }}>
+                          {outcomes.map(out => (
+                            <div 
+                              key={out.outcome} 
+                              style={{ 
+                                width: `${out.percentage}%`, 
+                                backgroundColor: OUTCOME_COLORS[out.outcome] || 'var(--md-outline)',
+                                height: '100%',
+                                transition: 'width 0.3s ease',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: '#fff',
+                                fontSize: '0.75rem',
+                                fontWeight: 600
+                              }}
+                              title={`${out.outcome.replace(/_/g, ' ')}: ${out.percentage}% (${out.count})`}
+                            >
+                              {out.percentage >= 10 ? `${out.percentage}%` : ''}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* Outcomes Column */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', flex: 1 }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--md-on-surface-variant)', textTransform: 'uppercase', marginBottom: 'var(--space-sm)' }}>
-                  Outcome
+              {/* Outcomes Legend Column */}
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', minWidth: '150px' }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--md-on-surface-variant)', textTransform: 'uppercase', marginBottom: '4px' }}>
+                  Legend (Outcomes)
                 </div>
                 {data.outcomes.map((outcome) => {
                   const color = OUTCOME_COLORS[outcome] || 'var(--md-outline)';
@@ -167,12 +159,15 @@ export default function BehaviorsPage() {
                       key={outcome}
                       style={{
                         padding: 'var(--space-sm) var(--space-md)',
-                        background: `${color}20`,
-                        borderLeft: `3px solid ${color}`,
+                        background: `${color}15`,
+                        borderLeft: `4px solid ${color}`,
                         borderRadius: 'var(--radius-sm)',
                         fontSize: '0.8125rem',
                         fontWeight: 500,
                         textTransform: 'capitalize',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
                       }}
                     >
                       {outcome.replace(/_/g, ' ')}
@@ -185,21 +180,22 @@ export default function BehaviorsPage() {
 
           {/* Data Table */}
           <h3 style={{ marginBottom: 'var(--space-md)' }}>Strategy Breakdown</h3>
-          <div style={{ overflowX: 'auto' }}>
+          <div style={{ overflowX: 'auto', background: 'var(--md-surface)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--md-outline-variant)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  {['Strategy', 'Percentage (Count)', 'Outcome', ''].map((header) => (
+                  {['Strategy', 'Total Uses', 'Outcome Distribution', 'Details'].map((header) => (
                     <th
                       key={header}
                       style={{
                         padding: 'var(--space-md)',
                         textAlign: 'left',
-                        borderBottom: '2px solid var(--md-outline)',
+                        borderBottom: '2px solid var(--md-outline-variant)',
                         fontSize: '0.75rem',
                         fontWeight: 600,
                         color: 'var(--md-on-surface-variant)',
                         textTransform: 'uppercase',
+                        background: 'var(--md-surface-container-low)'
                       }}
                     >
                       {header}
@@ -208,38 +204,50 @@ export default function BehaviorsPage() {
                 </tr>
               </thead>
               <tbody>
-                {data.flow_data.map((row, idx) => {
-                  const strategyKey = String(row.strategy || row.source || '');
-                  const count = row.count || row.value || 0;
-                  const percentage = strategyTotals[strategyKey] ? Math.round((count / strategyTotals[strategyKey]) * 100) : 0;
+                {data.strategies.map((strategyKey, idx) => {
+                  const outcomes = strategyOutcomes[strategyKey] || [];
+                  const total = strategyTotals[strategyKey] || 0;
                   return (
                     <tr
-                      key={idx}
+                      key={strategyKey}
                       style={{
-                        backgroundColor: idx % 2 === 0 ? 'var(--md-surface)' : 'var(--md-surface-dim)',
+                        borderBottom: idx === data.strategies.length - 1 ? 'none' : '1px solid var(--md-outline-variant)',
                       }}
                     >
-                      <td style={{ padding: 'var(--space-md)', fontSize: '0.875rem', fontWeight: 500, textTransform: 'capitalize' }}>
+                      <td style={{ padding: 'var(--space-md)', fontSize: '0.875rem', fontWeight: 600, textTransform: 'capitalize' }}>
                         {strategyKey.replace(/_/g, ' ')}
                       </td>
-                      <td style={{ padding: 'var(--space-md)', fontSize: '0.875rem' }}>
-                        <strong>{percentage}%</strong> ({count})
+                      <td style={{ padding: 'var(--space-md)', fontSize: '0.875rem', color: 'var(--md-on-surface-variant)' }}>
+                        <strong>{total}</strong>
                       </td>
-                    <td style={{ padding: 'var(--space-md)' }}>
-                      <span
-                        className="badge"
-                        style={{
-                          backgroundColor: `${OUTCOME_COLORS[String(row.outcome || row.target || '')] || 'var(--md-outline)'}20`,
-                          color: OUTCOME_COLORS[String(row.outcome || row.target || '')] || 'var(--md-on-surface-variant)',
-                        }}
-                      >
-                        {String(row.outcome || row.target || '').replace(/_/g, ' ')}
-                      </span>
-                    </td>
-                    <td style={{ padding: 'var(--space-md)' }}></td>
-                  </tr>
-                );
-              })}
+                      <td style={{ padding: 'var(--space-md)', minWidth: '200px' }}>
+                        <div style={{ display: 'flex', width: '100%', height: 10, borderRadius: 'var(--radius-full)', overflow: 'hidden', backgroundColor: 'var(--md-surface-variant)' }}>
+                          {outcomes.map(out => (
+                            <div 
+                              key={out.outcome} 
+                              style={{ 
+                                width: `${out.percentage}%`, 
+                                backgroundColor: OUTCOME_COLORS[out.outcome] || 'var(--md-outline)',
+                                height: '100%'
+                              }}
+                              title={`${out.outcome.replace(/_/g, ' ')}: ${out.percentage}% (${out.count})`}
+                            />
+                          ))}
+                        </div>
+                      </td>
+                      <td style={{ padding: 'var(--space-md)' }}>
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                          {outcomes.map(out => (
+                            <span key={out.outcome} style={{ fontSize: '0.75rem', color: 'var(--md-on-surface)', display: 'flex', alignItems: 'center', gap: '4px', whiteSpace: 'nowrap' }}>
+                              <span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', backgroundColor: OUTCOME_COLORS[out.outcome] }} />
+                              {out.percentage}% {out.outcome.replace(/_/g, ' ')}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
