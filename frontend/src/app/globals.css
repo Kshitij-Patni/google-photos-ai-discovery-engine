@@ -754,11 +754,56 @@ a:hover {
 
 @media (max-width: 768px) {
   .sidebar {
+    display: flex;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 64px;
+    border-right: none;
+    border-top: 1px solid var(--md-outline);
+    padding: 0;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    z-index: 100;
+  }
+
+  .sidebar__nav {
+    flex-direction: row;
+    gap: 0;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .sidebar__link {
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 12px;
+    gap: 4px;
+    border-radius: 0;
+    min-width: 72px;
+  }
+
+  .sidebar__link span:not(.sidebar__icon) {
+    display: block;
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+
+  .sidebar__link--active::before {
     display: none;
+  }
+  
+  .sidebar__link--active {
+    background: transparent;
+    color: var(--md-primary);
   }
 
   .main-content {
     margin-left: 0;
+    margin-bottom: 64px;
     padding: var(--space-md);
   }
 
@@ -773,5 +818,14 @@ a:hover {
   .hero {
     flex-direction: column;
     gap: var(--space-md);
+  }
+
+  .topbar__logo-text {
+    display: none;
+  }
+  
+  .topbar__google-title {
+    font-size: 1rem;
+    text-align: right;
   }
 }

@@ -103,6 +103,7 @@ export default function DashboardPage() {
         background: 'var(--md-surface-container-low)',
         borderRadius: 'var(--radius-md)',
         border: '1px solid var(--md-outline)',
+        flexWrap: 'wrap'
       }}>
         <span style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', color: 'var(--md-on-surface-variant)', whiteSpace: 'nowrap' }}>
           Data Sources
@@ -116,7 +117,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Archetypes Grid */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 'var(--space-md)' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 'var(--space-md)' }}>
         <h2>Retrieval Problem Archetypes</h2>
         <div style={{ fontSize: '0.875rem', color: 'var(--md-on-surface-variant)' }}>
           <strong>Opportunity Score</strong> (0-10) = (Frequency Index × 0.4) + (Severity Index × 0.4) + (Feasibility × 0.2)
