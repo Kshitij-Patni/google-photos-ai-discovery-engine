@@ -2,7 +2,7 @@ from sentence_transformers import SentenceTransformer
 import torch
 
 class BGEEmbedder:
-    def __init__(self, model_name: str = "BAAI/bge-large-en-v1.5", device: str = None):
+    def __init__(self, model_name: str = "BAAI/bge-small-en-v1.5", device: str = None):
         """Initializes the BGE Embedder model."""
         if not device:
             if torch.backends.mps.is_available():

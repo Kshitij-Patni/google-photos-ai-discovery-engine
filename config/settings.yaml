@@ -19,8 +19,8 @@ relevance_classifier:
   classification_batch_size: 32          # Records per batch (local model, no rate limits)
 
 embeddings:
-  model: "BAAI/bge-large-en-v1.5"
-  dimension: 768
+  model: "BAAI/bge-small-en-v1.5"
+  dimension: 384
   instruction_prefix: "Represent this sentence for retrieving relevant documents: "
   batch_size: 64                         # Sentences per embedding batch
   device: "mps"                          # Apple Silicon GPU; use "cuda" for NVIDIA, "cpu" otherwise
