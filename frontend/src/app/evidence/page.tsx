@@ -59,7 +59,7 @@ export default function EvidencePage() {
   }
 
   return (
-    <div style={{ display: 'flex', gap: 0 }}>
+    <div className="evidence-layout" style={{ display: 'flex', gap: 0 }}>
       {/* Filter Panel */}
       <div className="filter-panel" style={{ minHeight: 'calc(100vh - var(--topbar-height) - var(--space-xl) * 2)' }}>
         {/* Source */}
@@ -186,9 +186,10 @@ export default function EvidencePage() {
       </div>
 
       {/* Evidence Feed */}
-      <div style={{ flex: 1, padding: '0 var(--space-lg)' }}>
+      <div className="evidence-feed" style={{ flex: 1, padding: '0 var(--space-lg)' }}>
         {/* Header */}
         <div
+          className="evidence-header-actions"
           style={{
             display: 'flex',
             justifyContent: 'space-between',

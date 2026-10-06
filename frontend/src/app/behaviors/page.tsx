@@ -93,7 +93,7 @@ export default function BehaviorsPage() {
             }}
           >
             <h3 style={{ marginBottom: 'var(--space-lg)', textAlign: 'center' }}>Strategy → Outcome Flow</h3>
-            <div style={{ display: 'flex', gap: 'var(--space-2xl)', flexWrap: 'wrap' }}>
+            <div className="sankey-container" style={{ display: 'flex', gap: 'var(--space-2xl)', flexWrap: 'wrap' }}>
               
               {/* Strategies Flow Column */}
               <div style={{ flex: 3, display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', minWidth: '300px' }}>
@@ -105,8 +105,8 @@ export default function BehaviorsPage() {
                 {data.strategies.map(strategyKey => {
                   const outcomes = strategyOutcomes[strategyKey] || [];
                   return (
-                    <div key={strategyKey} style={{ display: 'flex', gap: 'var(--space-xl)', alignItems: 'center' }}>
-                      <div style={{
+                    <div key={strategyKey} className="sankey-row" style={{ display: 'flex', gap: 'var(--space-xl)', alignItems: 'center' }}>
+                      <div className="sankey-label" style={{
                         flex: 1,
                         padding: 'var(--space-sm) var(--space-md)',
                         background: 'var(--md-primary-container)',
@@ -118,7 +118,7 @@ export default function BehaviorsPage() {
                       }}>
                         {strategyKey.replace(/_/g, ' ')}
                       </div>
-                      <div style={{ flex: 2 }}>
+                      <div className="sankey-bar" style={{ flex: 2 }}>
                         <div style={{ display: 'flex', width: '100%', height: 28, borderRadius: 'var(--radius-full)', overflow: 'hidden', backgroundColor: 'var(--md-surface-variant)' }}>
                           {outcomes.map(out => (
                             <div 
@@ -148,7 +148,7 @@ export default function BehaviorsPage() {
               </div>
 
               {/* Outcomes Legend Column */}
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', minWidth: '150px' }}>
+              <div className="sankey-legend" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)', minWidth: '150px' }}>
                 <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--md-on-surface-variant)', textTransform: 'uppercase', marginBottom: '4px' }}>
                   Legend (Outcomes)
                 </div>

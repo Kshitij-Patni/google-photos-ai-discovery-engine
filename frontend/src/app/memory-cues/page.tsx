@@ -66,7 +66,7 @@ export default function MemoryCuesPage() {
           <h1 className="hero__title">Memory Cue Analysis</h1>
           <p className="hero__subtitle">What Users Remember vs. What They Forget</p>
         </div>
-        <div style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
+        <div className="hero-actions" style={{ display: 'flex', gap: 'var(--space-sm)', alignItems: 'center' }}>
           <button
             className={`chip ${mode === 'remembered' ? 'chip--selected' : ''}`}
             onClick={() => setMode('remembered')}

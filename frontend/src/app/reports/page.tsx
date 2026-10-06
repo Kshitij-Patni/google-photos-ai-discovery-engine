@@ -66,7 +66,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: 'var(--space-md)', marginBottom: 'var(--space-2xl)', borderBottom: '1px solid var(--md-outline-variant)', paddingBottom: '0' }}>
+      <div className="reports-tabs" style={{ display: 'flex', gap: 'var(--space-md)', marginBottom: 'var(--space-2xl)', borderBottom: '1px solid var(--md-outline-variant)', paddingBottom: '0' }}>
         <button 
           onClick={() => setActiveTab('charts')}
           style={{
@@ -104,7 +104,7 @@ export default function ReportsPage() {
       </div>
 
       {activeTab === 'charts' && (
-        <div style={{
+        <div className="chart-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(600px, 1fr))',
           gap: 'var(--space-xl)',
