@@ -83,6 +83,7 @@ Rules:
 - Only use categorical values that appear in the 'values' lists. Map the user's wording to the closest listed value(s) (e.g. 'frustrated' => frustration_level IN ('high','extreme'); 'sharing' => sharing_intent / feature_mentioned / relevant text, NOT an invented archetype).
 - For topic words with no matching category, use LIKE on feedback.cleaned_text (case-insensitive).
 - 'users' means rows of feedback; count with COUNT(DISTINCT feedback.id).
+- For 'most common' style aggregates, exclude placeholders: values equal to 'unknown', '[]', '["unknown"]' or ''. For JSON-list columns (memory_gaps, memory_cues) use LIKE to count individual items (e.g. memory_gaps LIKE '%exact date%'), and return LIMIT 5-10 rows.
 
 User Query: {query}
 
@@ -112,8 +113,16 @@ Synthesize a comprehensive, professional, and clear response.
 - Answer qualitative questions using examples and insights.
 - If the question requires both, blend the numbers with the quotes.
 - Always cite your sources by referencing the quote if you use qualitative data.
+- NEVER reply that there is no data just because the retrieved quotes are an imperfect match. Use whatever numbers and quotes are relevant, infer the main themes, and state any caveat briefly. Note that memory_gaps values like '[]' mean no gap was recorded; ignore them and focus on the real gaps (e.g. exact date, keyword, person name, location, album).
 
 Response format: Markdown.
+"""
+
+REWRITE_PROMPT = """
+We search a corpus of Google Photos app-store reviews and comments about finding/retrieving photos.
+Rewrite the analyst's question as 3 short, first-person sentences a real user might write in a review that answers it. Be concrete and use natural vocabulary (e.g. for 'what do users forget most' write things like 'I can't remember the exact date or the name of the person or place in the photo, so I can't find it').
+
+Question: {query}
 """
 
 class SQLGenerator:
@@ -132,6 +141,17 @@ class QueryEngine:
         self.router = QueryRouter()
         self.sql_client = GeminiClient(model_name="gemini-flash-lite-latest", temperature=0.0)
         self.synthesis_client = GeminiClient(model_name="gemini-flash-lite-latest", temperature=0.3)
+
+    def _rewrite_for_retrieval(self, query: str) -> str:
+        """HyDE-style rewrite so vague analyst questions embed close to real reviews."""
+        try:
+            schema = {"type": "OBJECT", "properties": {"text": {"type": "STRING"}}, "required": ["text"]}
+            res = self.sql_client.generate_json(REWRITE_PROMPT.format(query=query), schema=schema, max_retries=2)
+            if res and res.get("text"):
+                return f"{query}. {res['text']}"
+        except Exception as e:
+            logger.error(f"[Engine] Rewrite failed: {e}")
+        return query
         
     def _generate_sql(self, query: str, filters: dict = None) -> str:
         schema = {
@@ -177,7 +197,7 @@ class QueryEngine:
         if decision in ["qualitative", "hybrid"]:
             logger.info("[Engine] Searching vector store...")
             try:
-                vec_results = search_similar(query, n=5, filters=filters)
+                vec_results = search_similar(self._rewrite_for_retrieval(query), n=8, filters=filters)
                 # Format vector results
                 formatted_results = []
                 for doc, meta in zip(vec_results['documents'][0], vec_results['metadatas'][0]):

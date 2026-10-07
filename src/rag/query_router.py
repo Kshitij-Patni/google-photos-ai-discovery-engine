@@ -14,12 +14,12 @@ The system has two databases:
 Your job is to analyze the user's query and classify it into one of three routing decisions:
 - "quantitative": If the query only requires counts, aggregations, or structured data (e.g., "How many users complained about albums?", "What is the breakdown of frustration levels?").
 - "qualitative": If the query requires fetching textual examples, quotes, or semantic search (e.g., "Why are users frustrated with sharing?", "Give me examples of storage issues.").
-- "hybrid": If the query requires BOTH counting and semantic context (e.g., "How many users mentioned X, and what were their main complaints?", "Find the top 3 issues and give examples for each.").
+- "hybrid": If the query requires BOTH counting and semantic context (e.g., "How many users mentioned X, and what were their main complaints?", "Find the top 3 issues and give examples for each."). Prefer "hybrid" for open-ended 'what do users ... most / commonly / top' questions, since they need both frequencies and real quotes.
 
 You must also extract any obvious filtering parameters mentioned in the query (e.g., archetype, frustration_level).
 
-Valid archetypes: ['ALBUM_FRAGMENTATION', 'SHARE_FRICTION', 'VOLUME_OVERWHELM', 'STORAGE_ANXIETY', 'TEMPORAL_DECAY', 'SOCIAL_PRESSURE', 'unknown']
-Valid frustration levels: ['high', 'medium', 'low', 'unknown']
+Valid archetypes: ['ALBUM_FRAGMENTATION', 'CONTEXT_WITHOUT_CONTENT', 'KEYWORD_MISMATCH', 'PEOPLE_WITHOUT_NAMES', 'SPATIAL_AMBIGUITY', 'TEMPORAL_DECAY', 'VISUAL_MEMORY_ONLY', 'VOLUME_OVERWHELM', 'unknown']
+Valid frustration levels: ['extreme', 'high', 'medium', 'low', 'unknown']
 
 User Query: {query}
 """
