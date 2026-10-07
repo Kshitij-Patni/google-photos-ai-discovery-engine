@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Google Photos AI Discovery Engine — Walkthrough</title>
+  <meta name="description" content="Complete interactive walkthrough: 15,275 reviews analysed, 8 failure archetypes, live Q&A demo."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0d14;--surface:#111520;--surface2:#161b2a;
+      --border:rgba(255,255,255,.08);--text:#e8eaf0;--muted:#6b7280;
+      --accent:#4f8ef7;--accent2:#8b5cf6;--green:#10b981;--orange:#f59e0b;
+      --red:#ef4444;--cyan:#06b6d4;--pink:#ec4899;
+      --r:12px;--rl:20px;--shadow:0 4px 32px rgba(0,0,0,.5);
+      --glow:0 0 40px rgba(79,142,247,.15);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+    a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+    code{font-family:'JetBrains Mono',monospace}
+    ::-webkit-scrollbar{width:5px;height:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:3px}
+
+    /* HERO */
+    .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5rem 2rem 4rem;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -20%,rgba(79,142,247,.18),transparent 70%),radial-gradient(ellipse 50% 40% at 90% 80%,rgba(139,92,246,.12),transparent 60%)}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 90% 70% at 50% 30%,black,transparent)}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(79,142,247,.12);border:1px solid rgba(79,142,247,.3);color:var(--accent);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .9rem;border-radius:100px;margin-bottom:2rem;position:relative}
+    .badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .hero h1{font-size:clamp(2.4rem,6vw,5rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--accent) 60%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;margin-bottom:1.5rem}
+    .hero-sub{max-width:680px;font-size:1.1rem;color:var(--muted);margin-bottom:3rem;position:relative}
+    .hero-stats{display:flex;gap:2.5rem;flex-wrap:wrap;justify-content:center;position:relative;margin-bottom:3rem}
+    .stat-num{font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;line-height:1.1}
+    .stat-label{font-size:.72rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+    .hero-cta{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;position:relative}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.75rem;border-radius:100px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;border:none}
+    .btn-p{background:var(--accent);color:#fff;box-shadow:0 0 24px rgba(79,142,247,.4)}
+    .btn-p:hover{transform:translateY(-2px);box-shadow:0 4px 32px rgba(79,142,247,.6);text-decoration:none;color:#fff}
+    .btn-g{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--text)}
+    .btn-g:hover{background:rgba(255,255,255,.1);transform:translateY(-2px);text-decoration:none;color:var(--text)}
+    .scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;color:var(--muted);font-size:.7rem;letter-spacing:.1em;animation:bob 2s ease-in-out infinite}
+    @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+    /* TOC */
+    .toc{position:sticky;top:0;z-index:100;background:rgba(10,13,20,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;display:flex;align-items:center;gap:.2rem;overflow-x:auto}
+    .toc a{display:flex;align-items:center;gap:.4rem;padding:.8rem 1rem;font-size:.78rem;font-weight:500;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s}
+    .toc a:hover,.toc a.active{color:var(--accent);border-bottom-color:var(--accent);text-decoration:none}
+    .toc .n{background:rgba(79,142,247,.15);border-radius:4px;font-size:.62rem;font-weight:700;padding:.1rem .3rem;color:var(--accent)}
+
+    /* LAYOUT */
+    .wrap{max-width:1200px;margin:0 auto;padding:0 2rem}
+    .section{padding:6rem 0;border-bottom:1px solid var(--border)}
+    .section-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+    .section-tag::before{content:'';width:24px;height:2px;background:var(--accent);border-radius:1px}
+    .section h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.025em;line-height:1.2;margin-bottom:1rem}
+    .lead{font-size:1rem;color:var(--muted);max-width:680px;margin-bottom:3rem}
+
+    /* CARDS */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;transition:border-color .2s,transform .2s,box-shadow .2s}
+    .card:hover{border-color:rgba(79,142,247,.3);transform:translateY(-2px);box-shadow:var(--shadow),var(--glow)}
+    .card-icon{width:48px;height:48px;border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
+    .card h3{font-size:1rem;font-weight:700;margin-bottom:.5rem}
+    .card p{font-size:.88rem;color:var(--muted)}
+
+    /* GRID UTILS */
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+    .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+    @media(max-width:768px){.g2,.g3{grid-template-columns:1fr}.pipeline{flex-direction:column}.ps::after{content:'↓';position:static;display:block;text-align:center;margin:.5rem 0}.ps:first-child{border-radius:var(--r) var(--r) 0 0}.ps:last-child{border-radius:0 0 var(--r) var(--r)}}
+    .mt2{margin-top:2rem}.mt3{margin-top:3rem}
+
+    /* PIPELINE */
+    .pipeline{display:flex;align-items:stretch;overflow-x:auto;padding-bottom:1rem}
+    .ps{flex:1;min-width:150px;background:var(--surface);border:1px solid var(--border);padding:1.5rem 1.25rem;text-align:center;position:relative;transition:background .2s}
+    .ps:first-child{border-radius:var(--r) 0 0 var(--r)}.ps:last-child{border-radius:0 var(--r) var(--r) 0}
+    .ps:hover{background:var(--surface2)}
+    .ps::after{content:'→';position:absolute;right:-1rem;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem;z-index:1}
+    .ps:last-child::after{display:none}
+    .ps-icon{font-size:1.8rem;margin-bottom:.5rem}
+    .ps-name{font-size:.8rem;font-weight:700;margin-bottom:.3rem}
+    .ps-num{font-size:.7rem;color:var(--muted)}
+
+    /* SCREEN VIEWER */
+    .viewer{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;box-shadow:var(--shadow)}
+    .vtabs{display:flex;overflow-x:auto;background:var(--surface2);border-bottom:1px solid var(--border);padding:0 1rem}
+    .vtab{padding:.8rem 1.1rem;font-size:.78rem;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:all .15s;background:none;border-left:none;border-right:none;border-top:none}
+    .vtab.active{color:var(--accent);border-bottom-color:var(--accent)}
+    .vtab:hover{color:var(--text)}
+    .vimg{width:100%;display:block;max-height:600px;object-fit:cover;object-position:top}
+    .vcap{padding:1.25rem 1.5rem;display:flex;align-items:flex-start;gap:1rem}
+    .vcap-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+    .vcap strong{display:block;font-size:.9rem;margin-bottom:.25rem}
+    .vcap p{font-size:.83rem;color:var(--muted)}
+    .vp{display:none}.vp.active{display:block}
+
+    /* ARCHETYPE CARDS */
+    .ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+    .ac{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:1.75rem;transition:all .2s;position:relative;overflow:hidden}
+    .ac:hover{border-color:var(--c,var(--accent));transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,.4),0 0 0 1px var(--c,var(--accent))}
+    .ac::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c,var(--accent))}
+    .ac-rank{display:inline-flex;align-items:center;gap:.35rem;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--accent));background:rgba(255,255,255,.05);padding:.2rem .6rem;border-radius:100px;margin-bottom:.75rem}
+    .ac h3{font-size:1rem;font-weight:700;margin-bottom:.75rem;line-height:1.3}
+    .ac-meta{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem}
+    .mt-tag{font-size:.7rem;font-weight:500;padding:.18rem .5rem;border-radius:6px;background:rgba(255,255,255,.06)}
+    .bar-wrap{margin-bottom:.7rem}
+    .bar-lbl{display:flex;justify-content:space-between;font-size:.7rem;color:var(--muted);margin-bottom:.25rem}
+    .bar-track{height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+    .bar-fill{height:100%;border-radius:3px;background:var(--c,var(--accent));transition:width 1s cubic-bezier(.4,0,.2,1)}
+    .ac-quote{font-size:.78rem;color:var(--muted);font-style:italic;border-left:2px solid var(--c,var(--accent));padding-left:.75rem;margin-top:.75rem}
+
+    /* MATRIX TABLE */
+    .mtable-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);padding:2rem;overflow-x:auto}
+    .mtable{width:100%;border-collapse:collapse;font-size:.85rem}
+    .mtable th{text-align:left;padding:.6rem 1rem;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+    .mtable td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.04)}
+    .mtable tr:hover td{background:rgba(255,255,255,.02)}
+    .ob{display:inline-flex;align-items:center;justify-content:center;width:38px;height:22px;border-radius:5px;font-size:.78rem;font-weight:700}
+    .sh{color:var(--red)}.sm{color:var(--orange)}
+
+    /* MEMORY CUES */
+    .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1rem}
+    .cc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;text-align:center;transition:all .2s}
+    .cc:hover{border-color:rgba(79,142,247,.3);transform:translateY(-2px)}
+    .cc-icon{font-size:2rem;margin-bottom:.7rem}
+    .cc-name{font-size:.9rem;font-weight:700;margin-bottom:.35rem}
+    .cc-rate{font-size:1.5rem;font-weight:800;color:var(--red);margin-bottom:.3rem}
+    .cc-rate.ok{color:var(--green)}
+    .cc-desc{font-size:.76rem;color:var(--muted);line-height:1.5}
+
+    /* JOURNEY */
+    .journey{position:relative;padding-left:2.5rem}
+    .journey::before{content:'';position:absolute;left:.75rem;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--accent),var(--accent2),var(--red))}
+    .jstep{position:relative;margin-bottom:2.5rem}
+    .jstep::before{content:'';position:absolute;left:-1.85rem;top:.3rem;width:14px;height:14px;border-radius:50%;background:var(--sc,var(--accent));border:2px solid var(--bg);box-shadow:0 0 8px var(--sc,var(--accent))}
+    .jphase{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sc,var(--accent));margin-bottom:.3rem}
+    .jstep h4{font-size:1rem;font-weight:700;margin-bottom:.4rem}
+    .jstep p{font-size:.85rem;color:var(--muted)}
+    .jstat{display:inline-flex;align-items:center;gap:.35rem;margin-top:.5rem;font-size:.76rem;font-weight:600;color:var(--sc,var(--accent));background:rgba(255,255,255,.05);padding:.25rem .7rem;border-radius:6px}
+
+    /* Q&A DEMO */
+    .qa{background:var(--surface);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+    .qa-hdr{background:var(--surface2);border-bottom:1px solid var(--border);padding:1rem 1.5rem;display:flex;align-items:center;gap:.75rem}
+    .dot{width:10px;height:10px;border-radius:50%}
+    .qa-title{font-size:.82rem;font-weight:600;color:var(--muted);margin-left:.5rem}
+    .qa-body{padding:1.5rem;display:flex;flex-direction:column;gap:1rem;max-height:420px;overflow-y:auto}
+    .qmsg{display:flex;gap:.75rem;align-items:flex-start}
+    .qav{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700}
+    .qu .qav{background:rgba(79,142,247,.2);color:var(--accent)}
+    .qa-a .qav{background:rgba(139,92,246,.2);color:var(--accent2)}
+    .qbub{flex:1;padding:.8rem 1.1rem;border-radius:var(--r);font-size:.85rem;line-height:1.6}
+    .qu .qbub{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2)}
+    .qa-a .qbub{background:rgba(255,255,255,.04);border:1px solid var(--border)}
+    .qhl{color:var(--accent);font-weight:600}
+    .qa-inp{border-top:1px solid var(--border);padding:1rem 1.5rem;display:flex;gap:.75rem}
+    .qa-field{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:.6rem 1rem;color:var(--text);font-size:.85rem;font-family:inherit;outline:none;transition:border-color .2s}
+    .qa-field:focus{border-color:var(--accent)}
+    .qa-send{background:var(--accent);color:#fff;border:none;padding:.6rem 1.2rem;border-radius:var(--r);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .qa-send:hover{opacity:.85;transform:translateY(-1px)}
+
+    /* EVIDENCE */
+    .ev-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.5rem;margin-bottom:.7rem;display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:start;transition:border-color .2s}
+    .ev-row:hover{border-color:rgba(79,142,247,.3)}
+    .ev-quote{font-size:.85rem;font-style:italic;margin-bottom:.4rem}
+    .ev-meta{display:flex;gap:.5rem;flex-wrap:wrap}
+    .ev-tag{font-size:.68rem;padding:.12rem .45rem;border-radius:4px;background:rgba(255,255,255,.06)}
+    .stars{color:var(--orange);font-size:.85rem}
+
+    /* REPORTS */
+    .rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
+    .rc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;display:flex;flex-direction:column;gap:.4rem;transition:all .2s}
+    .rc:hover{border-color:rgba(79,142,247,.3);transform:translateY(-2px)}
+    .rc-icon{font-size:1.4rem;margin-bottom:.2rem}
+    .rc-name{font-size:.88rem;font-weight:700}
+    .rc-type{font-size:.7rem;color:var(--muted)}
+    .rc-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+
+    /* STACK */
+    .sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:1rem}
+    .si{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;display:flex;align-items:center;gap:.75rem;transition:all .2s}
+    .si:hover{border-color:rgba(79,142,247,.3);transform:translateY(-2px)}
+    .si-icon{font-size:1.4rem;flex-shrink:0}
+    .si-name{font-size:.83rem;font-weight:600;display:block}
+    .si-role{font-size:.7rem;color:var(--muted)}
+
+    /* HIGHLIGHT BOX */
+    .hb{background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(139,92,246,.08));border:1px solid rgba(79,142,247,.2);border-radius:var(--r);padding:1.5rem}
+    .chip{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:100px;padding:.22rem .7rem;font-size:.73rem;font-weight:500}
+
+    /* FOOTER */
+    .footer{text-align:center;padding:4rem 2rem;color:var(--muted);font-size:.85rem}
+    .footer a{color:var(--accent)}
+
+    /* SCROLL ANIMATIONS */
+    .fi{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+    .fi.v{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="badge">Live Walkthrough · Google Photos AI Discovery Engine</div>
+  <h1>AI Discovery<br>Engine</h1>
+  <p class="hero-sub">An end-to-end data pipeline that ingested <strong style="color:#fff">15,275 user reviews</strong> from Google Play, App Store &amp; YouTube — surfacing why <strong style="color:#fff">~70%</strong> of users fail to find photos they know exist, ranked by opportunity score.</p>
+  <div class="hero-stats">
+    <div><span class="stat-num">15,275</span><span class="stat-label">Records Ingested</span></div>
+    <div><span class="stat-num">5,682</span><span class="stat-label">Relevant Records</span></div>
+    <div><span class="stat-num">8</span><span class="stat-label">Failure Archetypes</span></div>
+    <div><span class="stat-num">4</span><span class="stat-label">Data Sources</span></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#pipeline" class="btn btn-p">▶ &nbsp;Start Walkthrough</a>
+    <a href="http://localhost:3000" target="_blank" class="btn btn-g">🚀 &nbsp;Open Live App</a>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</section>
+
+<!-- TOC -->
+<nav class="toc" id="toc">
+  <a href="#pipeline"><span class="n">1</span> Pipeline</a>
+  <a href="#screens"><span class="n">2</span> All 8 Screens</a>
+  <a href="#archetypes"><span class="n">3</span> Archetypes</a>
+  <a href="#memory"><span class="n">4</span> Memory Cues</a>
+  <a href="#journey"><span class="n">5</span> User Journey</a>
+  <a href="#explore"><span class="n">6</span> Q&amp;A Demo</a>
+  <a href="#evidence"><span class="n">7</span> Evidence</a>
+  <a href="#behaviors"><span class="n">8</span> Behaviors</a>
+  <a href="#reports"><span class="n">9</span> Reports</a>
+  <a href="#stack"><span class="n">10</span> Tech Stack</a>
+</nav>
+
+<!-- 1. PIPELINE -->
+<section class="section" id="pipeline">
+<div class="wrap">
+  <div class="section-tag">Section 01</div>
+  <h2>The 6-Layer Data Pipeline</h2>
+  <p class="lead">Raw user feedback flows through six sequential stages — each adding structure, signal, and evidence — ending in an interactive PM dashboard.</p>
+  <div class="pipeline fi">
+    <div class="ps"><div class="ps-icon">🕸️</div><div class="ps-name">Ingestion</div><div class="ps-num">15,275 raw</div></div>
+    <div class="ps"><div class="ps-icon">🧹</div><div class="ps-name">Preprocessing</div><div class="ps-num">Dedup · Language</div></div>
+    <div class="ps"><div class="ps-icon">🏷️</div><div class="ps-name">Enrichment</div><div class="ps-num">Classify · Tag</div></div>
+    <div class="ps"><div class="ps-icon">🤖</div><div class="ps-name">AI Analysis</div><div class="ps-num">Themes · Patterns</div></div>
+    <div class="ps"><div class="ps-icon">🗃️</div><div class="ps-name">RAG Store</div><div class="ps-num">ChromaDB · SQLite</div></div>
+    <div class="ps"><div class="ps-icon">📊</div><div class="ps-name">Dashboard</div><div class="ps-num">Next.js · FastAPI</div></div>
+  </div>
+  <div class="g3 mt3 fi">
+    <div class="card"><div class="card-icon" style="background:rgba(79,142,247,.15)">📱</div><h3>Google Play Store</h3><p>1,858 reviews scraped via <code>google-play-scraper</code>. Rating, text, date, version, thumbs-up count.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(139,92,246,.15)">🍎</div><h3>Apple App Store</h3><p>834 reviews via <code>app-store-scraper</code>. Rating, review text, version, and date captured.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(6,182,212,.15)">▶️</div><h3>YouTube Comments</h3><p>880 comments via YouTube Data API v3. Text, likes, video title, topic context extracted.</p></div>
+  </div>
+  <div class="hb mt2 fi"><strong>Relevance filter:</strong> Of 15,275 raw records, the AI classifier retained <strong style="color:var(--accent)">5,682 (37.2%)</strong> as genuinely photo-retrieval related. The remaining 62.8% covered storage pricing, video editing, and unrelated UI complaints.</div>
+</div>
+</section>
+
+<!-- 2. ALL 8 SCREENS -->
+<section class="section" id="screens">
+<div class="wrap">
+  <div class="section-tag">Section 02</div>
+  <h2>The Full Front-End — All 8 Views</h2>
+  <p class="lead">Next.js 14 + Tailwind interface backed by a FastAPI server. Click any tab to preview each screen.</p>
+  <div class="viewer fi">
+    <div class="vtabs" id="vtabs">
+      <button class="vtab active" data-p="s0">🏠 Dashboard</button>
+      <button class="vtab" data-p="s1">💬 Explore / Q&amp;A</button>
+      <button class="vtab" data-p="s2">🗂️ Archetypes</button>
+      <button class="vtab" data-p="s3">🔍 Archetype Detail</button>
+      <button class="vtab" data-p="s4">🧠 Memory Cues</button>
+      <button class="vtab" data-p="s5">🎯 Behaviors</button>
+      <button class="vtab" data-p="s6">📋 Evidence</button>
+      <button class="vtab" data-p="s7">📄 Reports</button>
+    </div>
+    <div id="s0" class="vp active"><img class="vimg" src="01-dashboard.png" alt="Dashboard"/><div class="vcap"><span class="vcap-icon">🏠</span><div><strong>Dashboard Home</strong><p>Top-level KPIs: 15,275 records, 5,682 relevant, 8 archetypes, 4 sources. Opportunity matrix heatmap, top archetypes ranked by score, and a sentiment ring chart.</p></div></div></div>
+    <div id="s1" class="vp"><img class="vimg" src="02-explore.png" alt="Explore Q&A"/><div class="vcap"><span class="vcap-icon">💬</span><div><strong>Explore / Hybrid Q&amp;A</strong><p>Natural-language chat powered by Gemini + ChromaDB. Routes as SQL (counts/stats), Semantic (vector quotes), or Hybrid. Supports metadata filters like <code>/filter source=play_store</code>.</p></div></div></div>
+    <div id="s2" class="vp"><img class="vimg" src="03-archetypes.png" alt="Archetypes list"/><div class="vcap"><span class="vcap-icon">🗂️</span><div><strong>Archetypes Overview</strong><p>All 8 failure patterns ranked by opportunity score. Each card shows record count, frequency %, severity, and animated progress bars. Sortable and filterable.</p></div></div></div>
+    <div id="s3" class="vp"><img class="vimg" src="04-archetype-detail.png" alt="Archetype detail"/><div class="vcap"><span class="vcap-icon">🔍</span><div><strong>Archetype Detail — Album Fragmentation</strong><p>Deep-dive: failure rate trend, verbatim quotes, emotion breakdown, source distribution, and PM-ready opportunity scoring breakdown (frequency × severity × gap × feasibility).</p></div></div></div>
+    <div id="s4" class="vp"><img class="vimg" src="05-memory-cues.png" alt="Memory cues"/><div class="vcap"><span class="vcap-icon">🧠</span><div><strong>Memory Cues Matrix</strong><p>Cross-tab heatmap: photo content categories (travel, food, people…) vs. cue types (Temporal, Spatial, People, Visual, Emotional, Activity). Reveals which combos break most.</p></div></div></div>
+    <div id="s5" class="vp"><img class="vimg" src="06-behaviors.png" alt="Behaviors"/><div class="vcap"><span class="vcap-icon">🎯</span><div><strong>Behavior Patterns</strong><p>Clusters of user search behaviors — keyword trial, scroll-through, album navigate, give-up — with prevalence %, failure rate, and representative quotes.</p></div></div></div>
+    <div id="s6" class="vp"><img class="vimg" src="07-evidence.png" alt="Evidence"/><div class="vcap"><span class="vcap-icon">📋</span><div><strong>Evidence Browser</strong><p>Full-text search across 5,682 records. Filter by archetype, source, rating, and sentiment. Each result shows verbatim quote, star rating, source badge, archetype tag.</p></div></div></div>
+    <div id="s7" class="vp"><img class="vimg" src="08-reports.png" alt="Reports"/><div class="vcap"><span class="vcap-icon">📄</span><div><strong>Reports Center</strong><p>Downloadable JSON/Markdown reports: sentiment analysis, user journey map, opportunity matrix, factor importance scores, archetype distribution, example Q&amp;A sessions.</p></div></div></div>
+  </div>
+</div>
+</section>
+
+<!-- 3. ARCHETYPES -->
+<section class="section" id="archetypes">
+<div class="wrap">
+  <div class="section-tag">Section 03</div>
+  <h2>8 Failure Archetypes — Ranked</h2>
+  <p class="lead">Each archetype is a distinct, evidence-grounded pattern of how photo retrieval breaks down. Opportunity Score = Frequency × Severity × Expectation Gap × Feasibility.</p>
+  <div class="ag fi">
+    <div class="ac" style="--c:#ef4444"><div class="ac-rank">🔴 Priority 0 · Opp 7.9</div><h3>Album Fragmentation</h3><div class="ac-meta"><span class="mt-tag">637 records</span><span class="mt-tag">11.21%</span><span class="mt-tag sh">HIGH sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Frequency</span><span>11.21%</span></div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div><div class="bar-wrap"><div class="bar-lbl"><span>Failure Rate</span><span>66.3%</span></div><div class="bar-track"><div class="bar-fill" style="width:66%"></div></div></div><div class="ac-quote">"I spent hours organising my photos into folders. Google Photos destroyed all of it."</div></div>
+    <div class="ac" style="--c:#f59e0b"><div class="ac-rank">🟡 Priority 1 · Opp 7.0</div><h3>Volume Overwhelm</h3><div class="ac-meta"><span class="mt-tag">510 records</span><span class="mt-tag">8.98%</span><span class="mt-tag sh">HIGH sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Frequency</span><span>8.98%</span></div><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div></div><div class="bar-wrap"><div class="bar-lbl"><span>Frustration Rate</span><span>70.4%</span></div><div class="bar-track"><div class="bar-fill" style="width:70%"></div></div></div><div class="ac-quote">"I have 18,000 photos. Search returns 400 results. I can't filter any further."</div></div>
+    <div class="ac" style="--c:#8b5cf6"><div class="ac-rank">🟣 Priority 1 · Opp 5.77</div><h3>Keyword Mismatch</h3><div class="ac-meta"><span class="mt-tag">219 records</span><span class="mt-tag">3.85%</span><span class="mt-tag sh">Severity 0.849</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Search Failure Rate</span><span>81.3%</span></div><div class="bar-track"><div class="bar-fill" style="width:81%"></div></div></div><div class="ac-quote">"I searched 'that cute café in Goa'. Google Photos shows random restaurants from 2019."</div></div>
+    <div class="ac" style="--c:#06b6d4"><div class="ac-rank">🔵 Priority 2 · Opp 5.6</div><h3>People Without Names</h3><div class="ac-meta"><span class="mt-tag">191 records</span><span class="mt-tag">3.36%</span><span class="mt-tag sh">HIGH sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Failure Rate</span><span>72.2%</span></div><div class="bar-track"><div class="bar-fill" style="width:72%"></div></div></div><div class="ac-quote">"How do I search for 'the guy with the beard' if he's never been tagged?"</div></div>
+    <div class="ac" style="--c:#10b981"><div class="ac-rank">🟢 Priority 2 · Opp 5.52</div><h3>Temporal Decay</h3><div class="ac-meta"><span class="mt-tag">211 records</span><span class="mt-tag">3.71%</span><span class="mt-tag sh">HIGH sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Failure Rate (&gt;1yr photos)</span><span>72.8%</span></div><div class="bar-track"><div class="bar-fill" style="width:73%"></div></div></div><div class="ac-quote">"I know it was 'around last Thanksgiving' — timeline scroll is useless when guessing."</div></div>
+    <div class="ac" style="--c:#f97316"><div class="ac-rank">🟠 Priority 3 · Opp 4.54</div><h3>Spatial Ambiguity</h3><div class="ac-meta"><span class="mt-tag">38 records</span><span class="mt-tag">0.67%</span><span class="mt-tag sh">HIGH sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Failure Rate</span><span>71.4%</span></div><div class="bar-track"><div class="bar-fill" style="width:71%"></div></div></div><div class="ac-quote">"I remember 'near the hotel in Florida' but can't search a vibe on a map."</div></div>
+    <div class="ac" style="--c:#ec4899"><div class="ac-rank">🩷 Priority 4 · Opp 3.95</div><h3>Context Without Content</h3><div class="ac-meta"><span class="mt-tag">8 records</span><span class="mt-tag">0.14%</span><span class="mt-tag sh">HIGH sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Feeling vs. Keyword Gap</span><span>High</span></div><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div></div><div class="ac-quote">"I remember the feeling of that sunset — not where or when. Just the mood."</div></div>
+    <div class="ac" style="--c:#6b7280"><div class="ac-rank">⚪ Priority 5 · Opp 2.94</div><h3>Visual Memory Only</h3><div class="ac-meta"><span class="mt-tag">22 records</span><span class="mt-tag">0.39%</span><span class="mt-tag sm">MED sev</span></div><div class="bar-wrap"><div class="bar-lbl"><span>Failure Rate</span><span>47.6%</span></div><div class="bar-track"><div class="bar-fill" style="width:48%"></div></div></div><div class="ac-quote">"She was wearing a red shirt. That's all I remember. Search can't handle that."</div></div>
+  </div>
+  <div class="mt3 fi">
+    <h3 style="font-size:1.05rem;font-weight:700;margin-bottom:1rem">📊 Opportunity Prioritization Matrix</h3>
+    <div class="mtable-wrap">
+      <table class="mtable">
+        <thead><tr><th>#</th><th>Archetype</th><th>Records</th><th>Freq %</th><th>Severity</th><th>Opp Score</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Album Fragmentation</td><td>637</td><td>11.21%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(239,68,68,.2);color:#ef4444">7.9</span></td></tr>
+          <tr><td>2</td><td>Volume Overwhelm</td><td>510</td><td>8.98%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(245,158,11,.2);color:#f59e0b">7.0</span></td></tr>
+          <tr><td>3</td><td>Keyword Mismatch</td><td>219</td><td>3.85%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(139,92,246,.2);color:#8b5cf6">5.8</span></td></tr>
+          <tr><td>4</td><td>People Without Names</td><td>191</td><td>3.36%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(6,182,212,.2);color:#06b6d4">5.6</span></td></tr>
+          <tr><td>5</td><td>Temporal Decay</td><td>211</td><td>3.71%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(16,185,129,.2);color:#10b981">5.5</span></td></tr>
+          <tr><td>6</td><td>Spatial Ambiguity</td><td>38</td><td>0.67%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(249,115,22,.2);color:#f97316">4.5</span></td></tr>
+          <tr><td>7</td><td>Context Without Content</td><td>8</td><td>0.14%</td><td class="sh">HIGH</td><td><span class="ob" style="background:rgba(236,72,153,.2);color:#ec4899">4.0</span></td></tr>
+          <tr><td>8</td><td>Visual Memory Only</td><td>22</td><td>0.39%</td><td class="sm">MED</td><td><span class="ob" style="background:rgba(107,114,128,.2);color:#9ca3af">2.9</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 4. MEMORY CUES -->
+<section class="section" id="memory">
+<div class="wrap">
+  <div class="section-tag">Section 04</div>
+  <h2>How Users Actually Remember Photos</h2>
+  <p class="lead">When users can't find a photo, they rely on one of 7 cognitive memory cue types. The engine maps each cue type against photo categories to reveal where retrieval breaks down most.</p>
+  <div class="cg fi">
+    <div class="cc"><div class="cc-icon">⏰</div><div class="cc-name">Temporal</div><div class="cc-rate">72.8%</div><div class="cc-desc">Failure rate for photos &gt;1yr old. "It was around last Thanksgiving." Timeline scrolling becomes useless as memory decays.</div></div>
+    <div class="cc"><div class="cc-icon">📍</div><div class="cc-name">Spatial</div><div class="cc-rate">71.4%</div><div class="cc-desc">Failure rate for vague locations. "Near that hotel in Florida." Users remember vibes, not GPS city names.</div></div>
+    <div class="cc"><div class="cc-icon">👥</div><div class="cc-name">People</div><div class="cc-rate">72.2%</div><div class="cc-desc">Failure rate for unnamed people. "The guy with the beard." Requires prior manual face tagging to work.</div></div>
+    <div class="cc"><div class="cc-icon">😊</div><div class="cc-name">Emotional</div><div class="cc-rate">High</div><div class="cc-desc">"That magical sunset mood." Emotional recall cannot be processed by current keyword search at all.</div></div>
+    <div class="cc"><div class="cc-icon">👁️</div><div class="cc-name">Visual</div><div class="cc-rate">47.6%</div><div class="cc-desc">Failure rate for visual-only descriptions. "Red shirt, beach." Partial descriptions yield noisy, broad results.</div></div>
+    <div class="cc"><div class="cc-icon">🏃</div><div class="cc-name">Activity</div><div class="cc-rate">Medium</div><div class="cc-desc">"That hiking trip." Works when combined with other cues but fails in isolation without specific keywords.</div></div>
+    <div class="cc"><div class="cc-icon">📂</div><div class="cc-name">Content Type</div><div class="cc-rate ok">Lower</div><div class="cc-desc">"Screenshot of the medicine receipt." Content-type recall has relatively lower failure — more searchable.</div></div>
+  </div>
+  <div class="hb mt2 fi"><strong>Root Cause:</strong> Human memory of visual content is <em>associative, emotional, and contextual</em> — not keyword-based. The retrieval experience is optimised for <em>precise, keyword-driven queries</em>. This mismatch drives all 8 archetypes.</div>
+</div>
+</section>
+
+<!-- 5. USER JOURNEY -->
+<section class="section" id="journey">
+<div class="wrap">
+  <div class="section-tag">Section 05</div>
+  <h2>The Failed Retrieval Journey</h2>
+  <p class="lead">A composite journey map synthesised from 5,682 real user records, showing the exact stages where the experience collapses and the emotional state at each point.</p>
+  <div class="g2 fi">
+    <div class="journey">
+      <div class="jstep" style="--sc:#4f8ef7"><div class="jphase">Stage 1 — Intention</div><h4>User wants a specific past photo</h4><p>A memory triggers the need — social occasion, medical event, travel memory. User opens Google Photos with confidence and certainty the photo exists.</p><span class="jstat">😌 High confidence</span></div>
+      <div class="jstep" style="--sc:#8b5cf6"><div class="jphase">Stage 2 — First Attempt</div><h4>Keyword search or timeline scroll</h4><p>User tries keyword search ("beach café", "sick 2022") or scrolls the timeline. For ~70% of users this initial attempt fails — results too broad or irrelevant.</p><span class="jstat">😕 First friction</span></div>
+      <div class="jstep" style="--sc:#f59e0b"><div class="jphase">Stage 3 — Iteration</div><h4>Repeated searches, album browsing</h4><p>Users try alternative keywords, switch to albums (only to find them incomplete via fragmentation), or try date-range scrolling. Average: 3–5 retry attempts before abandoning.</p><span class="jstat">😤 High frustration</span></div>
+      <div class="jstep" style="--sc:#ef4444"><div class="jphase">Stage 4 — Abandonment</div><h4>Give up or export frustration publicly</h4><p>28% of Album Fragmentation sufferers report giving up entirely. 18% leave a negative review. Users lose trust in Google Photos as a reliable memory keeper.</p><span class="jstat">😡 28% give up</span></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3>💔 The Core Cognitive Gap</h3>
+        <p style="margin-top:.5rem;font-size:.85rem;color:var(--muted)"><strong style="color:var(--text)">What users remember:</strong><br><em>"That birthday party at the beach where she was wearing the blue dress."</em></p>
+        <p style="margin-top:.75rem;font-size:.85rem;color:var(--muted)"><strong style="color:var(--text)">What Google Photos needs:</strong><br><code>cake | sand | ocean | party | 2023-07-04</code></p>
+      </div>
+      <div class="card" style="margin-bottom:1rem">
+        <h3>📊 Journey Stats</h3>
+        <div style="display:flex;flex-direction:column;gap:.55rem;margin-top:.75rem">
+          <div style="display:flex;justify-content:space-between;font-size:.83rem"><span style="color:var(--muted)">Users failing initial search</span><span style="font-weight:700;color:var(--red)">~69.8%</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.83rem"><span style="color:var(--muted)">Avg retry attempts before giving up</span><span style="font-weight:700;color:var(--orange)">3–5</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.83rem"><span style="color:var(--muted)">Album Fragmentation give-up rate</span><span style="font-weight:700;color:var(--red)">28%</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.83rem"><span style="color:var(--muted)">Temporal Decay failure rate</span><span style="font-weight:700;color:var(--red)">72.8%</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:.83rem"><span style="color:var(--muted)">Keyword Mismatch failure rate</span><span style="font-weight:700;color:var(--red)">81.3%</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🎯 Strategic Goal</h3>
+        <p style="margin-top:.5rem;font-size:.85rem;color:var(--muted)">Increase the % of users who <strong style="color:var(--text)">successfully retrieve a photo they remember but cannot precisely describe</strong>. Every archetype, cue, and behavior insight in this engine points toward that goal.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 6. EXPLORE / Q&A -->
+<section class="section" id="explore">
+<div class="wrap">
+  <div class="section-tag">Section 06</div>
+  <h2>Explore — Hybrid AI Q&amp;A Interface</h2>
+  <p class="lead">Ask any product question in natural language. The system routes it as SQL (structured counts), Semantic (ChromaDB vector search), or Hybrid. Try the interactive demo below.</p>
+  <div class="qa fi">
+    <div class="qa-hdr"><div class="dot" style="background:#ef4444"></div><div class="dot" style="background:#f59e0b"></div><div class="dot" style="background:#10b981"></div><span class="qa-title">Discovery Engine — Explore (Hybrid Q&amp;A)</span></div>
+    <div class="qa-body" id="qab">
+      <div class="qmsg qu"><div class="qav">PM</div><div class="qbub">How many complaints do we have about people forgetting the exact date they took a photo?</div></div>
+      <div class="qmsg qa-a"><div class="qav">🤖</div><div class="qbub"><em style="color:var(--muted);font-size:.78rem">🔀 Routed as HYBRID · SQL + Vector search...</em><br><br>📊 <strong>Answer:</strong><br>There are <span class="qhl">211 records</span> under <code>TEMPORAL_DECAY</code>, and a further 217 under <code>KEYWORD_MISMATCH</code> that overlap with date-forgetting scenarios.<br><br>Users state: <em>"I forget the exact date — I know it was around last Thanksgiving, and I can't search 'Thanksgiving' to find it."</em> (play_store) · <em>"The scroll bar is useless if you're guessing the month."</em> (reddit)</div></div>
+      <div class="qmsg qu"><div class="qav">PM</div><div class="qbub">What are the main frustrations for the ALBUM_FRAGMENTATION archetype?</div></div>
+      <div class="qmsg qa-a"><div class="qav">🤖</div><div class="qbub"><em style="color:var(--muted);font-size:.78rem">📊 Routed as SQL...</em><br><br><code>ALBUM_FRAGMENTATION</code> accounts for <span class="qhl">11.21% of total feedback</span> (637 records). Primary frustration: inability to search across multiple albums simultaneously. Users find Google Photos forces them to remember exactly which album a photo was placed in.<br><br><em>"I created 200 albums over 5 years. Searching across them is impossible."</em></div></div>
+      <div class="qmsg qu"><div class="qav">PM</div><div class="qbub">/filter source=play_store — What do Play Store users say about search?</div></div>
+      <div class="qmsg qa-a"><div class="qav">🤖</div><div class="qbub"><em style="color:var(--muted);font-size:.78rem">✅ Filter active: source = play_store</em><br><br>Play Store reviewers focus on the <strong>lack of boolean operators</strong> and inability to exclude terms. Power users request: <em>"Why can't I search 'dog AND beach NOT 2021'?"</em> and <em>"Trying to find recipe screenshots but excluding memes is impossible."</em></div></div>
+    </div>
+    <div class="qa-inp"><input class="qa-field" id="qf" type="text" placeholder="Ask a product question… (interactive demo)"/><button class="qa-send" onclick="send()">Send</button></div>
+  </div>
+  <div class="g3 mt3 fi">
+    <div class="card"><div class="card-icon" style="background:rgba(79,142,247,.15)">🗄️</div><h3>SQL Routing</h3><p>Structured questions about counts, percentages, rankings → hit SQLite directly for precise numeric answers.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(139,92,246,.15)">🧬</div><h3>Semantic Routing</h3><p>Contextual questions → ChromaDB vector store for the most relevant verbatim user quotes.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(16,185,129,.15)">⚡</div><h3>Hybrid Routing</h3><p>Complex questions → SQL stats + ChromaDB quotes synthesised together by Gemini into a unified answer.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 7. EVIDENCE -->
+<section class="section" id="evidence">
+<div class="wrap">
+  <div class="section-tag">Section 07</div>
+  <h2>Evidence — Every Insight is Grounded in Real Data</h2>
+  <p class="lead">The Evidence Browser provides full-text search across all 5,682 analysed records. Below are real verbatim quotes, each tagged to an archetype and source.</p>
+  <div class="fi">
+    <div class="ev-row"><div><div class="ev-quote">"I spent hours organising my photos into folders on my laptop before uploading. Google Photos merged everything into one giant timeline. All my work gone."</div><div class="ev-meta"><span class="ev-tag" style="background:rgba(239,68,68,.15);color:#ef4444">album_fragmentation</span><span class="ev-tag">play_store</span><span class="ev-tag">negative</span></div></div><div class="stars">★☆☆☆☆</div></div>
+    <div class="ev-row"><div><div class="ev-quote">"I searched for 'that cute café in Goa'. It shows me random restaurants from 2019 that have nothing to do with my trip. Why can't it understand what I mean?"</div><div class="ev-meta"><span class="ev-tag" style="background:rgba(139,92,246,.15);color:#8b5cf6">keyword_mismatch</span><span class="ev-tag">app_store</span><span class="ev-tag">high severity</span></div></div><div class="stars">★★☆☆☆</div></div>
+    <div class="ev-row"><div><div class="ev-quote">"I have 18,000 photos. Every search returns 300–400 results. I can't narrow it down by date AND location AND person simultaneously. I give up every single time."</div><div class="ev-meta"><span class="ev-tag" style="background:rgba(245,158,11,.15);color:#f59e0b">volume_overwhelm</span><span class="ev-tag">youtube_comment</span><span class="ev-tag">high frustration</span></div></div><div class="stars">★★☆☆☆</div></div>
+    <div class="ev-row"><div><div class="ev-quote">"I want to find 'the guy with the beard from my college days'. He was never tagged. There is absolutely no way to find that photo."</div><div class="ev-meta"><span class="ev-tag" style="background:rgba(6,182,212,.15);color:#06b6d4">people_without_names</span><span class="ev-tag">play_store</span><span class="ev-tag">high severity</span></div></div><div class="stars">★★★☆☆</div></div>
+    <div class="ev-row"><div><div class="ev-quote">"It was 'around last Thanksgiving'. I know the photo exists. The timeline scroll is completely useless when I'm only guessing the year, not the exact month."</div><div class="ev-meta"><span class="ev-tag" style="background:rgba(16,185,129,.15);color:#10b981">temporal_decay</span><span class="ev-tag">reddit</span><span class="ev-tag">cue: temporal</span></div></div><div class="stars">★★★☆☆</div></div>
+  </div>
+  <div class="mt2 fi" style="text-align:center"><a href="http://localhost:3000/evidence" target="_blank" class="btn btn-g">📋 Open Full Evidence Browser →</a></div>
+</div>
+</section>
+
+<!-- 8. BEHAVIORS -->
+<section class="section" id="behaviors">
+<div class="wrap">
+  <div class="section-tag">Section 08</div>
+  <h2>User Behavior Patterns</h2>
+  <p class="lead">Beyond archetype classification, the engine identifies distinct search behavior clusters — the actions users take when memory-driven retrieval fails.</p>
+  <div class="ag fi">
+    <div class="card"><div class="card-icon" style="background:rgba(239,68,68,.15)">⌨️</div><h3>Keyword Trial &amp; Error</h3><p>Users try 3–8 different keyword combinations before giving up. Each failed attempt increases frustration and erodes trust. Most common behavior pattern observed.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(245,158,11,.15)">📜</div><h3>Timeline Scroll</h3><p>Users manually scroll the chronological timeline. Works for recent photos, breaks completely for anything &gt;6 months old with approximate date memory.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(79,142,247,.15)">📁</div><h3>Album Navigate</h3><p>Users attempt to navigate album structures. Frequently fails due to Album Fragmentation — their intended folder structure was not preserved on upload.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(139,92,246,.15)">👤</div><h3>People Tab Search</h3><p>Users try the Faces/People tab. Works only for tagged or frequently photographed individuals. Fails for unnamed or relationship-described contacts.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(16,185,129,.15)">🗺️</div><h3>Map / Location Browse</h3><p>Users open the Map view hoping to find photos by area. Fails for vague spatial memory ("near the beach") vs. the precise GPS coordinates the system stores.</p></div>
+    <div class="card"><div class="card-icon" style="background:rgba(239,68,68,.15)">🚪</div><h3>Give Up / Abandon</h3><p>Final stage for ~28% of Album Fragmentation users. Users leave the app, often leaving a 1–2 star review or frustration comment as a last resort.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 9. REPORTS -->
+<section class="section" id="reports">
+<div class="wrap">
+  <div class="section-tag">Section 09</div>
+  <h2>Reports &amp; Outputs</h2>
+  <p class="lead">The pipeline produces 7 structured reports — all available in the Reports tab and as downloadable JSON/Markdown files.</p>
+  <div class="rg fi">
+    <div class="rc"><div class="rc-icon">😤</div><div class="rc-name">Sentiment Report</div><div class="rc-type">sentiment_report.json</div><div class="rc-desc">Positive/negative/neutral breakdown per archetype and source, with emotional intensity scores.</div></div>
+    <div class="rc"><div class="rc-icon">🗺️</div><div class="rc-name">Journey Report</div><div class="rc-type">journey_report.json</div><div class="rc-desc">Stage-by-stage journey map with emotional states, failure points, and behavior transitions.</div></div>
+    <div class="rc"><div class="rc-icon">🏆</div><div class="rc-name">Opportunity Matrix</div><div class="rc-type">opportunity_matrix.json</div><div class="rc-desc">Full scored matrix across 4 dimensions: frequency, severity, expectation gap, feasibility.</div></div>
+    <div class="rc"><div class="rc-icon">⚖️</div><div class="rc-name">Factor Importance</div><div class="rc-type">factor_importance.json</div><div class="rc-desc">Weighted importance of each scoring factor in the opportunity ranking model.</div></div>
+    <div class="rc"><div class="rc-icon">🥧</div><div class="rc-name">Archetype Distribution</div><div class="rc-type">archetype_distribution.json</div><div class="rc-desc">Record counts, frequency percentages, severity scores per archetype — chart-ready.</div></div>
+    <div class="rc"><div class="rc-icon">💬</div><div class="rc-name">Example Q&amp;A Sessions</div><div class="rc-type">example_qa_sessions.md</div><div class="rc-desc">Real PM-style questions and Gemini-synthesised answers demonstrating the Explore interface.</div></div>
+    <div class="rc"><div class="rc-icon">📖</div><div class="rc-name">Key Takeaways</div><div class="rc-type">key_takeaways.md</div><div class="rc-desc">Executive summary of top 3 priority problems, memory cue failure rates, and next steps.</div></div>
+  </div>
+  <div class="mt2 fi" style="text-align:center"><a href="http://localhost:3000/reports" target="_blank" class="btn btn-g">📄 Open Reports Center →</a></div>
+</div>
+</section>
+
+<!-- 10. TECH STACK -->
+<section class="section" id="stack">
+<div class="wrap">
+  <div class="section-tag">Section 10</div>
+  <h2>Technology Stack</h2>
+  <p class="lead">A fully Python + TypeScript stack — no third-party data services — scraping, analysing, embedding, and serving everything end-to-end.</p>
+  <div class="sg fi">
+    <div class="si"><span class="si-icon">🐍</span><div><span class="si-name">Python 3.11</span><span class="si-role">Pipeline core</span></div></div>
+    <div class="si"><span class="si-icon">⚡</span><div><span class="si-name">FastAPI</span><span class="si-role">REST API server</span></div></div>
+    <div class="si"><span class="si-icon">▲</span><div><span class="si-name">Next.js 14</span><span class="si-role">Frontend App Router</span></div></div>
+    <div class="si"><span class="si-icon">🎨</span><div><span class="si-name">Tailwind CSS</span><span class="si-role">UI styling</span></div></div>
+    <div class="si"><span class="si-icon">💎</span><div><span class="si-name">Gemini API</span><span class="si-role">AI synthesis</span></div></div>
+    <div class="si"><span class="si-icon">🧬</span><div><span class="si-name">ChromaDB</span><span class="si-role">Vector store (RAG)</span></div></div>
+    <div class="si"><span class="si-icon">🗄️</span><div><span class="si-name">SQLite</span><span class="si-role">Structured evidence DB</span></div></div>
+    <div class="si"><span class="si-icon">📦</span><div><span class="si-name">google-play-scraper</span><span class="si-role">Play Store ingestion</span></div></div>
+    <div class="si"><span class="si-icon">🍎</span><div><span class="si-name">app-store-scraper</span><span class="si-role">App Store ingestion</span></div></div>
+    <div class="si"><span class="si-icon">📺</span><div><span class="si-name">YouTube Data API v3</span><span class="si-role">Comments ingestion</span></div></div>
+    <div class="si"><span class="si-icon">🚂</span><div><span class="si-name">Railway</span><span class="si-role">Backend deployment</span></div></div>
+    <div class="si"><span class="si-icon">▲</span><div><span class="si-name">Vercel</span><span class="si-role">Frontend deployment</span></div></div>
+  </div>
+  <div class="hb mt3 fi">
+    <h3 style="font-size:1rem;margin-bottom:.75rem">🏗️ Architecture Principles</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.75rem">
+      <div><span class="chip">🔍 Evidence-first</span><p style="font-size:.78rem;color:var(--muted);margin-top:.35rem">Every insight traces to a real user quote</p></div>
+      <div><span class="chip">🧩 Modular pipeline</span><p style="font-size:.78rem;color:var(--muted);margin-top:.35rem">Each layer independent — new sources slot in without refactoring</p></div>
+      <div><span class="chip">📈 Scale-ready</span><p style="font-size:.78rem;color:var(--muted);margin-top:.35rem">Designed for thousands of records across 5+ source types</p></div>
+      <div><span class="chip">🤔 Beyond sentiment</span><p style="font-size:.78rem;color:var(--muted);margin-top:.35rem">Behavioural pattern extraction, not just polarity scoring</p></div>
+      <div><span class="chip">❓ Queryable output</span><p style="font-size:.78rem;color:var(--muted);margin-top:.35rem">RAG layer enables ad-hoc PM questions against the evidence base</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer class="footer">
+  <p style="font-size:1.05rem;font-weight:700;margin-bottom:.5rem">Google Photos AI Discovery Engine</p>
+  <p>Product Management Capstone · Next Leap Prodman</p>
+  <p style="margin-top:.75rem">
+    <a href="http://localhost:3000" target="_blank">🚀 Open Live App</a> &nbsp;·&nbsp;
+    <a href="http://localhost:3000/explore" target="_blank">💬 Ask a Question</a> &nbsp;·&nbsp;
+    <a href="http://localhost:3000/archetypes" target="_blank">🗂️ View Archetypes</a> &nbsp;·&nbsp;
+    <a href="http://localhost:3000/evidence" target="_blank">📋 Browse Evidence</a>
+  </p>
+  <p style="margin-top:1rem;color:rgba(107,114,128,.4);font-size:.72rem">Backend: <code>localhost:8000</code> · Frontend: <code>localhost:3000</code></p>
+</footer>
+
+<script>
+// Screen viewer
+document.getElementById('vtabs').addEventListener('click',e=>{
+  const b=e.target.closest('.vtab'); if(!b)return;
+  document.querySelectorAll('.vtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.vp').forEach(p=>p.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById(b.dataset.p).classList.add('active');
+});
+
+// TOC active
+const secs=document.querySelectorAll('.section[id]');
+const links=document.querySelectorAll('.toc a');
+new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const l=document.querySelector('.toc a[href="#'+e.target.id+'"]');if(l)l.classList.add('active');}});},{rootMargin:'-40% 0px -50% 0px'}).observe.bind(null);
+secs.forEach(s=>new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const l=document.querySelector('.toc a[href="#'+e.target.id+'"]');if(l)l.classList.add('active');}});},{rootMargin:'-40% 0px -50% 0px'}).observe(s));
+
+// Fade in on scroll
+const fi=document.querySelectorAll('.fi');
+new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});},{threshold:.08}).observe.bind(null);
+fi.forEach(el=>new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});},{threshold:.08}).observe(el));
+
+// Animate progress bars
+document.querySelectorAll('.ac').forEach(c=>{
+  new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';requestAnimationFrame(()=>setTimeout(()=>b.style.width=w,80));});e.target._obs.disconnect();}});},{threshold:.2}).observe(c);
+  document.querySelectorAll('.ac').forEach(a=>{
+    const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.querySelectorAll('.bar-fill').forEach(b=>{const w=b.style.width;b.style.width='0';requestAnimationFrame(()=>setTimeout(()=>b.style.width=w,80));});obs.unobserve(e.target);}});},{threshold:.2});obs.observe(a);
+  });
+});
+
+// Q&A demo
+const replies=[
+  'Based on the data, <strong>Keyword Mismatch</strong> has the highest search failure rate at <span class="qhl">81.3%</span> — more than any other archetype. Users describe searching for contextual or emotional descriptions that the keyword engine cannot process.',
+  'The <strong>Volume Overwhelm</strong> archetype shows 510 records (8.98% of corpus). Users with 10,000+ photo libraries report extreme frustration when search returns 300+ unfiltered results. Frustration rate: 70.4%.',
+  'Across all 5,682 records, the most common emotional state at the "give up" stage is <strong>helplessness</strong> — users feel the app is broken even though the photo they need is definitely in their library.',
+  '<strong>Spatial Ambiguity</strong> has a 71.4% failure rate. Users remember a vibe or general area but not the exact GPS location tag the system indexed. "Near the hotel in Florida" returns no usable results.',
+];
+let ri=0;
+function send(){
+  const f=document.getElementById('qf'),b=document.getElementById('qab');
+  const v=f.value.trim(); if(!v)return;
+  b.innerHTML+=`<div class="qmsg qu"><div class="qav">PM</div><div class="qbub">${v}</div></div>`;
+  f.value='';
+  setTimeout(()=>{
+    b.innerHTML+=`<div class="qmsg qa-a"><div class="qav">🤖</div><div class="qbub"><em style="color:var(--muted);font-size:.78rem">🔀 Routed as HYBRID...</em><br><br>📊 <strong>Answer:</strong><br>${replies[ri%replies.length]}</div></div>`;
+    ri++; b.scrollTop=b.scrollHeight;
+  },800);
+  b.scrollTop=b.scrollHeight;
+}
+document.getElementById('qf').addEventListener('keydown',e=>{if(e.key==='Enter')send();});
+</script>
+</body>
+</html>

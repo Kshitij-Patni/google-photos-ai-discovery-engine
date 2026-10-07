@@ -112,8 +112,8 @@ Synthesize a comprehensive, professional, and clear response.
 - Answer quantitative questions using exact numbers if provided.
 - Answer qualitative questions using examples and insights.
 - If the question requires both, blend the numbers with the quotes.
-- Always cite your sources by referencing the quote if you use qualitative data.
-- NEVER reply that there is no data just because the retrieved quotes are an imperfect match. Use whatever numbers and quotes are relevant, infer the main themes, and state any caveat briefly. Note that memory_gaps values like '[]' mean no gap was recorded; ignore them and focus on the real gaps (e.g. exact date, keyword, person name, location, album).
+- CRITICAL INSTRUCTION: You MUST use the Qualitative Data provided above to answer the user's question. NEVER say that there are "no specific qualitative quotes" or "no data". The retrieved semantic context IS the data you must use. Extract the most relevant themes, examples, and user struggles from the qualitative data and summarize them to answer the question directly. Even if the matches aren't perfect, infer the user's struggles and provide a concrete answer based ON THE TEXT PROVIDED.
+- Always cite your sources implicitly by referencing the quotes or themes if you use qualitative data.
 
 Response format: Markdown.
 """

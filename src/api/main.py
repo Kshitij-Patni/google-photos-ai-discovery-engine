@@ -113,3 +113,32 @@ async def debug():
         "embeddings_cache_exists": embeddings_path.exists(),
         "embeddings_cache_size_bytes": embeddings_path.stat().st_size if embeddings_path.exists() else 0,
     }
+
+@app.get("/debug/test")
+async def debug_test():
+    try:
+        from src.rag.query_engine import QueryEngine
+        engine = QueryEngine()
+        sql_result = ""
+        vec_result = ""
+        
+        try:
+            sql_query = engine._generate_sql("Album organization issues", filters=None)
+            sql_result = f"Query: {sql_query}"
+            from src.rag.structured_store import run_query
+            if sql_query:
+                res = run_query(sql_query)
+                sql_result += f" | Rows: {len(res)}"
+        except Exception as e:
+            sql_result = f"Error: {e}"
+            
+        try:
+            from src.rag.vector_store import search_similar
+            vec = search_similar("Album organization issues", n=2, filters=None)
+            vec_result = f"Got {len(vec.get('documents', [[]])[0])} docs"
+        except Exception as e:
+            vec_result = f"Error: {e}"
+            
+        return {"sql_test": sql_result, "vec_test": vec_result}
+    except Exception as e:
+        return {"error": str(e)}
