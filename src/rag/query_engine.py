@@ -122,7 +122,7 @@ class QueryEngine:
         logger.info(f"\n[Engine] Routing query...")
         # Include chat history in the router prompt to handle follow-ups properly
         route_info = self.router.route_query(f"Chat History: {chat_history}\n\nQuery: {query}")
-        decision = route_info.get("routing_decision", "hybrid")
+        decision = route_info.get("routing_decision", "hybrid").lower()
         logger.info(f"[Engine] Decision: {decision.upper()} ({route_info.get('reasoning')})")
         
         sql_context = "No quantitative data queried."
