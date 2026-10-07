@@ -18,8 +18,26 @@ logger = logging.getLogger(__name__)
 sys.path.append(str(Path(__file__).parent.parent.parent))
 from src.utils.bge_embedder import BGEEmbedder
 
+import shutil
+
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-DB_PATH = os.environ.get("CHROMADB_PATH") or str(_PROJECT_ROOT / "data" / "chroma_db")
+_ENV_CHROMA = os.environ.get("CHROMADB_PATH")
+_BUNDLED_CHROMA = _PROJECT_ROOT / "data" / "chroma_db"
+
+if _ENV_CHROMA:
+    env_path = Path(_ENV_CHROMA)
+    if not (env_path / "chroma.sqlite3").is_file():
+        logger.info(f"Populating empty persistent volume at {env_path} from bundled db...")
+        env_path.mkdir(parents=True, exist_ok=True)
+        for item in _BUNDLED_CHROMA.iterdir():
+            if item.is_dir():
+                shutil.copytree(item, env_path / item.name, dirs_exist_ok=True)
+            else:
+                shutil.copy2(item, env_path)
+    DB_PATH = _ENV_CHROMA
+else:
+    DB_PATH = str(_BUNDLED_CHROMA)
+
 COLLECTION_NAME = "retrieval_feedback"
 
 _chroma_client = None

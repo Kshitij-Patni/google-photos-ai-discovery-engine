@@ -11,10 +11,21 @@ import os
 
 # Resolve absolute path: structured_store.py is at src/rag/structured_store.py
 # Project root is 3 levels up
+import shutil
+
 _PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-_BUNDLED_DB = str(_PROJECT_ROOT / "data" / "discovery_engine.db")
+_BUNDLED_DB = _PROJECT_ROOT / "data" / "discovery_engine.db"
 _ENV_DB = os.environ.get("SQLITE_PATH")
-DB_PATH = _ENV_DB if _ENV_DB and Path(_ENV_DB).is_file() else _BUNDLED_DB
+
+if _ENV_DB:
+    env_path = Path(_ENV_DB)
+    if not env_path.is_file():
+        logger.info(f"Populating empty persistent volume at {env_path} from bundled db...")
+        env_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(_BUNDLED_DB, env_path)
+    DB_PATH = str(env_path)
+else:
+    DB_PATH = str(_BUNDLED_DB)
 
 def init_db(db_path=DB_PATH):
     """Initializes the SQLite database with the required schema."""
