@@ -44,3 +44,16 @@ def process_query(request: Request, query: QueryRequest):
             sources=[],
             confidence=0.0
         )
+
+@router.get("/debug/chroma")
+def debug_chroma():
+    try:
+        import chromadb
+        from src.rag.vector_store import DB_PATH, COLLECTION_NAME
+        client = chromadb.PersistentClient(path=DB_PATH)
+        collection = client.get_collection(COLLECTION_NAME)
+        count = collection.count()
+        sample = collection.peek(1) if count > 0 else None
+        return {"count": count, "sample": sample}
+    except Exception as e:
+        return {"error": str(e)}
