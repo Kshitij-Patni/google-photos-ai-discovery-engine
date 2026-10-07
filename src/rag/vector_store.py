@@ -205,6 +205,9 @@ def search_similar(query_text: str, n: int = 10, filters: dict = None, db_path: 
     
     collection = get_chroma_collection(db_path)
     
+    if not filters:
+        filters = None
+        
     results = collection.query(
         query_embeddings=[query_embedding],
         n_results=n,

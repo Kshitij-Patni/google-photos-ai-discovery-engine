@@ -112,7 +112,10 @@ class QueryEngine:
         
         result = self.sql_client.generate_json(prompt, schema=schema)
         if result and "sql_query" in result:
-            return result["sql_query"]
+            sql_query = result["sql_query"]
+            # Strip markdown code blocks if the model wrapped it
+            sql_query = sql_query.replace("```sql", "").replace("```", "").strip()
+            return sql_query
         return ""
 
     def process_query(self, query: str, chat_history: str = "None", filters: dict = None) -> str:
