@@ -44,10 +44,45 @@ Table: sentiment
 - polarity (REAL)
 """
 
+_SCHEMA_CACHE = None
+
+def build_schema_context() -> str:
+    """Introspects the live SQLite DB so the schema and allowed values never go stale."""
+    global _SCHEMA_CACHE
+    if _SCHEMA_CACHE:
+        return _SCHEMA_CACHE
+    try:
+        import sqlite3
+        from src.rag.structured_store import DB_PATH
+        conn = sqlite3.connect(DB_PATH)
+        lines = ["SQLite schema (each feedback row = one piece of user feedback / one user):"]
+        tables = [r[0] for r in conn.execute("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'")]
+        for t in tables:
+            lines.append(f"\nTable: {t}")
+            for _, col, ctype, _, _, pk in conn.execute(f"PRAGMA table_info({t})"):
+                desc = f"- {col} ({ctype})"
+                if ctype.upper() == "TEXT" and col not in ("id", "feedback_id", "cleaned_text", "date", "theme_description"):
+                    vals = [r[0] for r in conn.execute(f"SELECT DISTINCT {col} FROM {t} WHERE {col} IS NOT NULL LIMIT 31")]
+                    if 0 < len(vals) <= 30:
+                        desc += " values: " + json.dumps(vals)
+                lines.append(desc)
+        conn.close()
+        _SCHEMA_CACHE = "\n".join(lines)
+        return _SCHEMA_CACHE
+    except Exception as e:
+        logger.error(f"Schema introspection failed, using static schema: {e}")
+        return SCHEMA_CONTEXT
+
 SQL_GENERATOR_PROMPT = """
 You are an expert SQL generator for a user feedback database.
-Below is the SQLite schema:
+Below is the SQLite schema. Use ONLY the tables, columns and exact string values listed.
 {schema}
+
+Rules:
+- Join tables on feedback_id (feedback.id).
+- Only use categorical values that appear in the 'values' lists. Map the user's wording to the closest listed value(s) (e.g. 'frustrated' => frustration_level IN ('high','extreme'); 'sharing' => sharing_intent / feature_mentioned / relevant text, NOT an invented archetype).
+- For topic words with no matching category, use LIKE on feedback.cleaned_text (case-insensitive).
+- 'users' means rows of feedback; count with COUNT(DISTINCT feedback.id).
 
 User Query: {query}
 
@@ -107,7 +142,7 @@ class QueryEngine:
             "required": ["sql_query"]
         }
         filter_str = f"\nApply these metadata filters: {json.dumps(filters)}" if filters else ""
-        prompt = SQL_GENERATOR_PROMPT.format(schema=SCHEMA_CONTEXT, query=query + filter_str)
+        prompt = SQL_GENERATOR_PROMPT.format(schema=build_schema_context(), query=query + filter_str)
         prompt += "\nOutput a JSON object with a single key 'sql_query' containing the query."
         
         result = self.sql_client.generate_json(prompt, schema=schema)
