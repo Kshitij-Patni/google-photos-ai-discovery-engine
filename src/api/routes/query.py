@@ -53,7 +53,6 @@ def debug_chroma():
         client = chromadb.PersistentClient(path=DB_PATH)
         collection = client.get_collection(COLLECTION_NAME)
         count = collection.count()
-        sample = collection.peek(1) if count > 0 else None
-        return {"count": count, "sample": sample}
+        return {"count": count, "db_path": DB_PATH}
     except Exception as e:
         return {"error": str(e)}
